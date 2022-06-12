@@ -1,0 +1,45 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:String x:Key="Title"> Task management system</sys:String>
+    <sys:String x:Key="Database_Wait">Please wait while the database connection is established...</sys:String>
+    <sys:String x:Key="Database_Fail">Unnable to connect to database</sys:String>
+    <sys:String x:Key="Database_Upd">Updating...</sys:String>
+    
+    <sys:String x:Key="Personel">Personel</sys:String>
+    <sys:String x:Key="Project">Project</sys:String>
+    <sys:String x:Key="Description">Description</sys:String>
+    <sys:String x:Key="Percentage">Percentage</sys:String>
+    <sys:String x:Key="Status">Status</sys:String>
+
+    <sys:String x:Key="New_project">ㅤNew projectㅤ</sys:String>
+    <sys:String x:Key="Delete_project">ㅤDelete projectㅤ</sys:String>
+    
+    <sys:String x:Key="New_person">ㅤNew employeeㅤ</sys:String>
+    <sys:String x:Key="Delete_person">ㅤDelete employeeㅤ</sys:String>
+    <sys:String x:Key="Project_crew">ㅤProject assignedㅤ</sys:String>
+    <sys:String x:Key="Goal_crew">ㅤGoal assignedㅤ</sys:String>
+
+    <sys:String x:Key="Edit_project">ㅤEdit projectㅤ</sys:String>
+    <sys:String x:Key="Edit_goals">ㅤEdit goalsㅤ</sys:String>
+    <sys:String x:Key="Save_changes">ㅤSave changesㅤ</sys:String>
+
+    <sys:String x:Key="status_0">ㅤDraftedㅤ</sys:String>
+    <sys:String x:Key="status_1">ㅤRunnedㅤ</sys:String>
+    <sys:String x:Key="status_2">ㅤSuspendedㅤ</sys:String>
+    <sys:String x:Key="status_3">ㅤClosedㅤ</sys:String>
+    <sys:String x:Key="status_4">ㅤDeletedㅤ</sys:String>
+
+    <sys:String x:Key="Creation_date">Start date</sys:String>
+    <sys:String x:Key="Expire_date">Completion date</sys:String>
+    <sys:String x:Key="Planned">Planned:</sys:String>
+    <sys:String x:Key="Days">days</sys:String>
+    <sys:String x:Key="To_completion">To completion from today:</sys:String>
+    <sys:String x:Key="Late_for">Late for:</sys:String>
+    <sys:String x:Key="Wrong_data">Start date can not be past completion date</sys:String>
+
+    <sys:String x:Key="Error_database_request">An error occurred while querying the databaseㅤ</sys:String>
+
+
+</ResourceDictionary>

@@ -1,0 +1,44 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:String x:Key="Title"> Менеджер проектов </sys:String>
+    <sys:String x:Key="Database_Wait">Устанавливается соединение с базой данных...</sys:String>
+    <sys:String x:Key="Database_Fail">Невозможно подключиться к базе данных</sys:String>
+    <sys:String x:Key="Database_Upd">Обновление...</sys:String>
+
+    <sys:String x:Key="Personel">Персонал</sys:String>
+    <sys:String x:Key="Project">Проект</sys:String>
+    <sys:String x:Key="Description">Описание</sys:String>
+    <sys:String x:Key="Percentage">Процент</sys:String>
+    <sys:String x:Key="Status">Состояние</sys:String>
+
+    <sys:String x:Key="New_project">ㅤНовый проектㅤ</sys:String>
+    <sys:String x:Key="Delete_project">ㅤУдалить проектㅤ</sys:String>
+    <sys:String x:Key="Project_crew">ㅤНазначены на проектㅤ</sys:String>
+    <sys:String x:Key="Goal_crew">ㅤНазначены на задачуㅤ</sys:String>
+
+    <sys:String x:Key="New_person">ㅤНовый работникㅤ</sys:String>
+    <sys:String x:Key="Delete_person">ㅤУдалить работникаㅤ</sys:String>
+
+    <sys:String x:Key="Edit_project">ㅤИнфорация о проектеㅤ</sys:String>
+    <sys:String x:Key="Edit_goals">ㅤЗадачи проектаㅤ</sys:String>
+    <sys:String x:Key="Save_changes">ㅤСохранить измененияㅤ</sys:String>
+
+    <sys:String x:Key="status_0">ㅤЧерновикㅤ</sys:String>
+    <sys:String x:Key="status_1">ㅤЗапущенㅤ</sys:String>
+    <sys:String x:Key="status_2">ㅤОстановленㅤ</sys:String>
+    <sys:String x:Key="status_3">ㅤЗакрыт </sys:String>
+    <sys:String x:Key="status_4">ㅤУдаленㅤ</sys:String>
+
+    <sys:String x:Key="Creation_date">Дата создания</sys:String>
+    <sys:String x:Key="Expire_date">Дата завершения</sys:String>
+    <sys:String x:Key="Planned">Запланировано:</sys:String>
+    <sys:String x:Key="Days">дней</sys:String>
+    <sys:String x:Key="To_completion">До завершения от сегодняшнего дня:</sys:String>
+    <sys:String x:Key="Late_for">Опоздание:</sys:String>
+    <sys:String x:Key="Wrong_data">Дата окончания не может быть раньше даты начала</sys:String>
+
+    <sys:String x:Key="Error_database_request">Ошибка при запросе к объекту базы данныхㅤ</sys:String>
+
+</ResourceDictionary>

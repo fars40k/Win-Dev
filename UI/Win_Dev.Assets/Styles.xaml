@@ -1,0 +1,115 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    
+    <!-- Changing colour of UI element to natively show project status -->
+    <Style TargetType="{x:Type TextBlock}"
+           x:Key="Conditions">
+        <Style.Triggers>
+            <DataTrigger Value="0" Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Background" Value="LightGray"/>
+            </DataTrigger>
+            <DataTrigger Value="1">
+                <Setter Property="Foreground" Value="GreenYellow"/>
+                <Setter Property="Background" Value="LightGray"/>
+            </DataTrigger>
+            <DataTrigger Value="2">
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Background" Value="LightBlue"/>
+            </DataTrigger>
+            <DataTrigger Value="3">
+                <Setter Property="Foreground" Value="Green"/>
+                <Setter Property="Background" Value="LightGray"/>
+            </DataTrigger>
+            <DataTrigger Value="4">
+                <Setter Property="Foreground" Value="Red"/>
+                <Setter Property="Background" Value="LightGray"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style TargetType="{x:Type Button}"
+           x:Key="Button">
+        
+        <Setter Property="Background" 
+                Value="LightGray"/>
+        <Setter Property="Foreground" 
+                Value="Black"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid x:Name="grid">
+                        <Border x:Name="border" CornerRadius="2" BorderBrush="Black" BorderThickness="1">
+                            <Border.Background>
+                                <SolidColorBrush Color="LightGray"/>
+                            </Border.Background>
+                            <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextElement.FontWeight="Bold">
+                            </ContentPresenter>
+                        </Border>
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="MediumSlateBlue"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" TargetName="border" Value="MediumPurple"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" 
+           x:Key="ButtonCreateProject"
+           BasedOn="{StaticResource Button}">
+        <Setter Property="Content" 
+                Value="{DynamicResource New_project}" />
+    </Style>
+
+    <Style TargetType="{x:Type Button}" 
+           x:Key="ButtonDeleteProject"
+           BasedOn="{StaticResource Button}">
+        <Setter Property="Content" 
+                Value="{DynamicResource Delete_project}" />
+    </Style>
+
+    <Style TargetType="{x:Type Button}" 
+           x:Key="ButtonCreatePerson"
+           BasedOn="{StaticResource Button}">
+        <Setter Property="Content" 
+                Value="{DynamicResource New_person}" />
+    </Style>
+
+    <Style TargetType="{x:Type Button}" 
+           x:Key="ButtonDeletePerson"
+           BasedOn="{StaticResource Button}">
+        <Setter Property="Content" 
+                Value="{DynamicResource Delete_person}" />
+    </Style>
+
+    <Style TargetType="{x:Type Button}" 
+           x:Key="SaveChanges"
+           BasedOn="{StaticResource Button}">
+        <Setter Property="Content" 
+                Value="{DynamicResource Save_changes}" />
+    </Style>
+
+    <Style TargetType="{x:Type Button}" 
+           x:Key="EditGoals"
+           BasedOn="{StaticResource Button}">
+        <Setter Property="Content" 
+                Value="{DynamicResource Edit_Goals}" />
+    </Style>
+        
+</ResourceDictionary>
