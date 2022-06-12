@@ -55,10 +55,14 @@ namespace Win_Dev.UI.ViewModels
             {
                 Employees = new ObservableCollection<BusinessPerson>(list);
 
-                MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                           error + " UpdatePersonel",
-                           "Error"));
+                if (error != null)
+                {
 
+                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                               error + " UpdatePersonel",
+                               "Error"));
+
+                }
             });
 
             _employeesOldHashCode = Employees.GetHashCode();
@@ -68,9 +72,13 @@ namespace Win_Dev.UI.ViewModels
             {
                 Model.CreatePerson((item,error) =>
                 {
-                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                           error + " CreatePerson",
-                           "Error"));
+                    if (error != null)
+                    {
+
+                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                               error + " CreatePerson",
+                               "Error"));
+                    }
 
                     Employees.Add(item);
                     SelectedEmployee = item;
@@ -87,9 +95,15 @@ namespace Win_Dev.UI.ViewModels
                 Model.DeletePerson(SelectedEmployee,
                     (error) =>
                     {
-                        if (SelectedEmployee != null) Employees.Remove(SelectedEmployee);
 
-                        
+                        if (error != null)
+                        {
+                            MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                               error + " DeletePerson",
+                               "Error"));
+                        }
+
+                        if (SelectedEmployee != null) Employees.Remove(SelectedEmployee);                  
 
                     });
 

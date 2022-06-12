@@ -30,7 +30,7 @@ namespace Win_Dev.Business
 
         public void CreateProject(Action<BusinessProject,Exception> callback)
         {
-            var error = new Exception();
+            Exception error = null;
 
             BusinessProject project = new BusinessProject();
 
@@ -66,7 +66,7 @@ namespace Win_Dev.Business
 
         public void GetProjectsList(Action<List<BusinessProject>, Exception> callback)
         {
-            var error = new Exception();
+            Exception error = null;
 
             try
             {
@@ -93,7 +93,7 @@ namespace Win_Dev.Business
 
         public void UpdateProject(Guid ProjectGUID,Action<BusinessProject, Exception> callback)
         {
-            var error = new Exception();
+            Exception error = null;
 
             try
             {
@@ -109,7 +109,7 @@ namespace Win_Dev.Business
 
         public void DeleteProject(Guid forDelete, Action<Exception> callback)
         {
-            var error = new Exception();
+            Exception error = null;
 
             try
             {
@@ -130,7 +130,7 @@ namespace Win_Dev.Business
 
         public void CreatePerson(Action<BusinessPerson, Exception> callback)
         {
-            var error = new Exception();
+            Exception error = null;
 
             BusinessPerson businessPerson = new BusinessPerson();
 
@@ -164,7 +164,7 @@ namespace Win_Dev.Business
 
         public void GetPersonelList(Action<List<BusinessPerson>, Exception> callback)
         {
-            var error = new Exception();
+            Exception error = null;
 
             try
             {
@@ -199,8 +199,8 @@ namespace Win_Dev.Business
         public void UpdatePersonelList(IEnumerable<BusinessPerson> UIList, Action<Exception> callback)
 
         {
-          
-            var error = new Exception();
+            Exception error = null;
+
             List<Person> uiListInput = new List<Person>();
 
             foreach (BusinessPerson item in UIList)
@@ -250,12 +250,11 @@ namespace Win_Dev.Business
 
         public void DeletePerson(BusinessPerson forDelete,Action<Exception> callback)
         {
-            var error = new Exception();
+            Exception error = null;
 
             try
             {
-                DataAccessObject.Personel.Delete(forDelete.PersonID);
-                DataAccessObject.Personel.SaveChanges();
+                DataAccessObject.Personel.Delete(forDelete.PersonID);              
             }
             catch (Exception ex)
             {
@@ -267,7 +266,7 @@ namespace Win_Dev.Business
 
         public void GetPersonelForProject(Guid projectGUID, Action<List<BusinessPerson>, Exception> callback)
         {
-            var error = new Exception();
+            Exception error = null;
 
             Project project = DataAccessObject.Projects.FindByID(projectGUID);
 
@@ -302,7 +301,7 @@ namespace Win_Dev.Business
 
         public void AssignPersonToProject(Guid personGUID, Guid projectGUID, Action<Exception> callback)
         {
-            var error = new Exception();
+            Exception error = null;
 
             try
             {
@@ -320,7 +319,7 @@ namespace Win_Dev.Business
 
         public void UnassignPersonToProject(Guid personGUID, Guid projectGUID, Action<Exception> callback)
         {
-            var error = new Exception();
+            Exception error = null;
 
             try
             {
