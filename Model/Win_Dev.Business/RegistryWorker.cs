@@ -34,7 +34,7 @@ namespace Win_Dev.Business
                 throw new Exception();
 
             }
-            catch (Exception e)
+            catch
             {
                 UpdateLanguageRegistryEntry(DefaultValue);
                 return DefaultValue;

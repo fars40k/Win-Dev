@@ -151,7 +151,6 @@ namespace Win_Dev.UI.ViewModels
             }
         }
 
-        private ObservableCollection<BusinessPerson> _employees;
         public ObservableCollection<BusinessPerson> Employees
         {
             get

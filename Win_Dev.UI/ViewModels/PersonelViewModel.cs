@@ -51,7 +51,9 @@ namespace Win_Dev.UI.ViewModels
         {
             _employees = new ObservableCollection<BusinessPerson>();
 
-            Model.GetPersonelList((list,error) =>
+            Employees = new ObservableCollection<BusinessPerson>(GetPersonelList());
+
+            /*Model.GetPersonelList((list,error) =>
             {
                 Employees = new ObservableCollection<BusinessPerson>(list);
 
@@ -63,7 +65,7 @@ namespace Win_Dev.UI.ViewModels
                                "Error"));
 
                 }
-            });
+            });*/
 
             _employeesOldHashCode = Employees.GetHashCode();
 
@@ -127,15 +129,16 @@ namespace Win_Dev.UI.ViewModels
             if (message.Notification == "Save")
             {
                 SavePersonelChanges();
-                GetPersonelList();
-                _employeesOldHashCode = Employees.GetHashCode();
 
+                Employees = new ObservableCollection<BusinessPerson>(GetPersonelList());
+                _employeesOldHashCode = Employees.GetHashCode();
             }
             // If this tab has no user changes it updates 
 
             // TODO fix updating list
             else if (message.Notification == "Update")
             {
+                
                 List<BusinessPerson> updatedPersonel = GetPersonelList();
 
                 if (_employeesOldHashCode == updatedPersonel.GetHashCode())
@@ -145,6 +148,7 @@ namespace Win_Dev.UI.ViewModels
                     _employeesOldHashCode = Employees.GetHashCode();
 
                 }
+                
 
             }
 

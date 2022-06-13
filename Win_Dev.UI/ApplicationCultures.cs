@@ -20,7 +20,7 @@ namespace Win_Dev.UI
                 case ("ru-RU"):
                     {
                         return new Uri("pack://application:,,,/Win_Dev.Assets;component/Language/Strings.ru-RU.xaml");
-                        break;
+                        
                     } 
                     
                 case ("en-US"):
@@ -28,7 +28,7 @@ namespace Win_Dev.UI
                 default:
                     {
                         return new Uri("pack://application:,,,/Win_Dev.Assets;component/Language/Strings.xaml");
-                        break;
+                        
                     }
             }
         }

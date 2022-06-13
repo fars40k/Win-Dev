@@ -23,9 +23,10 @@ namespace Win_Dev.Data
                 .WithMany(c => c.Personel)
                 .Map(cs =>
                 {
+                    cs.ToTable("PersonsToProjects");
                     cs.MapLeftKey("PersonID");
                     cs.MapRightKey("ProjectID");
-                    cs.ToTable("PersonsToProjects");
+            
                 });
 
             modelBuilder.Entity<Person>()
@@ -33,19 +34,21 @@ namespace Win_Dev.Data
               .WithMany(c => c.Personel)
               .Map(cs =>
               {
+                  cs.ToTable("PersonsToGoals");
                   cs.MapLeftKey("PersonID");
                   cs.MapRightKey("GoalID");
-                  cs.ToTable("PersonsToGoals");
+                
               });
 
             modelBuilder.Entity<Project>()
               .HasMany<Goal>(g => g.Goals)
               .WithMany(p => p.Projects)
               .Map(cs =>
-              { 
+              {
+                  cs.ToTable("GoalsToProjects");
                   cs.MapLeftKey("ProjectID");
                   cs.MapRightKey("GoalID");
-                  cs.ToTable("GoalsToProjects");
+                  
               });
 
 

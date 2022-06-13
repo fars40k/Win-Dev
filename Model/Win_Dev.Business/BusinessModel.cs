@@ -237,7 +237,13 @@ namespace Win_Dev.Business
                 }            
 
                 DataAccessObject.Personel.SaveChanges();
-                
+
+                GetPersonelList((list, errors) => 
+                {
+
+
+                });
+
                 error = null;
             }
             catch (Exception ex)
