@@ -188,9 +188,7 @@ namespace Win_Dev.UI.ViewModels
 
             _databaseWorker.UpdatedDataLoadedEvent += () =>
             {
-
                 MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update"));
-
             };
 
             _databaseWorker.ConnectionInit();

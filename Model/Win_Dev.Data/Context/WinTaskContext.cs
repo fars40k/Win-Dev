@@ -19,7 +19,7 @@ namespace Win_Dev.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Person>()
-                .HasMany<Project>(s => s.Projects)
+                .HasMany(s => s.Projects)
                 .WithMany(c => c.Personel)
                 .Map(cs =>
                 {
@@ -30,7 +30,7 @@ namespace Win_Dev.Data
                 });
 
             modelBuilder.Entity<Person>()
-              .HasMany<Goal>(s => s.Goals)
+              .HasMany(s => s.Goals)
               .WithMany(c => c.Personel)
               .Map(cs =>
               {
@@ -41,7 +41,7 @@ namespace Win_Dev.Data
               });
 
             modelBuilder.Entity<Project>()
-              .HasMany<Goal>(g => g.Goals)
+              .HasMany(g => g.Goals)
               .WithMany(p => p.Projects)
               .Map(cs =>
               {

@@ -91,20 +91,35 @@ namespace Win_Dev.Business
             callback.Invoke(businessProjects, error);
         }
 
-        public void UpdateProject(Guid ProjectGUID,Action<BusinessProject, Exception> callback)
+        public void UpdateProjects(Action<Exception> callback)
         {
             Exception error = null;
 
             try
             {
-                Project updatedProject = DataAccessObject.Projects.FindByID(ProjectGUID);
+                foreach (BusinessProject item in businessProjects)
+                {
+                    Project fromDataProject = DataAccessObject.Projects.FindByID(item.ProjectID);
 
-                callback.Invoke(new BusinessProject(updatedProject), error);
+                    if (fromDataProject != null)
+                    {
+                        DataAccessObject.Projects.Update(item.Project);
+                    }
+                    else
+                    {
+                        DataAccessObject.Projects.Insert(item.Project);
+                    }
+
+                }
+
+                          
             }
             catch (Exception ex)
             {
                 error = ex;
             }
+
+            callback.Invoke(error);
         }
 
         public void DeleteProject(Guid forDelete, Action<Exception> callback)

@@ -53,22 +53,7 @@ namespace Win_Dev.UI.ViewModels
 
             Employees = new ObservableCollection<BusinessPerson>(GetPersonelList());
 
-            /*Model.GetPersonelList((list,error) =>
-            {
-                Employees = new ObservableCollection<BusinessPerson>(list);
-
-                if (error != null)
-                {
-
-                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                               error + " UpdatePersonel",
-                               "Error"));
-
-                }
-            });*/
-
             _employeesOldHashCode = Employees.GetHashCode();
-
 
             PersonCreateCommand = new RelayCommand(() =>
             {
@@ -135,7 +120,6 @@ namespace Win_Dev.UI.ViewModels
             }
             // If this tab has no user changes it updates 
 
-            // TODO fix updating list
             else if (message.Notification == "Update")
             {
                 

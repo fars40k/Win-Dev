@@ -271,7 +271,8 @@ namespace Win_Dev.UI.ViewModels
 
             List<BusinessPerson> personel = UpdatePersonel();
             Employees = new ObservableCollection<BusinessPerson>(personel.AsEnumerable<BusinessPerson>());
-            
+
+            MessengerInstance.Register<NotificationMessage>(this, BeingNotifed);
         }
 
         public void BeingNotifed(NotificationMessage notificationMessage)
@@ -280,10 +281,9 @@ namespace Win_Dev.UI.ViewModels
             {
 
             }
-            else if (notificationMessage.Notification.StartsWith("Update_"))
+            else if (notificationMessage.Notification == "Update")
             {
-
-                UpdateProject();
+                Employees = new ObservableCollection<BusinessPerson>(UpdatePersonel());
 
             }
 
@@ -304,12 +304,6 @@ namespace Win_Dev.UI.ViewModels
                        ProjectEmployees.Add(item);
                    }
                });
-
-            Model.UpdateProject(Project.ProjectID, (dataProject, error) =>
-            {
-
-
-            });
         }
 
         public List<BusinessPerson> UpdatePersonel()
