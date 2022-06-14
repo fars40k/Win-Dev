@@ -114,7 +114,9 @@ namespace Win_Dev.UI.ViewModels
 
             if (SelectedTab.Tag.ToString() != "personel")
             {
-                Model.DeleteProject((Guid)SelectedTab.Tag, (error) =>
+                BusinessProject project = SelectedTab.Tag as BusinessProject; 
+
+                Model.DeleteProject(project.ProjectID, (error) =>
                 {
                     if (error != null)
                     {
@@ -159,15 +161,9 @@ namespace Win_Dev.UI.ViewModels
             }
 
         }
-        
-  
+         
         public void LoadProjectsChanges()
         {
-            /* TODO Updating Tabs
-             project reference contained in tag
-             if tab unselected updates it
-            */
-
             Model.GetProjectsList((list, error) =>
             {
 

@@ -6,6 +6,9 @@ namespace Win_Dev.Business
     using System.ComponentModel.DataAnnotations.Schema;
     using Win_Dev.Data;
 
+    /// <summary>
+    ///  Wrap for data access class
+    /// </summary>
     public partial class BusinessPerson 
     {
         public Person Person;

@@ -8,7 +8,7 @@ using System.Linq;
 namespace Win_Dev.Business
 {
     /// <summary>
-    /// Contains all intermediate methods conecting UI and Buisiness layers
+    /// Contains all intermediate methods conecting UI and data access layers
     /// </summary>
     public class BusinessModel
     {

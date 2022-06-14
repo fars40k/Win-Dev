@@ -18,8 +18,6 @@ namespace Win_Dev.UI.ViewModels
     {
         public BusinessModel Model = SimpleIoc.Default.GetInstance<BusinessModel>();
 
-        private int _employeesOldHashCode;
-
         private ObservableCollection<BusinessPerson> _employees;
         public ObservableCollection<BusinessPerson> Employees
         {
@@ -46,6 +44,7 @@ namespace Win_Dev.UI.ViewModels
         public RelayCommand PersonDeleteCommand { get; set; }
         public RelayCommand<BusinessPerson> SelectionChangedCommand { get; set; }
 
+        private int _employeesOldHashCode;
 
         public PersonelViewModel(DatabaseWorker dataAccessObject)
         {

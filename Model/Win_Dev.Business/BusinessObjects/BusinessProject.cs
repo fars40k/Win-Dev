@@ -6,6 +6,9 @@ namespace Win_Dev.Data
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
+    /// <summary>
+    ///  Wrap for data access class
+    /// </summary>
     public partial class BusinessProject
     {
         public Project Project;
