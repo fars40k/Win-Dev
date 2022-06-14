@@ -9,6 +9,9 @@ using Win_Dev.Data.Interfaces;
 
 namespace Win_Dev.Data
 {
+    /// <summary>
+    /// Contains database access logic
+    /// </summary>
     public class DatabaseWorker : IDatabaseService
     {
         public DataAccessObject DataAccessObject { get; set; }

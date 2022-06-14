@@ -22,6 +22,8 @@ namespace Win_Dev.UI.ViewModels
 
         public BusinessProject Project;
 
+        #region Project_properties
+
         public string ProjectID
         {
             get => Project.ProjectID.ToString();
@@ -51,7 +53,8 @@ namespace Win_Dev.UI.ViewModels
             }
         }
 
-        #region ProjectDates
+        #region Project_dates
+
         public DateTime CreationDate
         {
             get
@@ -226,6 +229,8 @@ namespace Win_Dev.UI.ViewModels
             }
         }
 
+        #endregion
+
         public BusinessPerson SelectedAssigned;
         public BusinessPerson SelectedPool; 
 
@@ -313,7 +318,6 @@ namespace Win_Dev.UI.ViewModels
             }
 
         }
-
 
         public List<BusinessPerson> UpdatePersonel()
         {

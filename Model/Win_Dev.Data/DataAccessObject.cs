@@ -7,6 +7,9 @@ using Win_Dev.Data.Interfaces;
 
 namespace Win_Dev.Data
 {
+    /// <summary>
+    /// Contains Repositories with basic database operations
+    /// </summary>
     public class DataAccessObject : IDataAccessService
     {
         public IRepository<Person> Personel;

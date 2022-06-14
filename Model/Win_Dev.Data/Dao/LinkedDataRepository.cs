@@ -8,6 +8,7 @@ using Win_Dev.Data.Interfaces;
 
 namespace Win_Dev.Data
 {
+
     public class LinkedDataRepository
     {
         private WinTaskContext _context;
@@ -49,9 +50,7 @@ namespace Win_Dev.Data
 
         public void SaveChanges()
         {
-            _context.Configuration.AutoDetectChangesEnabled = true;
             _context.SaveChanges();
-            _context.Configuration.AutoDetectChangesEnabled = false;
         }
 
         public void Dispose()

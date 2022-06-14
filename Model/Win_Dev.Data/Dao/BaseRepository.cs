@@ -63,9 +63,7 @@ namespace Win_Dev.Data
 
         public void SaveChanges()
         {
-            _context.Configuration.AutoDetectChangesEnabled = true;
             _context.SaveChanges();
-            _context.Configuration.AutoDetectChangesEnabled = false;
         }
 
         public void Dispose()
