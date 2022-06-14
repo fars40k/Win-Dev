@@ -23,8 +23,6 @@ namespace Win_Dev.UI.ViewModels
     {
         public BusinessModel Model = SimpleIoc.Default.GetInstance<BusinessModel>();
 
-        private int _tabsOldHashCode;
-
         private TabItem _selectedTab;
         public TabItem SelectedTab
         {
@@ -68,7 +66,7 @@ namespace Win_Dev.UI.ViewModels
             SaveChangesCommand = new RelayCommand(() =>
             {
                 MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Save"));
-                UpdateProjectTabs();
+                
             });
 
             _tabs = new ObservableCollection<TabItem>();
@@ -84,9 +82,7 @@ namespace Win_Dev.UI.ViewModels
             Tabs.Add(personelTab);
             SelectedTab = Tabs.First<TabItem>();
 
-            UpdateProjectTabs();
-
-            _tabsOldHashCode = Tabs.GetHashCode();
+            LoadProjectsChanges();
 
             MessengerInstance.Register<NotificationMessage>(this, BeingNotifed);
 
@@ -104,7 +100,7 @@ namespace Win_Dev.UI.ViewModels
                 tabToAdd.TabIndex = Tabs.Count;
                 tabToAdd.Header = project.Name;
                 tabToAdd.Content = new ProjectView() { DataContext = new ProjectViewModel(project) };
-                tabToAdd.Tag = project.ProjectID;
+                tabToAdd.Tag = project;
                 tabToAdd.Background = new SolidColorBrush(Colors.AntiqueWhite);
                 Tabs.Add(tabToAdd);
 
@@ -119,10 +115,14 @@ namespace Win_Dev.UI.ViewModels
             if (SelectedTab.Tag.ToString() != "personel")
             {
                 Model.DeleteProject((Guid)SelectedTab.Tag, (error) =>
-                {                   
-                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                      (string)Application.Current.Resources["Error_database_request"] + "DeleteProject",
-                      "Error"));
+                {
+                    if (error != null)
+                    {
+
+                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                          (string)Application.Current.Resources["Error_database_request"] + "DeleteProject",
+                          "Error"));
+                    }
                 });
 
                 Tabs.Remove(SelectedTab);
@@ -131,28 +131,42 @@ namespace Win_Dev.UI.ViewModels
 
         public void BeingNotifed(NotificationMessage notificationMessage)
         {
-           
-            if (notificationMessage.Notification == "UpdateTabs")
+            if (notificationMessage.Notification == "Save")
             {
-                if (_tabsOldHashCode == Tabs.GetHashCode())
-                UpdateProjectTabs();
+                List<BusinessProject> projectsFromTabs = new List<BusinessProject>();
+
+                foreach (TabItem item in Tabs)
+                {
+                    if (item.Tag is BusinessProject)  projectsFromTabs.Add((BusinessProject)item.Tag);
+                }
+
+
+                Model.UpdateProjects(projectsFromTabs,(error) =>
+                {
+                    if (error != null)
+                    {
+                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                          (string)Application.Current.Resources["Error_database_request"] + "UpdateProjects",
+                          "Error"));
+                    }
+                });
+            }
+
+            else if (notificationMessage.Notification == "Update")
+            {
+               
+                LoadProjectsChanges();
             }
 
         }
-
-        public void UpdateProjectTabs()
+        
+  
+        public void LoadProjectsChanges()
         {
-
-            Model.UpdateProjects((error) =>
-            {
-                if (error != null)
-                {
-                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                      (string)Application.Current.Resources["Error_database_request"] + "UpdateProjects",
-                      "Error"));
-                }
-
-            });
+            /* TODO Updating Tabs
+             project reference contained in tag
+             if tab unselected updates it
+            */
 
             Model.GetProjectsList((list, error) =>
             {
@@ -165,25 +179,34 @@ namespace Win_Dev.UI.ViewModels
 
                 }
 
-                TabItem selectedTab = SelectedTab;
                 TabItem personelTab = Tabs.First<TabItem>();
-                Tabs.Clear();
-                Tabs.Add(personelTab);
-
-                foreach (BusinessProject item in list)
+                
+                App.Current.Dispatcher.Invoke((Action)delegate
                 {
-                    TabItem tabToAdd = new TabItem();
+                    int selectedTabIndex = SelectedTab.TabIndex;
 
-                    tabToAdd.TabIndex = Tabs.Count;
-                    tabToAdd.Header = item.Name;
-                    tabToAdd.Content = new ProjectView() { DataContext = new ProjectViewModel(item) };
-                    tabToAdd.Tag = item.ProjectID;
-                    tabToAdd.Background = new SolidColorBrush(Colors.AntiqueWhite);
-                    Tabs.Add(tabToAdd);
-                }
+                    Tabs.Clear();
+                    Tabs.Add(personelTab);
 
-                SelectedTab = selectedTab;
-                _tabsOldHashCode = Tabs.GetHashCode();
+                    foreach (BusinessProject item in list)
+                    {
+                        TabItem tabToAdd = new TabItem();
+
+                        tabToAdd.TabIndex = Tabs.Count;
+                        tabToAdd.Header = item.Name;
+                        tabToAdd.Content = new ProjectView() { DataContext = new ProjectViewModel(item) };
+                        tabToAdd.Tag = item;
+                        tabToAdd.Background = new SolidColorBrush(Colors.AntiqueWhite);
+                        Tabs.Add(tabToAdd);
+
+                    }
+
+                    foreach (TabItem item in Tabs)
+                    {
+                        if (item.TabIndex == selectedTabIndex) SelectedTab = item;
+                    }
+                });
+
             });
             
         }

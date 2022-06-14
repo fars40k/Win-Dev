@@ -22,6 +22,15 @@ namespace Win_Dev.UI.ViewModels
 
         public BusinessProject Project;
 
+        public string ProjectID
+        {
+            get => Project.ProjectID.ToString();
+            set
+            {
+
+            }
+        }
+
         public string ProjectName
         {
             get => Project.Name;
@@ -248,7 +257,7 @@ namespace Win_Dev.UI.ViewModels
                     }
 
                     // TODO assign unasign from business
-                    UpdateProject();
+                   
                 }
             });
 
@@ -259,7 +268,6 @@ namespace Win_Dev.UI.ViewModels
                     ProjectEmployees.Remove(SelectedAssigned);
                 }
 
-                UpdateProject();
             });
 
             _conditions = new ObservableCollection<string>();
@@ -272,7 +280,7 @@ namespace Win_Dev.UI.ViewModels
             List<BusinessPerson> personel = UpdatePersonel();
             Employees = new ObservableCollection<BusinessPerson>(personel.AsEnumerable<BusinessPerson>());
 
-            MessengerInstance.Register<NotificationMessage>(this, BeingNotifed);
+           // MessengerInstance.Register<NotificationMessage>(this, BeingNotifed);
         }
 
         public void BeingNotifed(NotificationMessage notificationMessage)
@@ -283,28 +291,29 @@ namespace Win_Dev.UI.ViewModels
             }
             else if (notificationMessage.Notification == "Update")
             {
-                Employees = new ObservableCollection<BusinessPerson>(UpdatePersonel());
+                List<BusinessPerson> allPersonel = UpdatePersonel();
+
+                Model.GetPersonelForProject(Project.ProjectID, ((list, error) =>
+                {
+
+                    if ((error != null) || (list == null))
+                    {
+                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                            (string)Application.Current.Resources["Error_database_request"] + "GetPersonelForProject",
+                            "Error"));
+                    }
+
+                    ProjectEmployees = new ObservableCollection<BusinessPerson>(list);
+
+                    Employees = new ObservableCollection<BusinessPerson>(allPersonel.Except(list));
+
+                }));
+
 
             }
 
         }
 
-        public void UpdateProject()
-        {
-            List<BusinessPerson> personel = UpdatePersonel();
-            Employees = new ObservableCollection<BusinessPerson>(personel.AsEnumerable<BusinessPerson>());
-
-            Model.GetPersonelForProject(Project.ProjectID,
-               (list, error) =>
-               {
-                   ProjectEmployees.Clear();
-
-                   foreach (var item in list)
-                   {
-                       ProjectEmployees.Add(item);
-                   }
-               });
-        }
 
         public List<BusinessPerson> UpdatePersonel()
         {

@@ -44,8 +44,6 @@ namespace Win_Dev.Data
         {
             Personel.SaveChanges();
 
-            // Context should be recreated periodically, TODO make recreation time gap logic
-
             UpdateContextInRepositories();
         }
 

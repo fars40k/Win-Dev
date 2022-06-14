@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace Win_Dev.Business
 {
+    /// <summary>
+    /// Contains all intermediate methods conecting UI and Buisiness layers
+    /// </summary>
     public class BusinessModel
     {
         public static DataAccessObject DataAccessObject { get; private set; }
@@ -91,13 +94,13 @@ namespace Win_Dev.Business
             callback.Invoke(businessProjects, error);
         }
 
-        public void UpdateProjects(Action<Exception> callback)
+        public void UpdateProjects(List<BusinessProject> projectsFromUI,Action<Exception> callback)
         {
             Exception error = null;
 
             try
             {
-                foreach (BusinessProject item in businessProjects)
+                foreach (BusinessProject item in projectsFromUI)
                 {
                     Project fromDataProject = DataAccessObject.Projects.FindByID(item.ProjectID);
 
@@ -138,6 +141,25 @@ namespace Win_Dev.Business
 
             callback.Invoke(error);
         }
+
+        public void GetProjectByID(Guid findID, Action<BusinessProject,Exception> callback)
+        {
+            Exception error = null;
+
+            BusinessProject foundProject = null;
+
+            try
+            {           
+                foundProject = new BusinessProject(DataAccessObject.Projects.FindByID(findID));
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+
+            callback.Invoke(foundProject,error);
+        }
+    
 
         #endregion
 
@@ -291,21 +313,19 @@ namespace Win_Dev.Business
 
             Project project = DataAccessObject.Projects.FindByID(projectGUID);
 
+            List<BusinessPerson> businessPersonelForProject = new List<BusinessPerson>();
+
             if (project != null)
             {
                 try
                 {
-                    List<Person> dataObject = (List<Person>)DataAccessObject.Personel.FindAll();
+                    List<Person> dataPersonelList = (List<Person>)DataAccessObject.Personel.FindAll();         
 
-                    businessPersonel = new List<BusinessPerson>();
-
-                    foreach (Person item in dataObject)
+                    foreach (Person item in dataPersonelList)
                     {
                         if (item.Projects.Contains(project))
-                            businessPersonel.Add(new BusinessPerson(item));
+                            businessPersonelForProject.Add(new BusinessPerson(item));
                     }
-
-                    DataAccessObject.Personel.SaveChanges();
 
                     error = null;
                 }
@@ -315,7 +335,7 @@ namespace Win_Dev.Business
                 }
             }            
 
-            callback.Invoke(businessPersonel, error);
+            callback.Invoke(businessPersonelForProject, error);
         }
 
         #endregion
