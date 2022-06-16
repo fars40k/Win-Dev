@@ -57,7 +57,12 @@ namespace Win_Dev.Business
         public ICollection<Goal> Goals
         {
             get => Person.Goals;
-            set => Person.Goals = value;
+            set
+            {
+                Person.Goals.Clear();
+                foreach (Goal item in value)
+                Person.Goals.Add(item);
+            }
         }
 
         public BusinessPerson() : base()

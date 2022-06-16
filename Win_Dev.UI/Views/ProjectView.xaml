@@ -162,7 +162,7 @@
                             <StackPanel>
                                 <TextBlock Text="{StaticResource Personel}"
                                            TextAlignment="Center"/>
-                                
+
                                 <ListBox x:Name="PersonelPool" 
                                          Width="Auto" 
                                          MinWidth="300"
@@ -170,14 +170,6 @@
                                          Margin="4"
                                          SelectedItem="{Binding SelectedPool}"
                                          ItemsSource="{Binding Employees, Mode=TwoWay}">
-
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="SelectionChanged">
-                                            <cmd:EventToCommand Command="{Binding SelectionChangedCommand}"
-                                                CommandParameter="{Binding SelectedItem, ElementName=PersonelList}" />
-
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
 
                                 </ListBox>
                             </StackPanel>

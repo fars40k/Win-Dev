@@ -111,5 +111,19 @@
         <Setter Property="Content" 
                 Value="{DynamicResource Edit_Goals}" />
     </Style>
-        
+
+    <Style TargetType="{x:Type Button}" 
+           x:Key="ButtonCreateGoal"
+           BasedOn="{StaticResource Button}">
+        <Setter Property="Content" 
+                Value="{DynamicResource New_Goal}" />
+    </Style>
+
+    <Style TargetType="{x:Type Button}" 
+           x:Key="ButtonDeleteGoal"
+           BasedOn="{StaticResource Button}">
+        <Setter Property="Content" 
+                Value="{DynamicResource Delete_Goal}" />
+    </Style>
+
 </ResourceDictionary>

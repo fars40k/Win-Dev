@@ -26,8 +26,8 @@ namespace Win_Dev.Data
 
         public int StatusKey { get; set; }
 
-        public ICollection<Goal> Goals { get; set; }
-        public ICollection<Person> Personel { get; set; }
+        public virtual ICollection<Goal> Goals { get; set; }
+        public virtual ICollection<Person> Personel { get; set; }
 
         public Project()
         {

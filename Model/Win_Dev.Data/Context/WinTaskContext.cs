@@ -18,6 +18,12 @@ namespace Win_Dev.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Goal>().ToTable("Goals");
+
+            modelBuilder.Entity<Person>().ToTable("Personel");
+
+            modelBuilder.Entity<Project>().ToTable("Projects");
+
             modelBuilder.Entity<Person>()
                 .HasMany(s => s.Projects)
                 .WithMany(c => c.Personel)
@@ -42,12 +48,11 @@ namespace Win_Dev.Data
 
             modelBuilder.Entity<Project>()
               .HasMany(g => g.Goals)
-              .WithMany(p => p.Projects)
+              .WithRequired(p => p.InProject)
               .Map(cs =>
               {
                   cs.ToTable("GoalsToProjects");
-                  cs.MapLeftKey("ProjectID");
-                  cs.MapRightKey("GoalID");
+                  cs.MapKey("GoalID");          
                   
               });
 

@@ -27,8 +27,8 @@ namespace Win_Dev.Data
         [StringLength(30)]
         public string Occupation { get; set; }
 
-        public ICollection<Project> Projects { get; set; }
-        public ICollection<Goal> Goals { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Goal> Goals { get; set; }
 
         public Person()
         {
