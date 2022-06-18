@@ -47,16 +47,16 @@ ProjectsID uniqueidentifier FOREIGN KEY REFERENCES Projects(ProjectID),
 GO
 
 CREATE TABLE PersonelToProjects
-(  
-GoalID uniqueidentifier FOREIGN KEY REFERENCES Personel(PersonID),
+( 
+PersonID uniqueidentifier FOREIGN KEY REFERENCES Personel(PersonID),
 ProjectsID uniqueidentifier FOREIGN KEY REFERENCES Projects(ProjectID),
 );
 GO
 
 CREATE TABLE PersonelToGoals
 (  
-GoalID uniqueidentifier FOREIGN KEY REFERENCES Personel(PersonID),
-ProjectsID uniqueidentifier FOREIGN KEY REFERENCES Goals(GoalID),
+PersonID uniqueidentifier FOREIGN KEY REFERENCES Personel(PersonID),
+GoalID uniqueidentifier FOREIGN KEY REFERENCES Goals(GoalID),
 );
 GO
 
