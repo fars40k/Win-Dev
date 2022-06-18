@@ -182,8 +182,6 @@ namespace Win_Dev.Business
                 businessPerson.LastName = "Last" + rnd.Next(0, 100).ToString();
                 businessPerson.Division = "div" + rnd.Next(0, 100).ToString();
                 businessPerson.Occupation = "occ" + rnd.Next(0, 100).ToString();
-                businessPerson.Projects = new List<Project>();
-                businessPerson.Goals = new List<Goal>();
 
                 DataAccessObject.Personel.Insert(businessPerson.Person);
 

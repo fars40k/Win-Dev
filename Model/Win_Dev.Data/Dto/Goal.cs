@@ -28,8 +28,8 @@ namespace Win_Dev.Data
 
         public int StatusKey { get; set; }
 
-        public virtual Project InProject { get; set;}
-        public virtual ICollection<Person> Personel { get; set;}
+        public ICollection<Project> Projects { get; set; }
+        public ICollection<Person> Personel { get; set; }
 
         public Goal()
         {

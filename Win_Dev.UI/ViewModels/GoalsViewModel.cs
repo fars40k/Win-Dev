@@ -11,5 +11,7 @@ namespace Win_Dev.UI.ViewModels
     class GoalsViewModel
     {
         public BusinessModel Model = SimpleIoc.Default.GetInstance<BusinessModel>();
+
+       
     }
 }

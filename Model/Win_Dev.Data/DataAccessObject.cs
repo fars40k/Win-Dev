@@ -37,9 +37,10 @@ namespace Win_Dev.Data
         {
             using (WinTaskContext wtContext = new WinTaskContext())
             {
-                Goals.FindAll();
                 Personel.FindAll();
-                Projects.FindAll();
+                var projects = wtContext.Personel.Include("Projects");
+                var goals = wtContext.Personel.Include("Goals");
+                var goalsToProjects = wtContext.Goals.Include("Projects");
             }
         }
 

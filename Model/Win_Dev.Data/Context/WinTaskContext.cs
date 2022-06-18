@@ -17,12 +17,7 @@ namespace Win_Dev.Data
         public virtual DbSet<Project> Projects { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Goal>().ToTable("Goals");
-
-            modelBuilder.Entity<Person>().ToTable("Personel");
-
-            modelBuilder.Entity<Project>().ToTable("Projects");
+        { 
 
             modelBuilder.Entity<Person>()
                 .HasMany(s => s.Projects)
@@ -46,15 +41,16 @@ namespace Win_Dev.Data
                 
               });
 
-            modelBuilder.Entity<Project>()
-              .HasMany(g => g.Goals)
-              .WithRequired(p => p.InProject)
-              .Map(cs =>
-              {
-                  cs.ToTable("GoalsToProjects");
-                  cs.MapKey("GoalID");          
-                  
-              });
+            modelBuilder.Entity<Goal>()
+             .HasMany(s => s.Projects)
+             .WithMany(c => c.Goals)
+             .Map(cs =>
+             {
+                 cs.ToTable("GoalsToProjects");
+                 cs.MapLeftKey("GoalID");
+                 cs.MapRightKey("ProjectID");
+
+             });
 
 
             modelBuilder.Entity<Goal>()

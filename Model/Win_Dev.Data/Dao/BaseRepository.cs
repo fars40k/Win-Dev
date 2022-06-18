@@ -8,7 +8,7 @@ using Win_Dev.Data.Interfaces;
 
 namespace Win_Dev.Data
 {
-    class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class
+    class BaseRepository<TEntity> : IRepository<TEntity>  where TEntity : class
     {
         private WinTaskContext _context;
         internal DbSet<TEntity> _dbSet;
@@ -29,36 +29,34 @@ namespace Win_Dev.Data
             return _dbSet.Find(id);
         }
 
+        public IEnumerable<TEntity> FindAll()
+        {
+            return _dbSet.AsNoTracking().ToList();
+        }
+
         public virtual void Insert(TEntity entity)
         {         
             _dbSet.Add(entity);
+            _context.SaveChanges();
         }
 
         public virtual void Delete(Guid id)
         {
             TEntity entityToDelete = _dbSet.Find(id);
-            Delete(entityToDelete);
+            _dbSet.Remove(entityToDelete);
+            _context.SaveChanges();
         }
 
-        public virtual void Delete(TEntity entityToDelete)
+        public void Delete(TEntity entityToDelete)
         {
-            if (_context.Entry(entityToDelete).State == EntityState.Detached)
-            {
-                _dbSet.Attach(entityToDelete);
-            }
             _dbSet.Remove(entityToDelete);
+            _context.SaveChanges();
         }
 
         public virtual void Update(TEntity entityToUpdate)
         {
-            _dbSet.Attach(entityToUpdate);
             _context.Entry(entityToUpdate).State = EntityState.Modified;
-        }
-
-        public IEnumerable<TEntity> FindAll()
-        {
-            IEnumerable<TEntity> query = _dbSet;
-            return query;
+            _context.SaveChanges();
         }
 
         public void SaveChanges()
