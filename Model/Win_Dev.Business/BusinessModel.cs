@@ -321,7 +321,7 @@ namespace Win_Dev.Business
 
                     foreach (Person item in dataPersonelList)
                     {
-                        if (item.Projects.Contains(project))
+                        if (item.ProjectsWith.Contains(project))
                             businessPersonelForProject.Add(new BusinessPerson(item));
                     }
 

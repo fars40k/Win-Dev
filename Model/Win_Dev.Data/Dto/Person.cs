@@ -27,13 +27,13 @@ namespace Win_Dev.Data
         [StringLength(30)]
         public string Occupation { get; set; }
 
-        public ICollection<Project> Projects { get; set; }
-        public ICollection<Goal> Goals { get; set; }
+        public ICollection<Project> ProjectsWith { get; set; }
+        public ICollection<Goal> GoalsWith { get; set; }
 
         public Person()
         {
-            Projects = new List<Project>();
-            Goals = new List<Goal>();
+            ProjectsWith = new List<Project>();
+            GoalsWith = new List<Goal>();
         }
     }
 }

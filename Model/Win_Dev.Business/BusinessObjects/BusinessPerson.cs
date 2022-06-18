@@ -49,17 +49,17 @@ namespace Win_Dev.Business
 
         public ICollection<Project> Projects
         {
-            get => Person.Projects;
-            set => Person.Projects = value;
+            get => Person.ProjectsWith;
+            set => Person.ProjectsWith = value;
         }
         public ICollection<Goal> Goals
         {
-            get => Person.Goals;
+            get => Person.GoalsWith;
             set
             {
-                Person.Goals.Clear();
+                Person.GoalsWith.Clear();
                 foreach (Goal item in value)
-                Person.Goals.Add(item);
+                Person.GoalsWith.Add(item);
             }
         }
 

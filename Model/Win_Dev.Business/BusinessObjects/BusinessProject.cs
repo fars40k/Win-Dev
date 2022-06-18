@@ -56,23 +56,23 @@ namespace Win_Dev.Business
 
         public ICollection<Person> Personel
         {
-            get => Project.Personel.ToList<Person>();
+            get => Project.PersonelWith.ToList<Person>();
             set
             {
-                Project.Personel.Clear();
+                Project.PersonelWith.Clear();
                 foreach (Person item in value)
-                Project.Personel.Add(item);
+                Project.PersonelWith.Add(item);
             }
         }
 
         public ICollection<Goal> Goals
         {
-            get => Project.Goals.ToList<Goal>();
+            get => Project.GoalsIn.ToList<Goal>();
             set
             {
-                Project.Goals.Clear();
+                Project.GoalsIn.Clear();
                 foreach (Goal item in value)
-                Project.Goals.Add(item);
+                Project.GoalsIn.Add(item);
             }
         }
 

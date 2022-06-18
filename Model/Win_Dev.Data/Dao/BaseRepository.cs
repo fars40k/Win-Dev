@@ -21,9 +21,6 @@ namespace Win_Dev.Data
             this._dbSet = context.Set<TEntity>();
         }
 
-        /// <summary>
-        /// Searches the database for an entry specified by ID and Dto class, or returns null
-        /// </summary>
         public virtual TEntity FindByID(Guid id)
         {
             return _dbSet.Find(id);

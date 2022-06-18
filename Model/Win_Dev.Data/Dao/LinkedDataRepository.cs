@@ -28,9 +28,9 @@ namespace Win_Dev.Data
             Project projectDao = project as Project;
             Person personDao = person as Person;
 
-            if ((projectDao != null) && (personDao != null) && (!projectDao.Personel.Contains<Person>(personDao)))
+            if ((projectDao != null) && (personDao != null) && (!projectDao.PersonelWith.Contains<Person>(personDao)))
             {
-                projectDao.Personel.Add(personDao);
+                projectDao.PersonelWith.Add(personDao);
             }
         }
 
@@ -42,9 +42,9 @@ namespace Win_Dev.Data
             Project projectDao = project as Project;
             Person personDao = person as Person;
 
-            if ((projectDao != null) && (personDao != null) && (projectDao.Personel.Contains<Person>(personDao)))
+            if ((projectDao != null) && (personDao != null) && (projectDao.PersonelWith.Contains<Person>(personDao)))
             {
-                projectDao.Personel.Remove(personDao);
+                projectDao.PersonelWith.Remove(personDao);
             }
         }
 

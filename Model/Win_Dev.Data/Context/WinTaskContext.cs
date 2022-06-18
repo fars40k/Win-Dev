@@ -18,10 +18,10 @@ namespace Win_Dev.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         { 
-
+            
             modelBuilder.Entity<Person>()
-                .HasMany(s => s.Projects)
-                .WithMany(c => c.Personel)
+                .HasMany(s => s.ProjectsWith)
+                .WithMany(c => c.PersonelWith)
                 .Map(cs =>
                 {
                     cs.ToTable("PersonsToProjects");
@@ -31,8 +31,8 @@ namespace Win_Dev.Data
                 });
 
             modelBuilder.Entity<Person>()
-              .HasMany(s => s.Goals)
-              .WithMany(c => c.Personel)
+              .HasMany(s => s.GoalsWith)
+              .WithMany(c => c.PersonelWith)
               .Map(cs =>
               {
                   cs.ToTable("PersonsToGoals");
@@ -42,8 +42,8 @@ namespace Win_Dev.Data
               });
 
             modelBuilder.Entity<Goal>()
-             .HasMany(s => s.Projects)
-             .WithMany(c => c.Goals)
+             .HasMany(s => s.ProjectsWith)
+             .WithMany(c => c.GoalsIn)
              .Map(cs =>
              {
                  cs.ToTable("GoalsToProjects");
@@ -52,7 +52,7 @@ namespace Win_Dev.Data
 
              });
 
-
+    /*
             modelBuilder.Entity<Goal>()
                 .Property(e => e.Name)
                 .IsFixedLength();
@@ -87,7 +87,7 @@ namespace Win_Dev.Data
 
             modelBuilder.Entity<Project>()
                 .Property(e => e.Description)
-                .IsUnicode(false);
+                .IsUnicode(false);*/
         }
 
 

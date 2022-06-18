@@ -61,12 +61,12 @@
         }
         public ICollection<Person> Personel
         {
-            get => Goal.Personel.ToList<Person>();
+            get => Goal.PersonelWith.ToList<Person>();
             set
             {
-                Goal.Personel.Clear();
+                Goal.PersonelWith.Clear();
                 foreach (Person item in value)
-                    Goal.Personel.Add(item);
+                    Goal.PersonelWith.Add(item);
             }
         }
 
