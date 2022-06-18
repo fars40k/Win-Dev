@@ -42,14 +42,14 @@ GO
 CREATE TABLE GoalsToProjects
 (  
 GoalID uniqueidentifier UNIQUE FOREIGN KEY REFERENCES Goals(GoalID),
-ProjectsID uniqueidentifier FOREIGN KEY REFERENCES Projects(ProjectID),
+ProjectID uniqueidentifier FOREIGN KEY REFERENCES Projects(ProjectID),
 );
 GO
 
 CREATE TABLE PersonelToProjects
 ( 
 PersonID uniqueidentifier FOREIGN KEY REFERENCES Personel(PersonID),
-ProjectsID uniqueidentifier FOREIGN KEY REFERENCES Projects(ProjectID),
+ProjectID uniqueidentifier FOREIGN KEY REFERENCES Projects(ProjectID),
 );
 GO
 
