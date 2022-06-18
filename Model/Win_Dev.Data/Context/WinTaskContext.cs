@@ -23,7 +23,7 @@ namespace Win_Dev.Data
                 .WithMany(c => c.Personel)
                 .Map(cs =>
                 {
-                    cs.ToTable("PersonsToProjects");
+                    cs.ToTable("PersonelToProjects");
                     cs.MapLeftKey("PersonID");
                     cs.MapRightKey("ProjectID");
             
@@ -34,7 +34,7 @@ namespace Win_Dev.Data
               .WithMany(c => c.Personel)
               .Map(cs =>
               {
-                  cs.ToTable("PersonsToGoals");
+                  cs.ToTable("PersonelToGoals");
                   cs.MapLeftKey("PersonID");
                   cs.MapRightKey("GoalID");
                 
@@ -46,8 +46,8 @@ namespace Win_Dev.Data
               .Map(cs =>
               {
                   cs.ToTable("GoalsToProjects");
-                  cs.MapLeftKey("ProjectID");
-                  cs.MapRightKey("GoalID");
+                  cs.MapLeftKey("GoalID");
+                  cs.MapRightKey("ProjectID");
                   
               });
 
