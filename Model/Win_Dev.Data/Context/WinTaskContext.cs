@@ -24,7 +24,7 @@ namespace Win_Dev.Data
                 .WithMany(c => c.PersonelWith)
                 .Map(cs =>
                 {
-                    cs.ToTable("PersonsToProjects");
+                    cs.ToTable("PersonelToProjects");
                     cs.MapLeftKey("PersonID");
                     cs.MapRightKey("ProjectID");
             
@@ -35,7 +35,7 @@ namespace Win_Dev.Data
               .WithMany(c => c.PersonelWith)
               .Map(cs =>
               {
-                  cs.ToTable("PersonsToGoals");
+                  cs.ToTable("PersonelToGoals");
                   cs.MapLeftKey("PersonID");
                   cs.MapRightKey("GoalID");
                 
@@ -52,7 +52,7 @@ namespace Win_Dev.Data
 
              });
 
-    /*
+    
             modelBuilder.Entity<Goal>()
                 .Property(e => e.Name)
                 .IsFixedLength();
@@ -87,7 +87,7 @@ namespace Win_Dev.Data
 
             modelBuilder.Entity<Project>()
                 .Property(e => e.Description)
-                .IsUnicode(false);*/
+                .IsUnicode(false);
         }
 
 

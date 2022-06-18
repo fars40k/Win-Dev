@@ -42,21 +42,21 @@ GO
 CREATE TABLE GoalsToProjects
 (  
 GoalID uniqueidentifier UNIQUE FOREIGN KEY REFERENCES Goals(GoalID),
-ProjectsID uniqueidentifier FOREIGN KEY REFERENCES Projects(ProjectID),
+ProjectID uniqueidentifier FOREIGN KEY REFERENCES Projects(ProjectID),
 );
 GO
 
 CREATE TABLE PersonelToProjects
-(  
-GoalID uniqueidentifier FOREIGN KEY REFERENCES Personel(PersonID),
-ProjectsID uniqueidentifier FOREIGN KEY REFERENCES Projects(ProjectID),
+( 
+PersonID uniqueidentifier FOREIGN KEY REFERENCES Personel(PersonID),
+ProjectID uniqueidentifier FOREIGN KEY REFERENCES Projects(ProjectID),
 );
 GO
 
 CREATE TABLE PersonelToGoals
 (  
-GoalID uniqueidentifier FOREIGN KEY REFERENCES Personel(PersonID),
-ProjectsID uniqueidentifier FOREIGN KEY REFERENCES Goals(GoalID),
+PersonID uniqueidentifier FOREIGN KEY REFERENCES Personel(PersonID),
+GoalID uniqueidentifier FOREIGN KEY REFERENCES Goals(GoalID),
 );
 GO
 
