@@ -183,7 +183,7 @@
                          FontSize="16" 
                          Background="AntiqueWhite">
                     
-                    <ContentControl Name="GoalsView"/>
+                    <ContentControl Content="{Binding GoalsView}"/>
 
                 </TabItem>
             </TabControl>

@@ -21,6 +21,7 @@
     <sys:String x:Key="Project_crew">ㅤProject assignedㅤ</sys:String>
     <sys:String x:Key="Goal_crew">ㅤGoal assignedㅤ</sys:String>
 
+    <sys:String x:Key="Goal">ㅤGoalㅤ</sys:String>
     <sys:String x:Key="New_Goal">ㅤNew goalㅤ</sys:String>
     <sys:String x:Key="Delete_Goal">ㅤDelete goalㅤ</sys:String>
 

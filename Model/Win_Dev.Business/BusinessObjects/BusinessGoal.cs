@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Win_Dev.Data;
-
-namespace Win_Dev.Business.BusinessObjects
+﻿namespace Win_Dev.Business
 {
-    class BusinessGoal
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Win_Dev.Data;
+
+    /// <summary>
+    ///  Wrap for data access class
+    /// </summary>
+    public class BusinessGoal
     {
         public Goal Goal;
 
@@ -15,6 +16,12 @@ namespace Win_Dev.Business.BusinessObjects
         {
             get => Goal.GoalID;
             set => Goal.GoalID = value;
+        }
+
+        public string Name
+        {
+            get => Goal.Name;
+            set => Goal.Name = value;
         }
 
         public string Description

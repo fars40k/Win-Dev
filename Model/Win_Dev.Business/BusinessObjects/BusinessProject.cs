@@ -1,10 +1,9 @@
-namespace Win_Dev.Data
+namespace Win_Dev.Business
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+    using Win_Dev.Data;
 
     /// <summary>
     ///  Wrap for data access class

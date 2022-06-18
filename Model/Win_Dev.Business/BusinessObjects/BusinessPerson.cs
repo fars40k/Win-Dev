@@ -2,8 +2,6 @@ namespace Win_Dev.Business
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
     using Win_Dev.Data;
 
     /// <summary>

@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using Win_Dev.Assets.UserControls;
 using Win_Dev.Business;
 using Win_Dev.Data;
+using Win_Dev.UI.Views;
 
 namespace Win_Dev.UI.ViewModels
 {
@@ -223,6 +224,17 @@ namespace Win_Dev.UI.ViewModels
 
         #endregion
 
+        private UserControl goalsView;
+        public UserControl GoalsView
+        {
+            get { return goalsView; }
+            set
+            {
+                goalsView = value;
+                RaisePropertyChanged("GoalsView");
+            }
+        }
+
         public BusinessPerson SelectedAssigned;
         public BusinessPerson SelectedPool; 
 
@@ -232,6 +244,8 @@ namespace Win_Dev.UI.ViewModels
 
         public ProjectViewModel(BusinessProject tabProject)
         {
+            GoalsView = new GoalsView() { DataContext = new GoalsViewModel(Project) };
+
             Project = tabProject;
 
             ProjectEmployees = new ObservableCollection<BusinessPerson>();

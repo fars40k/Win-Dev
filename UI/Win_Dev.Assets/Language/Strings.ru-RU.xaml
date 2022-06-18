@@ -20,7 +20,8 @@
 
     <sys:String x:Key="New_person">ㅤНовый работникㅤ</sys:String>
     <sys:String x:Key="Delete_person">ㅤУдалить работникаㅤ</sys:String>
-    
+
+    <sys:String x:Key="Goal">ㅤЗадачаㅤ</sys:String>
     <sys:String x:Key="New_Goal">ㅤНовая задачаㅤ</sys:String>
     <sys:String x:Key="Delete_Goal">ㅤУдалить задачуㅤ</sys:String>
 
