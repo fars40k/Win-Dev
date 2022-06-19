@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessModel.cs" />
+    <Compile Include="BusinessObjects\BusinessGoal.cs" />
     <Compile Include="BusinessObjects\BusinessPerson.cs" />
     <Compile Include="BusinessObjects\BusinessProject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

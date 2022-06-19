@@ -72,7 +72,7 @@
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <cmd:EventToCommand Command="{Binding PersonCreateCommand}"/>
+                            <cmd:EventToCommand Command="{Binding CreatePersonCommand}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
@@ -90,7 +90,7 @@
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <cmd:EventToCommand Command="{Binding PersonDeleteCommand}"/>
+                            <cmd:EventToCommand Command="{Binding DeletePersonCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 

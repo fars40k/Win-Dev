@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -66,8 +67,8 @@ namespace Win_Dev.Data
                   
                     using (WinTaskContext wtContext = new WinTaskContext())
                     {
-                        wtContext.Database.Connection.Open();
                         wtContext.Database.CreateIfNotExists();
+                        wtContext.Database.Connection.Open();
 
                         DataAccessObject.UpdateContextInRepositories();
                         DataAccessObject.UpdateEntityModel();

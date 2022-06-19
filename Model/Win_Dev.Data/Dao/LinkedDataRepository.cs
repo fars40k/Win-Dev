@@ -22,15 +22,15 @@ namespace Win_Dev.Data
 
         public void AddPersonToProject(Guid PersonGUID, Guid ProjectGUID)
         {
-            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectGUID));
-            var person = _context.Personel.Where(r => r.PersonID.Equals(PersonGUID));
+            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectGUID)).FirstOrDefault<Project>();
+            var person = _context.Personel.Where(r => r.PersonID.Equals(PersonGUID)).FirstOrDefault<Person>();
 
-            Project projectDao = project as Project;
-            Person personDao = person as Person;
+            Project projectDao = project;
+            Person personDao = person;
 
-            if ((projectDao != null) && (personDao != null) && (!projectDao.Personel.Contains<Person>(personDao)))
+            if ((projectDao != null) && (personDao != null) && (!projectDao.PersonelWith.Contains<Person>(personDao)))
             {
-                projectDao.Personel.Add(personDao);
+                projectDao.PersonelWith.Add(personDao);
             }
         }
 
@@ -42,10 +42,26 @@ namespace Win_Dev.Data
             Project projectDao = project as Project;
             Person personDao = person as Person;
 
-            if ((projectDao != null) && (personDao != null) && (projectDao.Personel.Contains<Person>(personDao)))
+            if ((projectDao != null) && (personDao != null) && (projectDao.PersonelWith.Contains<Person>(personDao)))
             {
-                projectDao.Personel.Remove(personDao);
+                projectDao.PersonelWith.Remove(personDao);
             }
+        }
+
+        public IEnumerable<Goal> FindGoalsForProject(Guid ProjectID)
+        {
+            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectID));
+            IEnumerable<Goal> goals = _context.Goals.Where(g => g.ProjectsWith == project);
+
+            return goals;
+        }
+
+        public IEnumerable<Person> FindPersonelForGoal(Guid GoalID)
+        {
+            var goal = _context.Goals.Where(g => g.GoalID.Equals(GoalID));
+            IEnumerable<Person> personel = _context.Personel.Where(g => g.GoalsWith == goal);
+
+            return personel;
         }
 
         public void SaveChanges()
