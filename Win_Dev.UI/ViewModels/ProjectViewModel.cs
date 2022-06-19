@@ -235,8 +235,27 @@ namespace Win_Dev.UI.ViewModels
             }
         }
 
-        public int SelectedAssigned;
-        public int SelectedPool; 
+        public int selectedAssigned;
+        public int SelectedAssigned
+        {
+            get { return selectedAssigned; }
+            set
+            {
+                selectedAssigned = value;
+                RaisePropertyChanged("SelectedAssigned");
+            }
+        }
+
+        public int selectedPool;
+        public int SelectedPool
+        {
+            get { return selectedPool; }
+            set
+            {
+                selectedPool = value;
+                RaisePropertyChanged("SelectedPool");
+            }
+        }
 
         public RelayCommand DateChangedCommand { get; set; }
         public RelayCommand AssignToProjectCommand { get; set; }
@@ -258,20 +277,18 @@ namespace Win_Dev.UI.ViewModels
 
             AssignToProjectCommand = new RelayCommand(() =>
             {
-                if (SelectedPool != 0)
-                {
-                    ProjectEmployees.Add(Employees[SelectedPool]);
+                ProjectEmployees.Add(Employees[SelectedPool]);
 
-                    Model.AssignPersonToProject(Employees[SelectedPool].PersonID, Project.ProjectID, (error) =>
+                Model.AssignPersonToProject(Employees[SelectedPool].PersonID, Project.ProjectID, (error) =>
+                {
+                    if (error != null)
                     {
-                        if (error != null)
-                        {
-                            MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                                (string)Application.Current.Resources["Error_database_request"] + "AssignToProject",
-                                "Error"));
-                        }
-                    });
-                }
+                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                            (string)Application.Current.Resources["Error_database_request"] + "AssignToProject",
+                            "Error"));
+                    }
+                });
+
             });
 
             UnassignFromProjectCommand = new RelayCommand(() =>
