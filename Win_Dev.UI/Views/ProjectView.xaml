@@ -18,7 +18,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+    <ScrollViewer VerticalScrollBarVisibility="Disabled">
         <Grid>
             <TabControl>
                 <TabItem Header="{StaticResource Edit_project}" 
@@ -42,14 +42,14 @@
                                            LimitedText="{Binding ProjectName, Mode=TwoWay}"
                                            MaxLength="50" 
                                            Height="60" 
-                                           MaxWidth="600"/>
+                                           Width="Auto"/>
 
                         <uc:LimitedTextBox x:Name="LimitedTextBox2"                                          
                                            Title="{StaticResource Description}"
                                            LimitedText="{Binding Description, Mode=TwoWay}"
                                            MaxLength="4000" 
                                            Height="150"
-                                           MaxWidth="750"/>
+                                           Width="Auto"/>
                         
                         <StackPanel VerticalAlignment="Center" 
                                     Orientation="Horizontal" 

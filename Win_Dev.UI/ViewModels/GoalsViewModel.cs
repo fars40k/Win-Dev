@@ -43,10 +43,14 @@ namespace Win_Dev.UI.ViewModels
 
         public string GoalID
         {
-            get => SelectedGoal.GoalID.ToString();
+            get
+            {
+                if (SelectedGoal != null) return SelectedGoal.GoalID.ToString();
+                return "";
+            }
             set
             {
-
+            
             }
         }
         public string GoalName
