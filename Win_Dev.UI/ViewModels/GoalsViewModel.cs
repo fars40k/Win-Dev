@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,12 +20,28 @@ namespace Win_Dev.UI.ViewModels
 
         public BusinessProject Project;
 
-        public List<BusinessGoal> Goals;
-        public BusinessGoal SelectedGoal;
+        public ObservableCollection<BusinessGoal> Goals;
 
+        public BusinessGoal _selectedGoal;
+        public BusinessGoal SelectedGoal
+        {
+            get => _selectedGoal;
+            set
+            {
+                _selectedGoal = value;
+                RaisePropertyChanged("GoalID");
+                RaisePropertyChanged("GoalName");
+                RaisePropertyChanged("Description");
+                RaisePropertyChanged("CreationDate");
+                RaisePropertyChanged("ExpireDate");
+                RaisePropertyChanged("Percentage");
+                RaisePropertyChanged("SelectedCondition");
+            }
+
+        }
          #region Project_properties
 
-        public string ProjectID
+        public string GoalID
         {
             get => SelectedGoal.GoalID.ToString();
             set
@@ -32,7 +49,6 @@ namespace Win_Dev.UI.ViewModels
 
             }
         }
-
         public string GoalName
         {
             get
@@ -46,7 +62,6 @@ namespace Win_Dev.UI.ViewModels
                 RaisePropertyChanged("GoalName");
             }
         }
-
         public string Description
         {
             get
@@ -77,7 +92,6 @@ namespace Win_Dev.UI.ViewModels
                 DateChangedCommand.Execute(this);
             }
         }
-
         public DateTime ExpireDate
         {
             get
@@ -92,7 +106,6 @@ namespace Win_Dev.UI.ViewModels
                 DateChangedCommand.Execute(this);
             }
         }
-
         private string _constructedCommentary
         {
             get
@@ -146,6 +159,7 @@ namespace Win_Dev.UI.ViewModels
                 RaisePropertyChanged("ConstructedCommentary");
             }
         }
+
         #endregion
 
         public byte Percentage
@@ -161,7 +175,6 @@ namespace Win_Dev.UI.ViewModels
                 RaisePropertyChanged("Persentage");
             }
         }
-
         public int SelectedCondition
         {
             get
@@ -189,61 +202,53 @@ namespace Win_Dev.UI.ViewModels
 
         #endregion
 
-        public ObservableCollection<BusinessPerson> ProjectEmployees
+        private ObservableCollection<BusinessPerson> _projectAssigned;
+        public ObservableCollection<BusinessPerson> ProjectAssigned
         {
-            get
-            {
-                ObservableCollection<BusinessPerson> getPersonel = new ObservableCollection<BusinessPerson>();
-                /*
-                Model.GetPersonelForProject(Project.ProjectID,
-                    (list, error) =>
-                    {
-                        foreach (var item in list)
-                        {
-                            getPersonel.Add(item);
-                        }
-                    });
-                    */
-
-                return getPersonel;
-
-            }
+            get => _projectAssigned;
             set
             {
-                ICollection<Person> toProject = new List<Person>();
-
-                foreach (BusinessPerson item in value)
-                {
-                    toProject.Add(item.Person);
-                }
-
-                Project.Personel = toProject.ToList<Person>();
-                RaisePropertyChanged("ProjectEmployees");
+                _projectAssigned = value;
+                RaisePropertyChanged("ProjectAssigned");
             }
         }
 
+        private ObservableCollection<BusinessPerson> _goalAssigned;
         public ObservableCollection<BusinessPerson> GoalAssigned
         {
-            get
-            {
-                ObservableCollection<BusinessPerson> getGoalAssigned = new ObservableCollection<BusinessPerson>();
-
-                return getGoalAssigned;
-            }
+            get => _goalAssigned;
             set
             {
-                ICollection<Person> toProject = new List<Person>();
-
-                foreach (BusinessPerson item in value)
-                {
-                    toProject.Add(item.Person);
-                }
-
-                Project.Personel = toProject.ToList<Person>();
+                _goalAssigned = value;
                 RaisePropertyChanged("GoalAssigned");
             }
         }
 
+        public int _selectedAssigned;
+        public int SelectedAssigned
+        {
+            get { return _selectedAssigned; }
+            set
+            {
+                _selectedAssigned = value;
+                RaisePropertyChanged("SelectedAssigned");
+            }
+        }
+
+        public int _selectedPool;
+        public int SelectedPool
+        {
+            get { return _selectedPool; }
+            set
+            {
+                _selectedPool = value;
+                RaisePropertyChanged("SelectedPool");
+            }
+        }
+
+        public RelayCommand CreateGoalCommand { get; set; }
+        public RelayCommand DeleteGoalCommand { get; set; }
+        public RelayCommand<BusinessGoal> SelectionChangedCommand { get; set; }
         public RelayCommand DateChangedCommand { get; set; }
         public RelayCommand AssignToGoalCommand { get; set; }
         public RelayCommand UnassignFromGoalCommand { get; set; }
@@ -252,6 +257,10 @@ namespace Win_Dev.UI.ViewModels
         {
             Project = businessProject;
 
+            SetRelayCommandHandlers();
+
+            UpdateGoals(); 
+
             _conditions = new ObservableCollection<string>();
             Conditions.Add((string)Application.Current.Resources["status_0"]);
             Conditions.Add((string)Application.Current.Resources["status_1"]);
@@ -259,6 +268,125 @@ namespace Win_Dev.UI.ViewModels
             Conditions.Add((string)Application.Current.Resources["status_3"]);
             Conditions.Add((string)Application.Current.Resources["status_4"]);
 
+            MessengerInstance.Register<NotificationMessage>(this, BeingNotifed);
+        }
+
+        public void BeingNotifed(NotificationMessage notificationMessage)
+        {
+            if (notificationMessage.Notification == "Save")
+            {
+
+            }
+
+            else if (notificationMessage.Notification == "Update")
+            {
+                
+            }
+
+        }
+
+        private void SetRelayCommandHandlers()
+        {
+            CreateGoalCommand = new RelayCommand(() =>
+            {
+                Model.CreateGoal(Project.ProjectID, (item, error) =>
+                {
+                    if (error != null)
+                    {
+
+                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                               error + " CreatePerson",
+                               "Error"));
+                    }
+
+                    Goals.Add(item);
+                    SelectedGoal = item;
+
+                });
+
+                MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update"));
+
+            });
+
+            DeleteGoalCommand = new RelayCommand(() =>
+            {
+
+                Model.DeleteGoal(SelectedGoal,
+                    (error) =>
+                    {
+
+                        if (error != null)
+                        {
+                            MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                               error + " DeletePerson",
+                               "Error"));
+                        }
+
+                    });
+
+                SelectedGoal = null;
+
+            });
+
+            SelectionChangedCommand = new RelayCommand<BusinessGoal>((goal) =>
+            {
+
+                SelectedGoal = goal;
+
+            });
+
+            DateChangedCommand = new RelayCommand(() =>
+            {
+                _ = ConstructedCommentary;
+                ConstructedCommentary = "";
+            });
+
+            AssignToGoalCommand = new RelayCommand(() =>
+            {
+                
+            });
+        }
+
+        public void UpdateGoals()
+        {
+            Model.GetGoalsListForProject(Project.ProjectID, (list, error) =>
+            {
+                if (error != null)
+                {
+
+                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                      (string)Application.Current.Resources["Error_database_request"] + "UpdateGoals",
+                      "Error"));
+                }
+
+                Goals = new ObservableCollection<BusinessGoal>(list);                
+            });
+
+            Model.GetPersonelForGoal(Project.ProjectID, (list, error) =>
+            {
+                if (error != null)
+                {
+
+                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                      (string)Application.Current.Resources["Error_database_request"] + "GetPersonelForGoal",
+                      "Error"));
+                }
+
+                GoalAssigned = new ObservableCollection<BusinessPerson>(list);
+            });
+
+            Model.GetPersonelForProject(Project.ProjectID, (list, error) =>
+            {
+                if (error != null)
+                {
+
+                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                      (string)Application.Current.Resources["Error_database_request"] + "GetPersonelForProject in Goals",
+                      "Error"));
+                }
+
+                ProjectAssigned = new ObservableCollection<BusinessPerson>(list);
+            });
         }
     }
 }

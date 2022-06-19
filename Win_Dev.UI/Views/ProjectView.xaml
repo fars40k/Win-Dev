@@ -41,13 +41,15 @@
                                            Title="{StaticResource Project}"
                                            LimitedText="{Binding ProjectName, Mode=TwoWay}"
                                            MaxLength="50" 
-                                           Height="60" />
+                                           Height="60" 
+                                           MaxWidth="600"/>
 
                         <uc:LimitedTextBox x:Name="LimitedTextBox2"                                          
                                            Title="{StaticResource Description}"
                                            LimitedText="{Binding Description, Mode=TwoWay}"
                                            MaxLength="4000" 
-                                           Height="150"/>
+                                           Height="150"
+                                           MaxWidth="750"/>
                         
                         <StackPanel VerticalAlignment="Center" 
                                     Orientation="Horizontal" 

@@ -48,6 +48,22 @@ namespace Win_Dev.Data
             }
         }
 
+        public IEnumerable<Goal> FindGoalsForProject(Guid ProjectID)
+        {
+            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectID));
+            IEnumerable<Goal> goals = _context.Goals.Where(g => g.ProjectsWith == project);
+
+            return goals;
+        }
+
+        public IEnumerable<Person> FindPersonelForGoal(Guid GoalID)
+        {
+            var goal = _context.Goals.Where(g => g.GoalID.Equals(GoalID));
+            IEnumerable<Person> personel = _context.Personel.Where(g => g.GoalsWith == goal);
+
+            return personel;
+        }
+
         public void SaveChanges()
         {
             _context.SaveChanges();

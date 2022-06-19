@@ -40,8 +40,8 @@ namespace Win_Dev.UI.ViewModels
             }
         }
 
-        public RelayCommand PersonCreateCommand { get; set; }
-        public RelayCommand PersonDeleteCommand { get; set; }
+        public RelayCommand CreatePersonCommand { get; set; }
+        public RelayCommand DeletePersonCommand { get; set; }
         public RelayCommand<BusinessPerson> SelectionChangedCommand { get; set; }
 
         private int _employeesOldHashCode;
@@ -54,7 +54,7 @@ namespace Win_Dev.UI.ViewModels
 
             _employeesOldHashCode = Employees.GetHashCode();
 
-            PersonCreateCommand = new RelayCommand(() =>
+            CreatePersonCommand = new RelayCommand(() =>
             {
                 Model.CreatePerson((item,error) =>
                 {
@@ -75,7 +75,7 @@ namespace Win_Dev.UI.ViewModels
 
             });
 
-            PersonDeleteCommand = new RelayCommand(() =>
+            DeletePersonCommand = new RelayCommand(() =>
             {
 
                 Model.DeletePerson(SelectedEmployee,

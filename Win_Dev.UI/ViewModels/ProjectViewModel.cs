@@ -235,24 +235,24 @@ namespace Win_Dev.UI.ViewModels
             }
         }
 
-        public int selectedAssigned;
+        public int _selectedAssigned;
         public int SelectedAssigned
         {
-            get { return selectedAssigned; }
+            get { return _selectedAssigned; }
             set
             {
-                selectedAssigned = value;
+                _selectedAssigned = value;
                 RaisePropertyChanged("SelectedAssigned");
             }
         }
 
-        public int selectedPool;
+        public int _selectedPool;
         public int SelectedPool
         {
-            get { return selectedPool; }
+            get { return _selectedPool; }
             set
             {
-                selectedPool = value;
+                _selectedPool = value;
                 RaisePropertyChanged("SelectedPool");
             }
         }
@@ -262,10 +262,9 @@ namespace Win_Dev.UI.ViewModels
         public RelayCommand UnassignFromProjectCommand { get; set; }
 
         public ProjectViewModel(BusinessProject tabProject)
-        {
-            GoalsView = new GoalsView() { DataContext = new GoalsViewModel(Project) };
-
+        {          
             Project = tabProject;
+            GoalsView = new GoalsView() { DataContext = new GoalsViewModel(Project) };
 
             ProjectEmployees = new ObservableCollection<BusinessPerson>();
             
@@ -293,7 +292,7 @@ namespace Win_Dev.UI.ViewModels
 
             UnassignFromProjectCommand = new RelayCommand(() =>
             {
-                if (SelectedAssigned != null)
+                if ((SelectedAssigned != null) && (ProjectEmployees.Count() > 0))
                 {
                     ProjectEmployees.Remove(ProjectEmployees[SelectedAssigned]);
 
@@ -323,7 +322,7 @@ namespace Win_Dev.UI.ViewModels
             List<BusinessPerson> personel = UpdatePersonel();
             Employees = new ObservableCollection<BusinessPerson>(personel.AsEnumerable<BusinessPerson>());
 
-           // MessengerInstance.Register<NotificationMessage>(this, BeingNotifed);
+            MessengerInstance.Register<NotificationMessage>(this, BeingNotifed);
         }
 
         public void BeingNotifed(NotificationMessage notificationMessage)
