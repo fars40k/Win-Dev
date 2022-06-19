@@ -159,7 +159,6 @@ namespace Win_Dev.Business
 
             callback.Invoke(foundProject,error);
         }
-    
 
         #endregion
 
@@ -182,8 +181,6 @@ namespace Win_Dev.Business
                 businessPerson.LastName = "Last" + rnd.Next(0, 100).ToString();
                 businessPerson.Division = "div" + rnd.Next(0, 100).ToString();
                 businessPerson.Occupation = "occ" + rnd.Next(0, 100).ToString();
-                businessPerson.Projects = new List<Project>();
-                businessPerson.Goals = new List<Goal>();
 
                 DataAccessObject.Personel.Insert(businessPerson.Person);
 
@@ -297,7 +294,7 @@ namespace Win_Dev.Business
 
             try
             {
-                DataAccessObject.Personel.Delete(forDelete.PersonID);              
+                DataAccessObject.Personel.Delete(forDelete.Person);              
             }
             catch (Exception ex)
             {
@@ -323,7 +320,7 @@ namespace Win_Dev.Business
 
                     foreach (Person item in dataPersonelList)
                     {
-                        if (item.Projects.Contains(project))
+                        if (item.ProjectsWith.Contains(project))
                             businessPersonelForProject.Add(new BusinessPerson(item));
                     }
 
@@ -336,6 +333,122 @@ namespace Win_Dev.Business
             }            
 
             callback.Invoke(businessPersonelForProject, error);
+        }
+
+        #endregion
+
+        #region Goal_related
+
+        public void CreateGoal(Guid forProject, Action<BusinessGoal, Exception> callback)
+        {
+            Exception error = null;
+
+            BusinessGoal businessGoal = new BusinessGoal();
+
+            try
+            {
+                businessGoal.Goal = new Goal();
+
+                Random rnd = new Random();
+
+                businessGoal.GoalID = Guid.NewGuid();
+
+                businessGoal.Name = "Goal" + rnd.Next(0, 100).ToString();
+                businessGoal.Description = "!";
+                businessGoal.CreationDate = DateTime.Today;
+                businessGoal.ExpireDate = businessGoal.CreationDate.AddDays(1);
+                businessGoal.Percentage = 0;
+                businessGoal.StatusKey = 0;
+                businessGoal.InProject = DataAccessObject.Projects.FindByID(forProject); 
+
+                DataAccessObject.Goals.Insert(businessGoal.Goal);
+
+                DataAccessObject.Goals.SaveChanges();
+
+                error = null;
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+
+            callback.Invoke(businessGoal, error);
+        }
+
+        public void DeleteGoal(BusinessGoal forDelete, Action<Exception> callback)
+        {
+            Exception error = null;
+
+            try
+            {
+                DataAccessObject.Goals.Delete(forDelete.Goal);
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+
+            callback.Invoke(error);
+        }
+
+        public void GetGoalsListForProject(Guid ProjectGUID,Action<List<BusinessGoal>, Exception> callback)
+        {
+
+            List<BusinessGoal> businessGoals = new List<BusinessGoal>();
+
+            Exception error = null;
+
+            try
+            {
+                businessGoals.Clear();
+
+                List<Goal> fromDataList = DataAccessObject.LinkedData.FindGoalsForProject(ProjectGUID).ToList<Goal>();
+
+                foreach (Goal item in fromDataList)
+                {
+                    item.Name = item.Name.TrimEnd(' ');
+                    item.Description = item.Description.TrimEnd(' ');
+
+                    businessGoals.Add(new BusinessGoal(item));
+                }
+                error = null;
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+
+            callback.Invoke(businessGoals, error);
+        }
+
+        public void GetPersonelForGoal(Guid goalGUID, Action<List<BusinessPerson>, Exception> callback)
+        {
+            Exception error = null;
+
+            Goal goal = DataAccessObject.Goals.FindByID(goalGUID);
+
+            List<BusinessPerson> businessPersonelForGoal = new List<BusinessPerson>();
+
+            if (goal != null)
+            {
+                try
+                {
+                    List<Person> fromDataList = DataAccessObject.LinkedData.FindPersonelForGoal(goalGUID).ToList<Person>();
+
+                    foreach(Person item in fromDataList)
+                    {
+                        businessPersonelForGoal.Add(new BusinessPerson(item));
+                    }
+
+                    error = null;
+                }
+                catch (Exception ex)
+                {
+                    error = ex;
+                }
+            }
+
+            callback.Invoke(businessPersonelForGoal, error);
         }
 
         #endregion

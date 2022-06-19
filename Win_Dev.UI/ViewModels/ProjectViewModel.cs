@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using Win_Dev.Assets.UserControls;
 using Win_Dev.Business;
 using Win_Dev.Data;
+using Win_Dev.UI.Views;
 
 namespace Win_Dev.UI.ViewModels
 {
@@ -169,7 +170,7 @@ namespace Win_Dev.UI.ViewModels
             {
                 ObservableCollection<BusinessPerson> getPersonel = new ObservableCollection<BusinessPerson>();
 
-                Model.GetPersonelForProject(Project.ProjectID,
+                Model.GetPersonelList(
                     (list, error) =>
                     {
                         foreach (var item in list)
@@ -182,16 +183,8 @@ namespace Win_Dev.UI.ViewModels
 
             }
             set
-            {
-                ICollection<Person> toProject = new List<Person>();
-
-                foreach (BusinessPerson item in value)
-                {
-                    toProject.Add(item.Person);
-                }
-
-                Project.Personel = toProject.ToList<Person>();
-                RaisePropertyChanged("ProjectEmployees");
+            {              
+                RaisePropertyChanged("Employees");
             }
         }
 
@@ -231,19 +224,50 @@ namespace Win_Dev.UI.ViewModels
 
         #endregion
 
-        public BusinessPerson SelectedAssigned;
-        public BusinessPerson SelectedPool; 
+        private UserControl goalsView;
+        public UserControl GoalsView
+        {
+            get { return goalsView; }
+            set
+            {
+                goalsView = value;
+                RaisePropertyChanged("GoalsView");
+            }
+        }
+
+        public int _selectedAssigned;
+        public int SelectedAssigned
+        {
+            get { return _selectedAssigned; }
+            set
+            {
+                _selectedAssigned = value;
+                RaisePropertyChanged("SelectedAssigned");
+            }
+        }
+
+        public int _selectedPool;
+        public int SelectedPool
+        {
+            get { return _selectedPool; }
+            set
+            {
+                _selectedPool = value;
+                RaisePropertyChanged("SelectedPool");
+            }
+        }
 
         public RelayCommand DateChangedCommand { get; set; }
         public RelayCommand AssignToProjectCommand { get; set; }
         public RelayCommand UnassignFromProjectCommand { get; set; }
 
         public ProjectViewModel(BusinessProject tabProject)
-        {
+        {          
             Project = tabProject;
+            GoalsView = new GoalsView() { DataContext = new GoalsViewModel(Project) };
 
-            ProjectEmployees = new ObservableCollection<BusinessPerson>();      
-
+            ProjectEmployees = new ObservableCollection<BusinessPerson>();
+            
             DateChangedCommand = new RelayCommand(() =>
             {
                 _ = ConstructedCommentary;
@@ -252,30 +276,43 @@ namespace Win_Dev.UI.ViewModels
 
             AssignToProjectCommand = new RelayCommand(() =>
             {
-                if (SelectedPool != null)
+                ProjectEmployees.Add(Employees[SelectedPool]);
+
+                Model.AssignPersonToProject(Employees[SelectedPool].PersonID, Project.ProjectID, (error) =>
                 {
-
-                    if (!ProjectEmployees.Contains(SelectedPool))
+                    if (error != null)
                     {
-                        ProjectEmployees.Add(SelectedPool);
-                        SelectedAssigned = SelectedPool;
+                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                            (string)Application.Current.Resources["Error_database_request"] + "AssignToProject",
+                            "Error"));
                     }
+                });
 
-                    // TODO assign unasign from business
-                   
-                }
             });
 
             UnassignFromProjectCommand = new RelayCommand(() =>
             {
-                if (SelectedAssigned != null)
+                if ((SelectedAssigned != null) && (ProjectEmployees.Count() > 0))
                 {
-                    ProjectEmployees.Remove(SelectedAssigned);
-                }
+                    ProjectEmployees.Remove(ProjectEmployees[SelectedAssigned]);
 
+
+                    {
+                        Model.UnassignPersonToProject(ProjectEmployees[SelectedAssigned].PersonID, Project.ProjectID, (error) =>
+                        {
+                            if (error != null)
+                            {
+                                MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                                    (string)Application.Current.Resources["Error_database_request"] + "AssignToProject",
+                                    "Error"));
+                            }
+                        });
+
+                    }
+                }
             });
 
-            _conditions = new ObservableCollection<string>();
+             _conditions = new ObservableCollection<string>();
             Conditions.Add((string)Application.Current.Resources["status_0"]);
             Conditions.Add((string)Application.Current.Resources["status_1"]);
             Conditions.Add((string)Application.Current.Resources["status_2"]);
@@ -285,7 +322,7 @@ namespace Win_Dev.UI.ViewModels
             List<BusinessPerson> personel = UpdatePersonel();
             Employees = new ObservableCollection<BusinessPerson>(personel.AsEnumerable<BusinessPerson>());
 
-           // MessengerInstance.Register<NotificationMessage>(this, BeingNotifed);
+            MessengerInstance.Register<NotificationMessage>(this, BeingNotifed);
         }
 
         public void BeingNotifed(NotificationMessage notificationMessage)

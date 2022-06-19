@@ -2,8 +2,6 @@ namespace Win_Dev.Business
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
     using Win_Dev.Data;
 
     /// <summary>
@@ -51,13 +49,18 @@ namespace Win_Dev.Business
 
         public ICollection<Project> Projects
         {
-            get => Person.Projects;
-            set => Person.Projects = value;
+            get => Person.ProjectsWith;
+            set => Person.ProjectsWith = value;
         }
         public ICollection<Goal> Goals
         {
-            get => Person.Goals;
-            set => Person.Goals = value;
+            get => Person.GoalsWith;
+            set
+            {
+                Person.GoalsWith.Clear();
+                foreach (Goal item in value)
+                Person.GoalsWith.Add(item);
+            }
         }
 
         public BusinessPerson() : base()
