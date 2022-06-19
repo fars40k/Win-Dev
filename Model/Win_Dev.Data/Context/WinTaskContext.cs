@@ -41,6 +41,7 @@ namespace Win_Dev.Data
                 
               });
 
+
             modelBuilder.Entity<Goal>()
              .HasMany(s => s.ProjectsWith)
              .WithMany(c => c.GoalsIn)
@@ -49,7 +50,6 @@ namespace Win_Dev.Data
                  cs.ToTable("GoalsToProjects");
                  cs.MapLeftKey("GoalID");
                  cs.MapRightKey("ProjectID");
-
              });
 
     
