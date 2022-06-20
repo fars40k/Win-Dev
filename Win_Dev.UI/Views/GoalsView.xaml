@@ -23,8 +23,7 @@
                          Height="150"  
                          DockPanel.Dock="Top" 
                          Margin="4"
-                         ItemsSource="{Binding Goals, Mode=TwoWay}"
-                         MaxWidth="750">
+                         ItemsSource="{Binding Goals, Mode=TwoWay}">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
@@ -177,7 +176,7 @@
                     <ListBox x:Name="AssignedPersonel" 
                                          Width="Auto"
                                          MinWidth="300"
-                                         Height="200"
+                                         Height="170"
                                          Margin="4"
                                          SelectedItem="{Binding SelectedAssigned}"
                                          ItemsSource="{Binding GoalEmployees, Mode=TwoWay}">
@@ -216,7 +215,7 @@
                     <ListBox x:Name="PersonelPool" 
                                          Width="Auto" 
                                          MinWidth="300"
-                                         Height="200"                                       
+                                         Height="170"                                       
                                          Margin="4"
                                          SelectedItem="{Binding SelectedPool}"
                                          ItemsSource="{Binding ProjectEmployees, Mode=TwoWay}">

@@ -54,9 +54,46 @@ namespace Win_Dev.UI.ViewModels
 
             _employeesOldHashCode = Employees.GetHashCode();
 
+            SetRelayCommandHandlers();
+
+            MessengerInstance.Register<NotificationMessage>(this, BeingNotifed);
+        }
+
+        public void BeingNotifed(NotificationMessage message)
+        {
+            // If the user has made changes in the persons list it sending changes to database.
+            if (message.Notification == "Save")
+            {
+               /* SavePersonelChanges();
+
+                Employees = new ObservableCollection<BusinessPerson>(GetPersonelList());
+                _employeesOldHashCode = Employees.GetHashCode();*/
+            }
+            // If this tab has no user changes it updates 
+
+            else if (message.Notification == "Update")
+            {
+                
+               /* List<BusinessPerson> updatedPersonel = GetPersonelList();
+
+                if (_employeesOldHashCode == updatedPersonel.GetHashCode())
+                {
+                   
+                    Employees = new ObservableCollection<BusinessPerson>(updatedPersonel);
+                    _employeesOldHashCode = Employees.GetHashCode();
+
+                }
+                */
+
+            }
+
+        }
+
+        public void SetRelayCommandHandlers()
+        {
             CreatePersonCommand = new RelayCommand(() =>
             {
-                Model.CreatePerson((item,error) =>
+                Model.CreatePerson((item, error) =>
                 {
                     if (error != null)
                     {
@@ -70,8 +107,6 @@ namespace Win_Dev.UI.ViewModels
                     SelectedEmployee = item;
 
                 });
-
-                MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update"));
 
             });
 
@@ -89,7 +124,7 @@ namespace Win_Dev.UI.ViewModels
                                "Error"));
                         }
 
-                        if (SelectedEmployee != null) Employees.Remove(SelectedEmployee);                  
+                        if (SelectedEmployee != null) Employees.Remove(SelectedEmployee);
 
                     });
 
@@ -103,39 +138,8 @@ namespace Win_Dev.UI.ViewModels
                 SelectedEmployee = person;
 
             });
-
-            MessengerInstance.Register<NotificationMessage>(this, BeingNotifed);
         }
 
-        public void BeingNotifed(NotificationMessage message)
-        {
-            // If the user has made changes in the persons list it sending changes to database.
-            if (message.Notification == "Save")
-            {
-                SavePersonelChanges();
-
-                Employees = new ObservableCollection<BusinessPerson>(GetPersonelList());
-                _employeesOldHashCode = Employees.GetHashCode();
-            }
-            // If this tab has no user changes it updates 
-
-            else if (message.Notification == "Update")
-            {
-                
-                List<BusinessPerson> updatedPersonel = GetPersonelList();
-
-                if (_employeesOldHashCode == updatedPersonel.GetHashCode())
-                {
-                   
-                    Employees = new ObservableCollection<BusinessPerson>(updatedPersonel);
-                    _employeesOldHashCode = Employees.GetHashCode();
-
-                }
-                
-
-            }
-
-        }
 
         public List<BusinessPerson> GetPersonelList()
         {

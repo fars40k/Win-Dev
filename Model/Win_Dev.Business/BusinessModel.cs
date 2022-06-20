@@ -359,9 +359,10 @@ namespace Win_Dev.Business
                 businessGoal.ExpireDate = businessGoal.CreationDate.AddDays(1);
                 businessGoal.Percentage = 0;
                 businessGoal.StatusKey = 0;
-                businessGoal.InProject = DataAccessObject.Projects.FindByID(forProject); 
+                businessGoal.Project.Add(DataAccessObject.Projects.FindByID(forProject)); 
 
                 DataAccessObject.Goals.Insert(businessGoal.Goal);
+                DataAccessObject.LinkedData.AddGoalToProject(businessGoal.GoalID, forProject);
 
                 DataAccessObject.Goals.SaveChanges();
 
@@ -381,7 +382,10 @@ namespace Win_Dev.Business
 
             try
             {
+                Project goalInProject = forDelete.Project.FirstOrDefault<Project>();
+
                 DataAccessObject.Goals.Delete(forDelete.Goal);
+                DataAccessObject.LinkedData.RemoveGoalFromProject(forDelete.GoalID,goalInProject.ProjectID);
             }
             catch (Exception ex)
             {

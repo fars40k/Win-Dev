@@ -319,8 +319,7 @@ namespace Win_Dev.UI.ViewModels
             Conditions.Add((string)Application.Current.Resources["status_3"]);
             Conditions.Add((string)Application.Current.Resources["status_4"]);
 
-            List<BusinessPerson> personel = UpdatePersonel();
-            Employees = new ObservableCollection<BusinessPerson>(personel.AsEnumerable<BusinessPerson>());
+            UpdatePersonel();
 
             MessengerInstance.Register<NotificationMessage>(this, BeingNotifed);
         }
@@ -333,30 +332,12 @@ namespace Win_Dev.UI.ViewModels
             }
             else if (notificationMessage.Notification == "Update")
             {
-                List<BusinessPerson> allPersonel = UpdatePersonel();
-
-                Model.GetPersonelForProject(Project.ProjectID, ((list, error) =>
-                {
-
-                    if ((error != null) || (list == null))
-                    {
-                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                            (string)Application.Current.Resources["Error_database_request"] + "GetPersonelForProject",
-                            "Error"));
-                    }
-
-                    ProjectEmployees = new ObservableCollection<BusinessPerson>(list);
-
-                    Employees = new ObservableCollection<BusinessPerson>(allPersonel.Except(list));
-
-                }));
-
-
+      
             }
 
         }
 
-        public List<BusinessPerson> UpdatePersonel()
+        public void UpdatePersonel()
         {
             List<BusinessPerson> result = new List<BusinessPerson>();
 
@@ -373,7 +354,25 @@ namespace Win_Dev.UI.ViewModels
                    result = item;
                });
 
-            return result;
+            List<BusinessPerson> allPersonel = result;
+
+            Model.GetPersonelForProject(Project.ProjectID, ((list, error) =>
+            {
+
+                if ((error != null) || (list == null))
+                {
+                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                        (string)Application.Current.Resources["Error_database_request"] + "GetPersonelForProject",
+                        "Error"));
+                }
+
+                ProjectEmployees = new ObservableCollection<BusinessPerson>(list);
+
+                Employees = new ObservableCollection<BusinessPerson>(allPersonel.Except(list));
+
+            }));
+
+
         }
     }
 }

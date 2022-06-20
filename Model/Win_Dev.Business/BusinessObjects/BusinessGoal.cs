@@ -54,19 +54,24 @@
             set => Goal.StatusKey = value;
         }
 
-        public virtual Project InProject
+        public ICollection<Project> Project
         {
-            get => InProject;
-            set => InProject = value;
+            get => Goal.ProjectsWith.ToList<Project>();
+            set
+            {
+                Goal.ProjectWith.Clear();
+                foreach (Project item in value)
+                    Goal.ProjectsWith.Add(item);
+            }
         }
         public ICollection<Person> Personel
         {
-            get => Goal.PersonelWith.ToList<Person>();
+            get => Goal.ProjectWith.ToList<Person>();
             set
             {
-                Goal.PersonelWith.Clear();
+                Goal.ProjectWith.Clear();
                 foreach (Person item in value)
-                    Goal.PersonelWith.Add(item);
+                    Goal.ProjectWith.Add(item);
             }
         }
 

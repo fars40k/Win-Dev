@@ -29,11 +29,12 @@ namespace Win_Dev.Data
         public int StatusKey { get; set; }
 
         public ICollection<Project> ProjectsWith { get; set; }
-        public ICollection<Person> PersonelWith { get; set; }
+        public ICollection<Person> ProjectWith { get; set; }
 
         public Goal()
         {
-            PersonelWith = new List<Person>();           
+            ProjectWith = new List<Person>();
+            ProjectsWith = new List<Project>();
         }
         
     }

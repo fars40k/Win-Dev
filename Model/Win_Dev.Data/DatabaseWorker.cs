@@ -123,7 +123,6 @@ namespace Win_Dev.Data
                         throw new InvalidOperationException();
                     };
 
-
                     DataAccessObject.UpdateEntityModel();
 
                     IsConnectionEstablished = true;

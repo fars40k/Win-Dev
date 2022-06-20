@@ -61,7 +61,10 @@
     <Compile Include="DataAccessObject.cs" />
     <Compile Include="DatabaseWorker.cs" />
     <Compile Include="Dto\Goal.cs" />
+    <Compile Include="Dto\GoalsToProjects.cs" />
     <Compile Include="Dto\Person.cs" />
+    <Compile Include="Dto\PersonelToGoals.cs" />
+    <Compile Include="Dto\PersonelToProjects.cs" />
     <Compile Include="Dto\Project.cs" />
     <Compile Include="Interfaces\IDatabaseService.cs" />
     <Compile Include="Interfaces\IDataAccessService.cs" />

@@ -20,7 +20,7 @@ namespace Win_Dev.UI.ViewModels
 
         public BusinessProject Project;
 
-        public ObservableCollection<BusinessGoal> Goals;
+        public ObservableCollection<BusinessGoal> Goals { get; set; }
 
         public BusinessGoal _selectedGoal;
         public BusinessGoal SelectedGoal
@@ -293,6 +293,7 @@ namespace Win_Dev.UI.ViewModels
         {
             CreateGoalCommand = new RelayCommand(() =>
             {
+                
                 Model.CreateGoal(Project.ProjectID, (item, error) =>
                 {
                     if (error != null)
@@ -328,6 +329,7 @@ namespace Win_Dev.UI.ViewModels
 
                     });
 
+                Goals.Remove(SelectedGoal);
                 SelectedGoal = null;
 
             });

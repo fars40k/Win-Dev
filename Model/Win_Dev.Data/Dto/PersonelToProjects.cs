@@ -9,9 +9,9 @@ namespace Win_Dev.Data.Dto
     class PersonelToProjects
     {
         public Guid PersonID { get; set; }
-        public Personel Person { get; set; }
-
         public Guid ProjectID { get; set; }
-        public Project Project { get; set; }
+
+        public virtual Person Person { get; set; }
+        public virtual Project Project { get; set; }
     }
 }
