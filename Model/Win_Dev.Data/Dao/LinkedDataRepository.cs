@@ -76,6 +76,34 @@ namespace Win_Dev.Data
             }
         }
 
+        public void AddPersonToGoal(Guid PersonGUID, Guid GoalGUID)
+        {
+            var goal = _context.Goals.Where(p => p.GoalID.Equals(GoalGUID)).FirstOrDefault<Goal>();
+            var person = _context.Personel.Where(r => r.PersonID.Equals(PersonGUID)).FirstOrDefault<Person>();
+
+            Goal goalDao = goal;
+            Person personDao = person;
+
+            if ((goalDao != null) && (personDao != null) && (!goalDao.PersonelWith.Contains<Person>(personDao)))
+            {
+                goalDao.PersonelWith.Add(personDao);
+            }
+        }
+
+        public void RemovePersonFromGoal(Guid PersonGUID, Guid GoalGUID)
+        {
+            var goal = _context.Goals.Where(p => p.GoalID.Equals(GoalGUID)).FirstOrDefault<Goal>();
+            var person = _context.Personel.Where(r => r.PersonID.Equals(PersonGUID)).FirstOrDefault<Person>();
+
+            Goal goalDao = goal;
+            Person personDao = person;
+
+            if ((goalDao != null) && (personDao != null) && (goalDao.PersonelWith.Contains<Person>(personDao)))
+            {
+                goalDao.PersonelWith.Remove(personDao);
+            }
+        }
+
         public IEnumerable<Goal> FindGoalsForProject(Guid ProjectID)
         {
             var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectID));
