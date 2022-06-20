@@ -59,19 +59,19 @@
             get => Goal.ProjectsWith.ToList<Project>();
             set
             {
-                Goal.ProjectWith.Clear();
+                Goal.ProjectsWith.Clear();
                 foreach (Project item in value)
                     Goal.ProjectsWith.Add(item);
             }
         }
         public ICollection<Person> Personel
         {
-            get => Goal.ProjectWith.ToList<Person>();
+            get => Goal.PersonelWith.ToList<Person>();
             set
             {
-                Goal.ProjectWith.Clear();
+                Goal.PersonelWith.Clear();
                 foreach (Person item in value)
-                    Goal.ProjectWith.Add(item);
+                    Goal.PersonelWith.Add(item);
             }
         }
 

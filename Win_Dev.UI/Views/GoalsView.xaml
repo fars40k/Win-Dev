@@ -176,7 +176,7 @@
                     <ListBox x:Name="AssignedPersonel" 
                                          Width="Auto"
                                          MinWidth="300"
-                                         Height="170"
+                                         Height="140"
                                          Margin="4"
                                          SelectedItem="{Binding SelectedAssigned}"
                                          ItemsSource="{Binding GoalEmployees, Mode=TwoWay}">
@@ -215,7 +215,7 @@
                     <ListBox x:Name="PersonelPool" 
                                          Width="Auto" 
                                          MinWidth="300"
-                                         Height="170"                                       
+                                         Height="140"                                       
                                          Margin="4"
                                          SelectedItem="{Binding SelectedPool}"
                                          ItemsSource="{Binding ProjectEmployees, Mode=TwoWay}">

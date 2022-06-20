@@ -32,7 +32,7 @@ namespace Win_Dev.Data
 
             modelBuilder.Entity<Person>()
               .HasMany(s => s.GoalsWith)
-              .WithMany(c => c.ProjectWith)
+              .WithMany(c => c.PersonelWith)
               .Map(cs =>
               {
                   cs.ToTable("PersonelToGoals");
