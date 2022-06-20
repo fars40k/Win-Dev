@@ -164,63 +164,10 @@ namespace Win_Dev.UI.ViewModels
             }
         }
 
-        public ObservableCollection<BusinessPerson> Employees
-        {
-            get
-            {
-                ObservableCollection<BusinessPerson> getPersonel = new ObservableCollection<BusinessPerson>();
-
-                Model.GetPersonelList(
-                    (list, error) =>
-                    {
-                        foreach (var item in list)
-                        {
-                            getPersonel.Add(item);
-                        }
-                    });
-
-                return getPersonel;
-
-            }
-            set
-            {              
-                RaisePropertyChanged("Employees");
-            }
-        }
-
-        public ObservableCollection<BusinessPerson> _projectEmployees;
-        public ObservableCollection<BusinessPerson> ProjectEmployees
-        {
-            get
-            {
-                ObservableCollection<BusinessPerson> getPersonel = new ObservableCollection<BusinessPerson>();
-
-                Model.GetPersonelForProject(Project.ProjectID,
-                    (list, error) =>
-                    {
-                        foreach (var item in list)
-                        {
-                            getPersonel.Add(item);
-                        }
-                    });
+        public ObservableCollection<BusinessPerson> Employees { get; set; }
 
 
-                return getPersonel;
-
-            }
-            set
-            {
-                ICollection<Person> toProject = new List<Person>();
-
-                foreach (BusinessPerson item in value)
-                {
-                    toProject.Add(item.Person);
-                }
-
-                Project.Personel = toProject.ToList<Person>();
-                RaisePropertyChanged("ProjectEmployees");
-            }
-        }
+        public ObservableCollection<BusinessPerson> ProjectEmployees { get; set; }
 
         #endregion
 
@@ -265,8 +212,6 @@ namespace Win_Dev.UI.ViewModels
         {          
             Project = tabProject;
             GoalsView = new GoalsView() { DataContext = new GoalsViewModel(Project) };
-
-            ProjectEmployees = new ObservableCollection<BusinessPerson>();
             
             DateChangedCommand = new RelayCommand(() =>
             {
@@ -276,7 +221,6 @@ namespace Win_Dev.UI.ViewModels
 
             AssignToProjectCommand = new RelayCommand(() =>
             {
-                ProjectEmployees.Add(Employees[SelectedPool]);
 
                 Model.AssignPersonToProject(Employees[SelectedPool].PersonID, Project.ProjectID, (error) =>
                 {
@@ -288,15 +232,14 @@ namespace Win_Dev.UI.ViewModels
                     }
                 });
 
+                _ = ProjectEmployees;
+
             });
 
             UnassignFromProjectCommand = new RelayCommand(() =>
             {
                 if ((SelectedAssigned != null) && (ProjectEmployees.Count() > 0))
                 {
-                    ProjectEmployees.Remove(ProjectEmployees[SelectedAssigned]);
-
-
                     {
                         Model.UnassignPersonToProject(ProjectEmployees[SelectedAssigned].PersonID, Project.ProjectID, (error) =>
                         {
@@ -310,6 +253,7 @@ namespace Win_Dev.UI.ViewModels
 
                     }
                 }
+                _ = ProjectEmployees;
             });
 
              _conditions = new ObservableCollection<string>();

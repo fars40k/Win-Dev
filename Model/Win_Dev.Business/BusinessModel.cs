@@ -131,6 +131,12 @@ namespace Win_Dev.Business
 
             try
             {
+                IEnumerable<Goal> goalsForDelete = DataAccessObject.LinkedData.FindGoalsForProject(forDelete).ToList<Goal>();
+                foreach(Goal item in goalsForDelete)
+                {
+                    DataAccessObject.Goals.Delete(item);
+                }
+
                 DataAccessObject.Projects.Delete(forDelete);
                 DataAccessObject.Projects.SaveChanges();
             }
@@ -312,6 +318,12 @@ namespace Win_Dev.Business
 
             List<BusinessPerson> businessPersonelForProject = new List<BusinessPerson>();
 
+            foreach (Person item in project.PersonelWith.ToList<Person>())
+            {
+                businessPersonel.Add(new BusinessPerson(item));
+
+            }
+            /*
             if (project != null)
             {
                 try
@@ -331,7 +343,7 @@ namespace Win_Dev.Business
                     error = ex;
                 }
             }            
-
+            */
             callback.Invoke(businessPersonelForProject, error);
         }
 
@@ -406,7 +418,7 @@ namespace Win_Dev.Business
             {
                 businessGoals.Clear();
 
-                List<Goal> fromDataList = DataAccessObject.LinkedData.FindGoalsForProject(ProjectGUID).ToList<Goal>();
+                IEnumerable<Goal> fromDataList = DataAccessObject.LinkedData.FindGoalsForProject(ProjectGUID);
 
                 foreach (Goal item in fromDataList)
                 {

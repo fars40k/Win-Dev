@@ -106,8 +106,19 @@ namespace Win_Dev.Data
 
         public IEnumerable<Goal> FindGoalsForProject(Guid ProjectID)
         {
-            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectID));
-            IEnumerable<Goal> goals = _context.Goals.Where(g => g.ProjectsWith == project);
+            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectID)).FirstOrDefault<Project>();
+
+            Project projectDao = project;
+
+            List<Goal> goals = new List<Goal>();
+
+            var goalsDao = _context.Goals.Include(g => g.ProjectsWith).ToList();
+
+            foreach (Goal item in goalsDao)
+            {
+                if (item.ProjectsWith.Contains(projectDao))
+                    goals.Add(item);
+            }
 
             return goals;
         }
