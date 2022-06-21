@@ -178,7 +178,7 @@
                              MinWidth="300"
                              Height="140"
                              Margin="4"
-                             SelectedIndex="{Binding SelectedPersonGoal, Mode=TwoWay}"
+                             SelectedIndex="{Binding Path=SelectedPersonGoal, Mode=TwoWay}"
                              ItemsSource="{Binding GoalAssigned, Mode=TwoWay}">
 
                     </ListBox>
@@ -216,7 +216,7 @@
                              MinWidth="300"
                              Height="140"                                       
                              Margin="4"
-                             SelectedIndex="{Binding SelectedPersonProject, Mode=TwoWay}"
+                             SelectedIndex="{Binding Path=SelectedPersonProject, Mode=TwoWay}"
                              ItemsSource="{Binding ProjectAssigned, Mode=TwoWay}">
 
                     </ListBox>

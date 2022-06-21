@@ -39,7 +39,7 @@ namespace Win_Dev.UI.ViewModels
             }
 
         }
-         #region Project_properties
+         #region Goal_properties
 
         public string GoalID
         {
@@ -206,8 +206,28 @@ namespace Win_Dev.UI.ViewModels
 
         #endregion
 
-        public ObservableCollection<BusinessPerson> ProjectAssigned { get; set; }
-        public ObservableCollection<BusinessPerson> GoalAssigned { get; set; }
+        private ObservableCollection<BusinessPerson> _projectAssigned;       
+        public ObservableCollection<BusinessPerson> ProjectAssigned
+        {
+            get => _projectAssigned;
+            set
+            {
+                _projectAssigned = value;
+                RaisePropertyChanged("ProjectAssigned");
+            }
+
+        }
+
+        private ObservableCollection<BusinessPerson> _goalAssigned;
+        public ObservableCollection<BusinessPerson> GoalAssigned
+        {
+            get => _goalAssigned;
+            set
+            {
+                _goalAssigned = value;
+                RaisePropertyChanged("GoalAssigned");
+            }
+        }
 
         public int _selectedPersonGoal;
         public int SelectedPersonGoal
@@ -375,7 +395,7 @@ namespace Win_Dev.UI.ViewModels
 
         public void UpdatePersonel(Guid GoalID)
         {
-            List<BusinessPerson> result = new List<BusinessPerson>();
+            List<BusinessPerson> goalPersonel = new List<BusinessPerson>();
 
             Model.GetPersonelForGoal(GoalID, (list, error) =>
             {
@@ -387,12 +407,10 @@ namespace Win_Dev.UI.ViewModels
                       "Error"));
                 }
 
-                result = list;
+                GoalAssigned = new ObservableCollection<BusinessPerson>(list);
             });
 
-            List<BusinessPerson> goalPersonel = result;
-
-            Model.GetPersonelForProject(Project.ProjectID, ((list, error) =>
+            Model.GetPersonelForProject(Project.ProjectID, (list, error) =>
             {
 
                 if ((error != null) || (list == null))
@@ -403,21 +421,8 @@ namespace Win_Dev.UI.ViewModels
                 }
 
                 ProjectAssigned = new ObservableCollection<BusinessPerson>(list);
-
-                List<BusinessPerson> residual = new List<BusinessPerson>();
-
-                foreach (BusinessPerson item in goalPersonel)
-                {
-                    var compared = list.Find(i => i.PersonID == item.PersonID);
-                    if (compared == null) residual.Add(item);
-                }
-
-                GoalAssigned = new ObservableCollection<BusinessPerson>(residual);
-
-            }));
-
-
-
+            });
+        
         }
     }
 }

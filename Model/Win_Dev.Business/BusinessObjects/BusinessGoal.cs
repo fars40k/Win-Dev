@@ -87,7 +87,7 @@
 
         public override string ToString()
         {
-            return (Goal.Name);
+            return Goal.Name;
         }
     }
 }
