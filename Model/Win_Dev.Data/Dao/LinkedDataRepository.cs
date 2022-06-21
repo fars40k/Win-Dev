@@ -36,11 +36,11 @@ namespace Win_Dev.Data
 
         public void RemovePersonFromProject(Guid PersonGUID, Guid ProjectGUID)
         {
-            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectGUID));
-            var person = _context.Personel.Where(r => r.PersonID.Equals(PersonGUID));
+            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectGUID)).FirstOrDefault<Project>();
+            var person = _context.Personel.Where(r => r.PersonID.Equals(PersonGUID)).FirstOrDefault<Person>();
 
-            Project projectDao = project as Project;
-            Person personDao = person as Person;
+            Project projectDao = project;
+            Person personDao = person;
 
             if ((projectDao != null) && (personDao != null) && (projectDao.PersonelWith.Contains<Person>(personDao)))
             {

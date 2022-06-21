@@ -206,47 +206,28 @@ namespace Win_Dev.UI.ViewModels
 
         #endregion
 
-        private ObservableCollection<BusinessPerson> _projectAssigned;
-        public ObservableCollection<BusinessPerson> ProjectAssigned
+        public ObservableCollection<BusinessPerson> ProjectAssigned { get; set; }
+        public ObservableCollection<BusinessPerson> GoalAssigned { get; set; }
+
+        public int _selectedPersonGoal;
+        public int SelectedPersonGoal
         {
-            get => _projectAssigned;
+            get { return _selectedPersonGoal; }
             set
             {
-                _projectAssigned = value;
-                RaisePropertyChanged("ProjectAssigned");
+                _selectedPersonGoal = value;
+                RaisePropertyChanged("SelectedPersonGoal");
             }
         }
 
-        private ObservableCollection<BusinessPerson> _goalAssigned;
-        public ObservableCollection<BusinessPerson> GoalAssigned
+        public int _selectedPersonProject;
+        public int SelectedPersonProject
         {
-            get => _goalAssigned;
+            get { return _selectedPersonProject; }
             set
             {
-                _goalAssigned = value;
-                RaisePropertyChanged("GoalAssigned");
-            }
-        }
-
-        public int _selectedAssigned;
-        public int SelectedAssigned
-        {
-            get { return _selectedAssigned; }
-            set
-            {
-                _selectedAssigned = value;
-                RaisePropertyChanged("SelectedAssigned");
-            }
-        }
-
-        public int _selectedPool;
-        public int SelectedPool
-        {
-            get { return _selectedPool; }
-            set
-            {
-                _selectedPool = value;
-                RaisePropertyChanged("SelectedPool");
+                _selectedPersonProject = value;
+                RaisePropertyChanged("SelectedPersonProject");
             }
         }
 
@@ -257,13 +238,16 @@ namespace Win_Dev.UI.ViewModels
         public RelayCommand AssignToGoalCommand { get; set; }
         public RelayCommand UnassignFromGoalCommand { get; set; }
 
-        public GoalsViewModel(BusinessProject businessProject)
+        public GoalsViewModel(BusinessProject containingProject)
         {
-            Project = businessProject;
+            Project = containingProject;
+
+            ProjectAssigned = new ObservableCollection<BusinessPerson>();
+            GoalAssigned = new ObservableCollection<BusinessPerson>();
 
             SetRelayCommandHandlers();
 
-            UpdateGoals(); 
+            UpdateGoals();
 
             _conditions = new ObservableCollection<string>();
             Conditions.Add((string)Application.Current.Resources["status_0"]);
@@ -313,32 +297,55 @@ namespace Win_Dev.UI.ViewModels
 
             });
 
-            DeleteGoalCommand = new RelayCommand(() =>
+            AssignToGoalCommand = new RelayCommand(() =>
             {
+                if ((ProjectAssigned.Count() > 0) && (SelectedPersonProject >= 0) && 
+                                                            (ProjectAssigned[SelectedPersonProject] != null))
+                {
 
-                Model.DeleteGoal(SelectedGoal,
-                    (error) =>
+                    Model.AssignPersonToProject(ProjectAssigned[SelectedPersonProject].PersonID, Project.ProjectID, (error) =>
                     {
-
                         if (error != null)
                         {
                             MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                               error + " DeletePerson",
-                               "Error"));
+                                (string)Application.Current.Resources["Error_database_request"] + "AssignToProject",
+                                "Error"));
                         }
-
                     });
 
-                Goals.Remove(SelectedGoal);
-                SelectedGoal = null;
+                    GoalAssigned.Add(ProjectAssigned[SelectedPersonProject]);
+                    ProjectAssigned.Remove(ProjectAssigned[SelectedPersonProject]);
 
+                }
+
+
+            });
+
+            UnassignFromGoalCommand = new RelayCommand(() =>
+            {
+                if ((GoalAssigned.Count() > 0) && (SelectedPersonGoal >= 0) && (GoalAssigned[SelectedPersonGoal] != null))
+                {
+
+                    Model.UnassignPersonToProject(GoalAssigned[SelectedPersonGoal].PersonID, Project.ProjectID, (error) =>
+                    {
+                        if (error != null)
+                        {
+                            MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                                (string)Application.Current.Resources["Error_database_request"] + "UnssignFromProject",
+                                "Error"));
+                        }
+                    });
+
+                    ProjectAssigned.Add(GoalAssigned[SelectedPersonGoal]);
+                    GoalAssigned.Remove(GoalAssigned[SelectedPersonGoal]);
+
+                }
             });
 
             SelectionChangedCommand = new RelayCommand<BusinessGoal>((goal) =>
             {
-
                 SelectedGoal = goal;
-
+                UpdatePersonel(SelectedGoal.GoalID);             
             });
 
             DateChangedCommand = new RelayCommand(() =>
@@ -347,10 +354,6 @@ namespace Win_Dev.UI.ViewModels
                 ConstructedCommentary = "";
             });
 
-            AssignToGoalCommand = new RelayCommand(() =>
-            {
-                
-            });
         }
 
         public void UpdateGoals()
@@ -367,32 +370,54 @@ namespace Win_Dev.UI.ViewModels
 
                 Goals = new ObservableCollection<BusinessGoal>(list);                
             });
+     
+        }
 
-            Model.GetPersonelForGoal(Project.ProjectID, (list, error) =>
+        public void UpdatePersonel(Guid GoalID)
+        {
+            List<BusinessPerson> result = new List<BusinessPerson>();
+
+            Model.GetPersonelForGoal(GoalID, (list, error) =>
             {
                 if (error != null)
                 {
 
                     MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                      (string)Application.Current.Resources["Error_database_request"] + "GetPersonelForGoal",
+                      (string)Application.Current.Resources["Error_database_request"] + "InGoal:GetPersonelForGoal",
                       "Error"));
                 }
 
-                GoalAssigned = new ObservableCollection<BusinessPerson>(list);
+                result = list;
             });
 
-            Model.GetPersonelForProject(Project.ProjectID, (list, error) =>
-            {
-                if (error != null)
-                {
+            List<BusinessPerson> goalPersonel = result;
 
+            Model.GetPersonelForProject(Project.ProjectID, ((list, error) =>
+            {
+
+                if ((error != null) || (list == null))
+                {
                     MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                      (string)Application.Current.Resources["Error_database_request"] + "GetPersonelForProject in Goals",
-                      "Error"));
+                        (string)Application.Current.Resources["Error_database_request"] + "InGoal:GetPersonelForProject",
+                        "Error"));
                 }
 
                 ProjectAssigned = new ObservableCollection<BusinessPerson>(list);
-            });
+
+                List<BusinessPerson> residual = new List<BusinessPerson>();
+
+                foreach (BusinessPerson item in goalPersonel)
+                {
+                    var compared = list.Find(i => i.PersonID == item.PersonID);
+                    if (compared == null) residual.Add(item);
+                }
+
+                GoalAssigned = new ObservableCollection<BusinessPerson>(residual);
+
+            }));
+
+
+
         }
     }
 }

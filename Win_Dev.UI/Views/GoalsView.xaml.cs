@@ -24,5 +24,10 @@ namespace Win_Dev.UI.Views
         {
             InitializeComponent();
         }
+
+        private void PersonelPool_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

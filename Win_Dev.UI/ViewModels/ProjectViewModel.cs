@@ -165,7 +165,6 @@ namespace Win_Dev.UI.ViewModels
         }
 
         public ObservableCollection<BusinessPerson> Employees { get; set; }
-
         public ObservableCollection<BusinessPerson> ProjectEmployees { get; set; }
 
         #endregion
@@ -211,52 +210,8 @@ namespace Win_Dev.UI.ViewModels
         {          
             Project = tabProject;
             GoalsView = new GoalsView() { DataContext = new GoalsViewModel(Project) };
-            
-            DateChangedCommand = new RelayCommand(() =>
-            {
-                _ = ConstructedCommentary;
-                ConstructedCommentary = "";
-            });
 
-            AssignToProjectCommand = new RelayCommand(() =>
-            {
-                if (Employees[SelectedPool] != null)
-                { 
-
-                Model.AssignPersonToProject(Employees[SelectedPool].PersonID, Project.ProjectID, (error) =>
-                {
-                    if (error != null)
-                    {
-                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                            (string)Application.Current.Resources["Error_database_request"] + "AssignToProject",
-                            "Error"));
-                    }
-                });
-
-                }
-                _ = ProjectEmployees;
-
-            });
-
-            UnassignFromProjectCommand = new RelayCommand(() =>
-            {
-                if ((SelectedAssigned != null) && (ProjectEmployees.Count() > 0))
-                {
-                    {
-                        Model.UnassignPersonToProject(ProjectEmployees[SelectedAssigned].PersonID, Project.ProjectID, (error) =>
-                        {
-                            if (error != null)
-                            {
-                                MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                                    (string)Application.Current.Resources["Error_database_request"] + "AssignToProject",
-                                    "Error"));
-                            }
-                        });
-
-                    }
-                }
-                _ = ProjectEmployees;
-            });
+            SetRelayCommandHandlers();
 
              _conditions = new ObservableCollection<string>();
             Conditions.Add((string)Application.Current.Resources["status_0"]);
@@ -268,6 +223,60 @@ namespace Win_Dev.UI.ViewModels
             UpdatePersonel();
 
             MessengerInstance.Register<NotificationMessage>(this, BeingNotifed);
+        }
+
+        private void SetRelayCommandHandlers()
+        {
+            DateChangedCommand = new RelayCommand(() =>
+            {
+                _ = ConstructedCommentary;
+                ConstructedCommentary = "";
+            });
+
+            AssignToProjectCommand = new RelayCommand(() =>
+            {
+                if ((Employees.Count() > 0) && (SelectedPool >= 0) && (Employees[SelectedPool] != null))
+                {
+
+                    Model.AssignPersonToProject(Employees[SelectedPool].PersonID, Project.ProjectID, (error) =>
+                    {
+                        if (error != null)
+                        {
+                            MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                                (string)Application.Current.Resources["Error_database_request"] + "AssignToProject",
+                                "Error"));
+                        }
+                    });
+
+                    ProjectEmployees.Add(Employees[SelectedPool]);
+                    Employees.Remove(Employees[SelectedPool]);
+
+                }
+
+
+            });
+
+            UnassignFromProjectCommand = new RelayCommand(() =>
+            {
+                if ((ProjectEmployees.Count() > 0) && (SelectedAssigned >= 0) && (ProjectEmployees[SelectedAssigned] != null))
+                {
+
+                    Model.UnassignPersonToProject(ProjectEmployees[SelectedAssigned].PersonID, Project.ProjectID, (error) =>
+                    {
+                        if (error != null)
+                        {
+                            MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                                (string)Application.Current.Resources["Error_database_request"] + "UnssignFromProject",
+                                "Error"));
+                        }
+                    });
+
+                    Employees.Add(ProjectEmployees[SelectedAssigned]);
+                    ProjectEmployees.Remove(ProjectEmployees[SelectedAssigned]);
+
+                }
+            });
+
         }
 
         public void BeingNotifed(NotificationMessage notificationMessage)
