@@ -166,7 +166,6 @@ namespace Win_Dev.UI.ViewModels
 
         public ObservableCollection<BusinessPerson> Employees { get; set; }
 
-
         public ObservableCollection<BusinessPerson> ProjectEmployees { get; set; }
 
         #endregion
@@ -221,6 +220,8 @@ namespace Win_Dev.UI.ViewModels
 
             AssignToProjectCommand = new RelayCommand(() =>
             {
+                if (Employees[SelectedPool] != null)
+                { 
 
                 Model.AssignPersonToProject(Employees[SelectedPool].PersonID, Project.ProjectID, (error) =>
                 {
@@ -232,6 +233,7 @@ namespace Win_Dev.UI.ViewModels
                     }
                 });
 
+                }
                 _ = ProjectEmployees;
 
             });
@@ -312,7 +314,15 @@ namespace Win_Dev.UI.ViewModels
 
                 ProjectEmployees = new ObservableCollection<BusinessPerson>(list);
 
-                Employees = new ObservableCollection<BusinessPerson>(allPersonel.Except(list));
+                List<BusinessPerson> residual = new List<BusinessPerson>();
+
+                foreach (BusinessPerson item in allPersonel)
+                {
+                    var compared = list.Find(i => i.PersonID == item.PersonID);
+                    if (compared == null) residual.Add(item);
+                }
+
+                Employees = new ObservableCollection<BusinessPerson>(residual);
 
             }));
 

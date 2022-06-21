@@ -123,10 +123,40 @@ namespace Win_Dev.Data
             return goals;
         }
 
+        public IEnumerable<Person> FindPersonelForProject(Guid ProjectID)
+        {
+            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectID)).FirstOrDefault<Project>();
+
+            Project projectDao = project;
+
+            List<Person> personel = new List<Person>();
+
+            var personelDao = _context.Personel.Include(g => g.ProjectsWith).ToList();
+
+            foreach (Person item in personelDao)
+            {
+                if (item.ProjectsWith.Contains(projectDao))
+                    personel.Add(item);
+            }
+
+            return personel;
+        }
+
         public IEnumerable<Person> FindPersonelForGoal(Guid GoalID)
         {
-            var goal = _context.Goals.Where(g => g.GoalID.Equals(GoalID));
-            IEnumerable<Person> personel = _context.Personel.Where(g => g.GoalsWith == goal);
+            var goal = _context.Goals.Where(p => p.GoalID.Equals(GoalID)).FirstOrDefault<Goal>();
+
+            Goal goalDao = goal;
+
+            List<Person> personel = new List<Person>();
+
+            var personelDao = _context.Personel.Include(g => g.GoalsWith).ToList();
+
+            foreach (Person item in personelDao)
+            {
+                if (item.GoalsWith.Contains(goalDao))
+                    personel.Add(item);
+            }
 
             return personel;
         }

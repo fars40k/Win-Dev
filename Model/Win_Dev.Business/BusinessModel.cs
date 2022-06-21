@@ -312,39 +312,33 @@ namespace Win_Dev.Business
 
         public void GetPersonelForProject(Guid projectGUID, Action<List<BusinessPerson>, Exception> callback)
         {
+            List<BusinessPerson> businessPersonel = new List<BusinessPerson>();
+
             Exception error = null;
 
-            Project project = DataAccessObject.Projects.FindByID(projectGUID);
-
-            List<BusinessPerson> businessPersonelForProject = new List<BusinessPerson>();
-
-            foreach (Person item in project.PersonelWith.ToList<Person>())
+            try
             {
-                businessPersonel.Add(new BusinessPerson(item));
 
+                IEnumerable<Person> fromDataList = DataAccessObject.LinkedData.FindPersonelForProject(projectGUID);
+
+                foreach (Person item in fromDataList)
+                {
+                    item.FirstName = item.FirstName.TrimEnd(' ');
+                    item.SurName = item.SurName.TrimEnd(' ');
+                    item.LastName = item.LastName.TrimEnd(' ');
+                    item.Division = item.Division.TrimEnd(' ');
+                    item.Occupation = item.Occupation.TrimEnd(' ');
+                    businessPersonel.Add(new BusinessPerson(item));
+                }
+                error = null;
             }
-            /*
-            if (project != null)
+            catch (Exception ex)
             {
-                try
-                {
-                    List<Person> dataPersonelList = (List<Person>)DataAccessObject.Personel.FindAll();         
+                error = ex;
+            }
 
-                    foreach (Person item in dataPersonelList)
-                    {
-                        if (item.ProjectsWith.Contains(project))
-                            businessPersonelForProject.Add(new BusinessPerson(item));
-                    }
+            callback.Invoke(businessPersonel, error);
 
-                    error = null;
-                }
-                catch (Exception ex)
-                {
-                    error = ex;
-                }
-            }            
-            */
-            callback.Invoke(businessPersonelForProject, error);
         }
 
         #endregion
@@ -416,7 +410,6 @@ namespace Win_Dev.Business
 
             try
             {
-                businessGoals.Clear();
 
                 IEnumerable<Goal> fromDataList = DataAccessObject.LinkedData.FindGoalsForProject(ProjectGUID);
 
@@ -439,33 +432,34 @@ namespace Win_Dev.Business
 
         public void GetPersonelForGoal(Guid goalGUID, Action<List<BusinessPerson>, Exception> callback)
         {
+            List<BusinessPerson> businessPersonel = new List<BusinessPerson>();
+
             Exception error = null;
 
-            Goal goal = DataAccessObject.Goals.FindByID(goalGUID);
-
-            List<BusinessPerson> businessPersonelForGoal = new List<BusinessPerson>();
-
-            if (goal != null)
+            try
             {
-                try
-                {
-                    List<Person> fromDataList = DataAccessObject.LinkedData.FindPersonelForGoal(goalGUID).ToList<Person>();
 
-                    foreach(Person item in fromDataList)
-                    {
-                        businessPersonelForGoal.Add(new BusinessPerson(item));
-                    }
+                IEnumerable<Person> fromDataList = DataAccessObject.LinkedData.FindPersonelForGoal(goalGUID);
 
-                    error = null;
-                }
-                catch (Exception ex)
+                foreach (Person item in fromDataList)
                 {
-                    error = ex;
+                    item.FirstName = item.FirstName.TrimEnd(' ');
+                    item.SurName = item.SurName.TrimEnd(' ');
+                    item.LastName = item.LastName.TrimEnd(' ');
+                    item.Division = item.Division.TrimEnd(' ');
+                    item.Occupation = item.Occupation.TrimEnd(' ');
+                    businessPersonel.Add(new BusinessPerson(item));
                 }
+                error = null;
+            }
+            catch (Exception ex)
+            {
+                error = ex;
             }
 
-            callback.Invoke(businessPersonelForGoal, error);
-        }
+            callback.Invoke(businessPersonel, error);
+        }       
+        
 
         #endregion
 

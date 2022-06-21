@@ -39,8 +39,8 @@ namespace Win_Dev.Data
             {
                 Personel.FindAll();
                 var projects = wtContext.Personel.Include("ProjectsWith");
-                var goals = wtContext.Personel.Include("Goals");
-                var goalsToProjects = wtContext.Goals.Include("Projects");
+                var goals = wtContext.Personel.Include("GoalsWith");
+                var goalsToProjects = wtContext.Goals.Include("ProjectsWith");
             }
         }
 
