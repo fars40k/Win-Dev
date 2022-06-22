@@ -135,7 +135,7 @@ namespace Win_Dev.UI.ViewModels
         {
             if (notificationMessage.Notification == "Save")
             {
-                /*List<BusinessProject> projectsFromTabs = new List<BusinessProject>();
+                List<BusinessProject> projectsFromTabs = new List<BusinessProject>();
 
                 foreach (TabItem item in Tabs)
                 {
@@ -151,7 +151,7 @@ namespace Win_Dev.UI.ViewModels
                           (string)Application.Current.Resources["Error_database_request"] + "UpdateProjects",
                           "Error"));
                     }
-                });*/
+                });
             }
 
             else if (notificationMessage.Notification == "Update")

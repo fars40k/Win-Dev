@@ -41,7 +41,44 @@
                     </i:Interaction.Triggers>
 
                 </ListBox>
+                <DockPanel Margin="6" VerticalAlignment="Bottom" Grid.Row="1">
 
+                    <Button x:Name="CreatePerson"
+                    Style="{StaticResource ButtonCreatePerson}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Width="Auto"
+                    Height="22"
+                    BorderThickness="0"
+                    DockPanel.Dock="Left">
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cmd:EventToCommand Command="{Binding CreatePersonCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                    </Button>
+
+                    <Button x:Name="DeletePerson"
+                        Style="{StaticResource ButtonDeletePerson}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Width="Auto"
+                        Height="22"
+                        Margin="5,0,0,0"
+                        BorderThickness="0"
+                        DockPanel.Dock="Left">
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cmd:EventToCommand Command="{Binding DeletePersonCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                    </Button>
+
+                </DockPanel>
                 <TextBlock x:Name="ID" Height="20" TextWrapping="Wrap" Text="{Binding SelectedEmployee.PersonID}" VerticalAlignment="Top" FontFamily="Rockwell" FontSize="12" IsEnabled="False" Margin="6,6,0,0"/>
 
                 <WrapPanel>
@@ -59,44 +96,7 @@
             </StackPanel>
        
 
-        <DockPanel Margin="6" VerticalAlignment="Bottom" Grid.Row="1">
-
-            <Button x:Name="CreatePerson"
-                    Style="{StaticResource ButtonCreatePerson}"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Width="Auto"
-                    Height="22"
-                    BorderThickness="0"
-                    DockPanel.Dock="Left">
-
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                            <cmd:EventToCommand Command="{Binding CreatePersonCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
-            </Button>
-
-                <Button x:Name="DeletePerson"
-                        Style="{StaticResource ButtonDeletePerson}"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Width="Auto"
-                        Height="22"
-                        Margin="5,0,0,0"
-                        BorderThickness="0"
-                        DockPanel.Dock="Left">
-
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <cmd:EventToCommand Command="{Binding DeletePersonCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-
-                </Button>
-                           
-        </DockPanel>
+        
     </Grid>
          </ScrollViewer>
 </UserControl>

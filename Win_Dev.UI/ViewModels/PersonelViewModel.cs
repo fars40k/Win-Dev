@@ -64,26 +64,16 @@ namespace Win_Dev.UI.ViewModels
             // If the user has made changes in the persons list it sending changes to database.
             if (message.Notification == "Save")
             {
-               /* SavePersonelChanges();
+                SavePersonelChanges();
 
                 Employees = new ObservableCollection<BusinessPerson>(GetPersonelList());
-                _employeesOldHashCode = Employees.GetHashCode();*/
+                _employeesOldHashCode = Employees.GetHashCode();
             }
             // If this tab has no user changes it updates 
 
             else if (message.Notification == "Update")
-            {
+            {                        
                 
-               /* List<BusinessPerson> updatedPersonel = GetPersonelList();
-
-                if (_employeesOldHashCode == updatedPersonel.GetHashCode())
-                {
-                   
-                    Employees = new ObservableCollection<BusinessPerson>(updatedPersonel);
-                    _employeesOldHashCode = Employees.GetHashCode();
-
-                }
-                */
 
             }
 
@@ -112,22 +102,23 @@ namespace Win_Dev.UI.ViewModels
 
             DeletePersonCommand = new RelayCommand(() =>
             {
-
-                Model.DeletePerson(SelectedEmployee,
-                    (error) =>
-                    {
-
-                        if (error != null)
+                new Task(() =>
+                {
+                    Model.DeletePerson(SelectedEmployee,
+                        (error) =>
                         {
-                            MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                               error + " DeletePerson",
-                               "Error"));
-                        }
 
-                        if (SelectedEmployee != null) Employees.Remove(SelectedEmployee);
+                            if (error != null)
+                            {
+                                MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                                   error + " DeletePerson",
+                                   "Error"));
+                            }
 
-                    });
+                        });
+                }).Start();
 
+                if (SelectedEmployee != null) Employees.Remove(SelectedEmployee);
                 SelectedEmployee = null;
 
             });
@@ -163,7 +154,9 @@ namespace Win_Dev.UI.ViewModels
 
         public void SavePersonelChanges()
         {
-            Model.UpdatePersonelList(_employees,
+            RaisePropertyChanged("Employees");
+
+            Model.UpdatePersonelList(Employees,
                (error) =>
                {
                    if (error != null)

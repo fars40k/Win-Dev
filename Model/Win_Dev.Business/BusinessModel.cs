@@ -10,7 +10,7 @@ namespace Win_Dev.Business
     /// <summary>
     /// Contains all intermediate methods conecting UI and data access layers
     /// </summary>
-    public class BusinessModel
+    public partial class BusinessModel
     {
         public static DataAccessObject DataAccessObject { get; private set; }
 
@@ -103,14 +103,11 @@ namespace Win_Dev.Business
                 foreach (BusinessProject item in projectsFromUI)
                 {
                     Project fromDataProject = DataAccessObject.Projects.FindByID(item.ProjectID);
-
+                    // FIX IT
                     if (fromDataProject != null)
                     {
-                        DataAccessObject.Projects.Update(item.Project);
-                    }
-                    else
-                    {
-                        DataAccessObject.Projects.Insert(item.Project);
+                        fromDataProject = item.Project;
+                        DataAccessObject.Projects.SaveChanges();
                     }
 
                 }
@@ -237,52 +234,27 @@ namespace Win_Dev.Business
         /// Compares the received collection with the dataccess entity model and makes the necessary updates
         /// </summary>
         public void UpdatePersonelList(IEnumerable<BusinessPerson> UIList, Action<Exception> callback)
-
         {
             Exception error = null;
 
-            List<Person> uiListInput = new List<Person>();
-
-            foreach (BusinessPerson item in UIList)
-            {
-                uiListInput.Add(item.Person);
-            }
-
             try
             {
-                List<Person> personelDataAccessList = new List<Person>(DataAccessObject.Personel.FindAll());
-
-                List<Person> odds = uiListInput.Except(personelDataAccessList).ToList();
-
-                foreach (Person item in odds)
+                foreach (BusinessPerson item in UIList)
                 {
-                    // Adding or updating entries
-                    
-                    if (DataAccessObject.Personel.FindByID(item.PersonID) != null)
+                    Person fromData = DataAccessObject.Personel.FindByID(item.PersonID);
+
+                    fromData.FirstName = fromData.FirstName.TrimEnd(' ');
+                    fromData.SurName = fromData.SurName.TrimEnd(' ');
+                    fromData.LastName = fromData.LastName.TrimEnd(' ');
+                    fromData.Division = fromData.Division.TrimEnd(' ');
+                    fromData.Occupation = fromData.Occupation.TrimEnd(' ');
+
+                    if (!fromData.Equals(item.Person))
                     {
-                        if (uiListInput.Contains(item))
-                        {
-
-                            DataAccessObject.Personel.Update(item);
-
-                        }
+                        DataAccessObject.Personel.Delete(item.PersonID);
+                        DataAccessObject.Personel.Insert(item.Person);
                     }
-                    else
-                    {
-
-                        DataAccessObject.Personel.Insert(item);
-
-                    }
-
-                }            
-
-                DataAccessObject.Personel.SaveChanges();
-
-                GetPersonelList((list, errors) => 
-                {
-
-
-                });
+                }
 
                 error = null;
             }
@@ -300,7 +272,8 @@ namespace Win_Dev.Business
 
             try
             {
-                DataAccessObject.Personel.Delete(forDelete.Person);              
+                var forDeletePerson = DataAccessObject.Personel.FindByID(forDelete.PersonID);
+                DataAccessObject.Personel.Delete(forDeletePerson);              
             }
             catch (Exception ex)
             {
