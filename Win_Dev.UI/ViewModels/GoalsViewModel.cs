@@ -20,7 +20,16 @@ namespace Win_Dev.UI.ViewModels
 
         public BusinessProject Project;
 
-        public ObservableCollection<BusinessGoal> Goals { get; set; }
+        public ObservableCollection<BusinessGoal> _goals; 
+        public ObservableCollection<BusinessGoal> Goals
+        {
+            get => _goals;
+            set
+            {
+                _goals = value;
+                RaisePropertyChanged("Goals");
+            }
+        }
 
         public BusinessGoal _selectedGoal;
         public BusinessGoal SelectedGoal
@@ -297,7 +306,7 @@ namespace Win_Dev.UI.ViewModels
         {
             CreateGoalCommand = new RelayCommand(() =>
             {
-                
+
                 Model.CreateGoal(Project.ProjectID, (item, error) =>
                 {
                     if (error != null)
@@ -315,6 +324,22 @@ namespace Win_Dev.UI.ViewModels
 
                 MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update"));
 
+            });
+
+            DeleteGoalCommand = new RelayCommand(() => 
+            {
+                Model.DeleteGoal(SelectedGoal, (error) =>
+                 {
+                     if (error != null)
+                     {
+                         MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                             (string)Application.Current.Resources["Error_database_request"] + "DeleteGoal",
+                             "Error"));
+                     }
+
+                     Goals.Remove(SelectedGoal);
+                     
+                 });
             });
 
             AssignToGoalCommand = new RelayCommand(() =>
@@ -365,7 +390,7 @@ namespace Win_Dev.UI.ViewModels
             SelectionChangedCommand = new RelayCommand<BusinessGoal>((goal) =>
             {
                 SelectedGoal = goal;
-                UpdatePersonel(SelectedGoal.GoalID);             
+                if (SelectedGoal != null) UpdatePersonel(SelectedGoal.GoalID);             
             });
 
             DateChangedCommand = new RelayCommand(() =>
