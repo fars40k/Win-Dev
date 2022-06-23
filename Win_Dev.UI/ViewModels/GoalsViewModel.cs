@@ -348,7 +348,7 @@ namespace Win_Dev.UI.ViewModels
                 (SelectedPersonProject <= ProjectAssigned.Count()) && (ProjectAssigned[SelectedPersonProject] != null))
                 {
 
-                    Model.AssignPersonToProject(ProjectAssigned[SelectedPersonProject].PersonID, Project.ProjectID, (error) =>
+                    Model.AssignPersonToGoal(ProjectAssigned[SelectedPersonProject].PersonID, SelectedGoal.GoalID, (error) =>
                     {
                         if (error != null)
                         {
@@ -372,7 +372,7 @@ namespace Win_Dev.UI.ViewModels
                 (SelectedPersonGoal <= GoalAssigned.Count()) && (GoalAssigned[SelectedPersonGoal] != null))
                 {
 
-                    Model.UnassignPersonToProject(GoalAssigned[SelectedPersonGoal].PersonID, Project.ProjectID, (error) =>
+                    Model.UnassignPersonFromGoal(GoalAssigned[SelectedPersonGoal].PersonID, SelectedGoal.GoalID, (error) =>
                     {
                         if (error != null)
                         {

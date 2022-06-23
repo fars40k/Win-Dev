@@ -461,6 +461,42 @@ namespace Win_Dev.Business
 
             callback.Invoke(error);
         }
+
+        public void AssignPersonToGoal(Guid personGUID, Guid goalGUID, Action<Exception> callback)
+        {
+            Exception error = null;
+
+            try
+            {
+                DataAccessObject.LinkedData.AddPersonToGoal(personGUID, goalGUID);
+                DataAccessObject.LinkedData.SaveChanges();
+                error = null;
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+
+            callback.Invoke(error);
+        }
+
+        public void UnassignPersonFromGoal(Guid personGUID, Guid goalGUID, Action<Exception> callback)
+        {
+            Exception error = null;
+
+            try
+            {
+                DataAccessObject.LinkedData.RemovePersonFromProject(personGUID, goalGUID);
+                DataAccessObject.LinkedData.SaveChanges();
+                error = null;
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+
+            callback.Invoke(error);
+        }
     }
 
 }
