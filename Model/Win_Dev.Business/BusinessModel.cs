@@ -423,6 +423,26 @@ namespace Win_Dev.Business
             callback.Invoke(businessPersonel, error);
         }       
         
+        public void UpdateGoals(IEnumerable<BusinessGoal> UIList, Action<Exception> callback)
+        {
+            Exception error = null;
+
+            try
+            {
+                foreach (BusinessGoal item in UIList)
+                {
+                    DataAccessObject.Goals.Update(item.Goal);
+                }
+  
+                error = null;
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+
+            callback.Invoke(error);
+        }
 
         #endregion
 

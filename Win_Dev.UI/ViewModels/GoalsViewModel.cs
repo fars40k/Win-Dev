@@ -292,12 +292,21 @@ namespace Win_Dev.UI.ViewModels
         {
             if (notificationMessage.Notification == "Save")
             {
+                Model.UpdateGoals(Goals, (error) =>
+                {
+                    if (error != null)
+                    {
 
+                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                               error + "UpdateGoals",
+                               "Error"));
+                    }
+                });
             }
 
             else if (notificationMessage.Notification == "Update")
             {
-                
+               
             }
 
         }
