@@ -102,21 +102,18 @@ namespace Win_Dev.UI.ViewModels
 
             DeletePersonCommand = new RelayCommand(() =>
             {
-                new Task(() =>
-                {
-                    Model.DeletePerson(SelectedEmployee,
-                        (error) =>
+                Model.DeletePerson(SelectedEmployee,
+                    (error) =>
+                    {
+
+                        if (error != null)
                         {
+                            MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                               error + " DeletePerson",
+                               "Error"));
+                        }
 
-                            if (error != null)
-                            {
-                                MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                                   error + " DeletePerson",
-                                   "Error"));
-                            }
-
-                        });
-                }).Start();
+                    });
 
                 if (SelectedEmployee != null) Employees.Remove(SelectedEmployee);
                 SelectedEmployee = null;
@@ -134,22 +131,24 @@ namespace Win_Dev.UI.ViewModels
 
         public List<BusinessPerson> GetPersonelList()
         {
+
             List<BusinessPerson> result = new List<BusinessPerson>();
 
             Model.GetPersonelList(
-               (item, error) =>
-               {
-                   if ((error != null) || (item == null))
-                   {
-                       MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                           (string)Application.Current.Resources["Error_database_request"] + "UpdatePersonel",
-                           "Error"));
-                   }
+            (item, error) =>
+            {
+                if ((error != null) || (item == null))
+                {
+                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                        (string)Application.Current.Resources["Error_database_request"] + "UpdatePersonel",
+                        "Error"));
+                }
 
-                   result = item;
-               });
+                result = item;
+            });
 
             return result;
+            
         }
 
         public void SavePersonelChanges()

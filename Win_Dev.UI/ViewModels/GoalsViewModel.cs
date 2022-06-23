@@ -344,8 +344,8 @@ namespace Win_Dev.UI.ViewModels
 
             AssignToGoalCommand = new RelayCommand(() =>
             {
-                if ((ProjectAssigned.Count() > 0) && (SelectedPersonProject >= 0) && 
-                                                            (ProjectAssigned[SelectedPersonProject] != null))
+                if ((ProjectAssigned.Count() > 0) && (SelectedPersonProject >= 0) &&
+                (SelectedPersonProject <= ProjectAssigned.Count()) && (ProjectAssigned[SelectedPersonProject] != null))
                 {
 
                     Model.AssignPersonToProject(ProjectAssigned[SelectedPersonProject].PersonID, Project.ProjectID, (error) =>
@@ -368,7 +368,8 @@ namespace Win_Dev.UI.ViewModels
 
             UnassignFromGoalCommand = new RelayCommand(() =>
             {
-                if ((GoalAssigned.Count() > 0) && (SelectedPersonGoal >= 0) && (GoalAssigned[SelectedPersonGoal] != null))
+                if ((GoalAssigned.Count() > 0) && (SelectedPersonGoal >= 0) &&
+                (SelectedPersonGoal <= GoalAssigned.Count()) && (GoalAssigned[SelectedPersonGoal] != null))
                 {
 
                     Model.UnassignPersonToProject(GoalAssigned[SelectedPersonGoal].PersonID, Project.ProjectID, (error) =>

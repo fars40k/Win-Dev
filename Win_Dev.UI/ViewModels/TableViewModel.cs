@@ -82,7 +82,7 @@ namespace Win_Dev.UI.ViewModels
             Tabs.Add(personelTab);
             SelectedTab = Tabs.First<TabItem>();
 
-            LoadProjectsChanges();
+            LoadProjectsTabs();
 
             MessengerInstance.Register<NotificationMessage>(this, BeingNotifed);
 
@@ -135,33 +135,30 @@ namespace Win_Dev.UI.ViewModels
         {
             if (notificationMessage.Notification == "Save")
             {
-                List<BusinessProject> projectsFromTabs = new List<BusinessProject>();
-
-                foreach (TabItem item in Tabs)
+                if (SelectedTab.Tag is BusinessProject)
                 {
-                    if (item.Tag is BusinessProject)  projectsFromTabs.Add((BusinessProject)item.Tag);
+                    SelectedTab.Header = SelectedTab.Tag.ToString();
+
+                    Model.UpdateProject((BusinessProject)SelectedTab.Tag, (error) =>
+                     {
+                         if (error != null)
+                         {
+                             MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                               (string)Application.Current.Resources["Error_database_request"] + "UpdateProject",
+                               "Error"));
+                         }
+                     });
                 }
-
-
-                Model.UpdateProjects(projectsFromTabs,(error) =>
-                {
-                    if (error != null)
-                    {
-                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                          (string)Application.Current.Resources["Error_database_request"] + "UpdateProjects",
-                          "Error"));
-                    }
-                });
             }
 
             else if (notificationMessage.Notification == "Update")
-            {              
-                LoadProjectsChanges();
+            {
+                
             }
 
         }
          
-        public void LoadProjectsChanges()
+        public void LoadProjectsTabs()
         {
             Model.GetProjectsList((list, error) =>
             {
@@ -169,40 +166,32 @@ namespace Win_Dev.UI.ViewModels
                 if ((error != null) || (list == null))
                 {
                     MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                        (string)Application.Current.Resources["Error_database_request"] + "UpdateProjects",
+                        (string)Application.Current.Resources["Error_database_request"] + "UpdateProjectsChanges",
                         "Error"));
 
                 }
 
                 TabItem personelTab = Tabs.First<TabItem>();
-                
-                App.Current.Dispatcher.Invoke((Action)delegate
+                SelectedTab = personelTab;
+
+                Tabs.Clear();
+                Tabs.Add(personelTab);
+
+                foreach (BusinessProject item in list)
                 {
-                    int selectedTabIndex = SelectedTab.TabIndex;
+                    TabItem tabToAdd = new TabItem();
 
-                    Tabs.Clear();
-                    Tabs.Add(personelTab);
+                    tabToAdd.TabIndex = Tabs.Count;
+                    tabToAdd.Header = item.Name;
+                    tabToAdd.Content = new ProjectView() { DataContext = new ProjectViewModel(item) };
+                    tabToAdd.Tag = item;
+                    tabToAdd.Background = new SolidColorBrush(Colors.AntiqueWhite);
+                    Tabs.Add(tabToAdd);
 
-                    foreach (BusinessProject item in list)
-                    {
-                        TabItem tabToAdd = new TabItem();
-
-                        tabToAdd.TabIndex = Tabs.Count;
-                        tabToAdd.Header = item.Name;
-                        tabToAdd.Content = new ProjectView() { DataContext = new ProjectViewModel(item) };
-                        tabToAdd.Tag = item;
-                        tabToAdd.Background = new SolidColorBrush(Colors.AntiqueWhite);
-                        Tabs.Add(tabToAdd);
-
-                    }
-
-                    foreach (TabItem item in Tabs)
-                    {
-                        if (item.TabIndex == selectedTabIndex) SelectedTab = item;
-                    }
-                });
-
+                }
             });
+            
+            
             
         }
 

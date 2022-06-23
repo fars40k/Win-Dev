@@ -15,7 +15,6 @@ namespace Win_Dev.Business
         public static DataAccessObject DataAccessObject { get; private set; }
 
         private List<BusinessPerson> businessPersonel = new List<BusinessPerson>();
-        private List<BusinessProject> businessProjects = new List<BusinessProject>();
 
         public BusinessModel()
         {
@@ -69,12 +68,12 @@ namespace Win_Dev.Business
 
         public void GetProjectsList(Action<List<BusinessProject>, Exception> callback)
         {
+            List<BusinessProject> businessProjects = new List<BusinessProject>();
+
             Exception error = null;
 
             try
             {
-                businessProjects.Clear();
-
                 List<Project> fromDataList = DataAccessObject.Projects.FindAll().ToList<Project>();
 
                 foreach (Project item in fromDataList)
@@ -94,25 +93,15 @@ namespace Win_Dev.Business
             callback.Invoke(businessProjects, error);
         }
 
-        public void UpdateProjects(List<BusinessProject> projectsFromUI,Action<Exception> callback)
+        public void UpdateProject(BusinessProject projectFromUI,Action<Exception> callback)
         {
+
             Exception error = null;
 
             try
             {
-                foreach (BusinessProject item in projectsFromUI)
-                {
-                    Project fromDataProject = DataAccessObject.Projects.FindByID(item.ProjectID);
-                    // FIX IT
-                    if (fromDataProject != null)
-                    {
-                        fromDataProject = item.Project;
-                        DataAccessObject.Projects.SaveChanges();
-                    }
-
-                }
-
-                          
+                DataAccessObject.UpdateContextInRepositories();
+                DataAccessObject.Projects.Update(projectFromUI.Project);                
             }
             catch (Exception ex)
             {
@@ -251,6 +240,7 @@ namespace Win_Dev.Business
 
                     if (!fromData.Equals(item.Person))
                     {
+                        DataAccessObject.UpdateContextInRepositories();
                         DataAccessObject.Personel.Delete(item.PersonID);
                         DataAccessObject.Personel.Insert(item.Person);
                     }

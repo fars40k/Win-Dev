@@ -235,7 +235,8 @@ namespace Win_Dev.UI.ViewModels
 
             AssignToProjectCommand = new RelayCommand(() =>
             {
-                if ((Employees.Count() > 0) && (SelectedPool >= 0) && (Employees[SelectedPool] != null))
+                if ((Employees.Count() > 0) && (SelectedPool >= 0) && 
+                (SelectedPool <= Employees.Count()) && (Employees[SelectedPool] != null))
                 {
 
                     Model.AssignPersonToProject(Employees[SelectedPool].PersonID, Project.ProjectID, (error) =>
@@ -258,7 +259,8 @@ namespace Win_Dev.UI.ViewModels
 
             UnassignFromProjectCommand = new RelayCommand(() =>
             {
-                if ((ProjectEmployees.Count() > 0) && (SelectedAssigned >= 0) && (ProjectEmployees[SelectedAssigned] != null))
+                if ((ProjectEmployees.Count() > 0) && (SelectedAssigned >= 0) &&
+                (SelectedAssigned <= Employees.Count()) && (ProjectEmployees[SelectedAssigned] != null))
                 {
 
                     Model.UnassignPersonToProject(ProjectEmployees[SelectedAssigned].PersonID, Project.ProjectID, (error) =>
@@ -283,11 +285,19 @@ namespace Win_Dev.UI.ViewModels
         {
             if (notificationMessage.Notification == "Save")
             {
-                
+                Model.UpdateProject(Project, (error) =>
+                {
+                    if (error != null)
+                    {
+                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                          (string)Application.Current.Resources["Error_database_request"] + "UpdateProject",
+                          "Error"));
+                    }
+                });
             }
             else if (notificationMessage.Notification == "Update")
             {
-                UpdatePersonel();
+                //UpdatePersonel();
             }
 
         }
