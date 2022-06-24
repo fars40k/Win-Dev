@@ -20,7 +20,7 @@ namespace Win_Dev.UI.ViewModels
 
         public BusinessProject Project;
 
-        public ObservableCollection<BusinessGoal> _goals; 
+        private ObservableCollection<BusinessGoal> _goals; 
         public ObservableCollection<BusinessGoal> Goals
         {
             get => _goals;
@@ -238,7 +238,7 @@ namespace Win_Dev.UI.ViewModels
             }
         }
 
-        public int _selectedPersonGoal;
+        private int _selectedPersonGoal;
         public int SelectedPersonGoal
         {
             get { return _selectedPersonGoal; }
@@ -249,7 +249,7 @@ namespace Win_Dev.UI.ViewModels
             }
         }
 
-        public int _selectedPersonProject;
+        private int _selectedPersonProject;
         public int SelectedPersonProject
         {
             get { return _selectedPersonProject; }

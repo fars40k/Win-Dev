@@ -169,18 +169,18 @@ namespace Win_Dev.UI.ViewModels
 
         #endregion
 
-        private UserControl goalsView;
+        private UserControl _goalsView;
         public UserControl GoalsView
         {
-            get { return goalsView; }
+            get { return _goalsView; }
             set
             {
-                goalsView = value;
+                _goalsView = value;
                 RaisePropertyChanged("GoalsView");
             }
         }
 
-        public int _selectedAssigned;
+        private int _selectedAssigned;
         public int SelectedAssigned
         {
             get { return _selectedAssigned; }
@@ -191,7 +191,7 @@ namespace Win_Dev.UI.ViewModels
             }
         }
 
-        public int _selectedPool;
+        private int _selectedPool;
         public int SelectedPool
         {
             get { return _selectedPool; }

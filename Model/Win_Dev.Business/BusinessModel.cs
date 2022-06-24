@@ -219,9 +219,6 @@ namespace Win_Dev.Business
             callback.Invoke(businessPersonel, error);
         }
 
-        /// <summary>
-        /// Compares the received collection with the dataccess entity model and makes the necessary updates
-        /// </summary>
         public void UpdatePersonelList(IEnumerable<BusinessPerson> UIList, Action<Exception> callback)
         {
             Exception error = null;

@@ -13,7 +13,7 @@ namespace Win_Dev.Data
     {
         private WinTaskContext _context;
 
-        private bool disposed = false;
+        private bool _disposed = false;
 
         public LinkedDataRepository(WinTaskContext context)
         {
@@ -174,12 +174,12 @@ namespace Win_Dev.Data
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposed) return;
+            if (_disposed) return;
             if (disposing)
             {
 
             }
-            disposed = true;
+            _disposed = true;
         }
 
         ~LinkedDataRepository()
