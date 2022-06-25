@@ -12,9 +12,7 @@ namespace Win_Dev.Business
     /// </summary>
     public partial class BusinessModel
     {
-        public static DataAccessObject DataAccessObject { get; private set; }
-
-        private List<BusinessPerson> businessPersonel = new List<BusinessPerson>();
+        public static DataAccessObject DataAccessObject { get; private set; } 
 
         public BusinessModel()
         {
@@ -192,13 +190,13 @@ namespace Win_Dev.Business
         {
             Exception error = null;
 
+            List<BusinessPerson> businessPersonel = new List<BusinessPerson>();
+
             try
             {
-                
-                List<Person> fromDataList = DataAccessObject.Personel.FindAll().ToList<Person>();
 
-                businessPersonel.Clear();
-
+                List<Person> fromDataList = DataAccessObject.Personel.FindAll().ToList<Person>();       
+        
                 foreach (Person item in fromDataList)
                 {
                     item.FirstName = item.FirstName.TrimEnd(' ');
@@ -227,20 +225,8 @@ namespace Win_Dev.Business
             {
                 foreach (BusinessPerson item in UIList)
                 {
-                    Person fromData = DataAccessObject.Personel.FindByID(item.PersonID);
-
-                    fromData.FirstName = fromData.FirstName.TrimEnd(' ');
-                    fromData.SurName = fromData.SurName.TrimEnd(' ');
-                    fromData.LastName = fromData.LastName.TrimEnd(' ');
-                    fromData.Division = fromData.Division.TrimEnd(' ');
-                    fromData.Occupation = fromData.Occupation.TrimEnd(' ');
-
-                    if (!fromData.Equals(item.Person))
-                    {
                         DataAccessObject.UpdateContextInRepositories();
-                        DataAccessObject.Personel.Delete(item.PersonID);
-                        DataAccessObject.Personel.Insert(item.Person);
-                    }
+                    DataAccessObject.Personel.Update(item.Person);                 
                 }
 
                 error = null;
