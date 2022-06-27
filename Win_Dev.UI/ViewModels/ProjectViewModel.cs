@@ -235,7 +235,7 @@ namespace Win_Dev.UI.ViewModels
 
             AssignToProjectCommand = new RelayCommand(() =>
             {
-                if (SelectedAssigned >= 0)
+                if (SelectedPool >= 0)
                 {
 
                     Model.AssignPersonToProject(Employees[SelectedPool].PersonID, Project.ProjectID, (error) =>
