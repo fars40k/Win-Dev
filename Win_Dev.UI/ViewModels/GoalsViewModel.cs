@@ -301,6 +301,8 @@ namespace Win_Dev.UI.ViewModels
                                "Error"));
                     }
                 });
+
+                UpdateGoals();
             }
 
             else if (notificationMessage.Notification == "Update")

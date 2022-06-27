@@ -263,7 +263,7 @@ namespace Win_Dev.UI.ViewModels
                 (SelectedAssigned <= Employees.Count()) && (ProjectEmployees[SelectedAssigned] != null))
                 {
 
-                    Model.UnassignPersonToProject(ProjectEmployees[SelectedAssigned].PersonID, Project.ProjectID, (error) =>
+                    Model.UnassignPersonFromProject(ProjectEmployees[SelectedAssigned].PersonID, Project.ProjectID, (error) =>
                     {
                         if (error != null)
                         {
@@ -294,6 +294,9 @@ namespace Win_Dev.UI.ViewModels
                           "Error"));
                     }
                 });
+
+                UpdatePersonel();
+
             }
             else if (notificationMessage.Notification == "Update")
             {

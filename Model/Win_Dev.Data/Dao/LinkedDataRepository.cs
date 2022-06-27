@@ -108,18 +108,13 @@ namespace Win_Dev.Data
 
         public IEnumerable<Goal> FindGoalsForProject(Guid ProjectID)
         {
-            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectID)).FirstOrDefault<Project>();
-
-            Project projectDao = project;
+            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectID)).Include("GoalsIn").FirstOrDefault<Project>();
 
             List<Goal> goals = new List<Goal>();
 
-            var goalsDao = _context.Goals.Include(g => g.ProjectsWith).ToList();
-
-            foreach (Goal item in goalsDao)
+            foreach (Goal item in project.GoalsIn)
             {
-                if (item.ProjectsWith.Contains(projectDao))
-                    goals.Add(item);
+                goals.Add(item);
             }
 
             return goals;
@@ -132,18 +127,13 @@ namespace Win_Dev.Data
 
         public IEnumerable<Person> FindPersonelForProject(Guid ProjectID)
         {
-            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectID)).FirstOrDefault<Project>();
-
-            Project projectDao = project;
+            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectID)).Include("PersonelWith").FirstOrDefault();
 
             List<Person> personel = new List<Person>();
 
-            var personelDao = _context.Personel.Include(g => g.ProjectsWith).ToList();
-
-            foreach (Person item in personelDao)
+            foreach (Person item in project.PersonelWith)
             {
-                if (item.ProjectsWith.Contains(projectDao))
-                    personel.Add(item);
+                personel.Add(item);
             }
 
             return personel;
@@ -151,18 +141,13 @@ namespace Win_Dev.Data
 
         public IEnumerable<Person> FindPersonelForGoal(Guid GoalID)
         {
-            var goal = _context.Goals.Where(p => p.GoalID.Equals(GoalID)).FirstOrDefault<Goal>();
-
-            Goal goalDao = goal;
+            var goal = _context.Goals.Where(p => p.GoalID.Equals(GoalID)).Include("PersonelWith").FirstOrDefault<Goal>();
 
             List<Person> personel = new List<Person>();
 
-            var personelDao = _context.Personel.Include(g => g.GoalsWith).ToList();
-
-            foreach (Person item in personelDao)
+            foreach (Person item in goal.PersonelWith)
             {
-                if (item.GoalsWith.Contains(goalDao))
-                    personel.Add(item);
+                personel.Add(item);
             }
 
             return personel;
