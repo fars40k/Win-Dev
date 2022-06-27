@@ -257,12 +257,16 @@ namespace Win_Dev.Business
 
         public void DeletePerson(BusinessPerson forDelete,Action<Exception> callback)
         {
+            
             Exception error = null;
 
             try
             {
+                DataAccessObject.LinkedData.ClearLinksForPerson(forDelete.PersonID);
                 Person found = DataAccessObject.Personel.FindByID(forDelete.PersonID);
-                DataAccessObject.Personel.Delete(found);              
+                DataAccessObject.LinkedData.SaveChanges();
+                DataAccessObject.Personel.Delete(found);
+                DataAccessObject.LinkedData.SaveChanges();
             }
             catch (Exception ex)
             {

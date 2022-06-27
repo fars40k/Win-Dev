@@ -196,6 +196,20 @@ namespace Win_Dev.Data
             Dispose(false);
         }
 
+        public void ClearLinksForPerson(Guid personID)
+        {
+            var person = _context.Personel.Where(r => r.PersonID.Equals(personID)).FirstOrDefault<Person>();
+
+            foreach(Project item in _context.Projects)
+            {
+                item.PersonelWith.Remove(person);
+            }
+            foreach (Goal item in _context.Goals)
+            {
+                item.PersonelWith.Remove(person);
+            }
+
+        }
     }
 
 }
