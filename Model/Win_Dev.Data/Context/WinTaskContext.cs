@@ -21,7 +21,7 @@ namespace Win_Dev.Data
             
             modelBuilder.Entity<Person>()
                 .HasMany(s => s.ProjectsWith)
-                .WithMany(c => c.PersonelWith)
+                .WithMany(c => c.PersonelWith)               
                 .Map(cs =>
                 {
                     cs.ToTable("PersonelToProjects");

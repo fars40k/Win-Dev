@@ -296,7 +296,6 @@ namespace Win_Dev.UI.ViewModels
                 {
                     if (error != null)
                     {
-
                         MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
                                error + "UpdateGoals",
                                "Error"));
@@ -455,7 +454,12 @@ namespace Win_Dev.UI.ViewModels
                         "Error"));
                 }
 
-                ProjectAssigned = new ObservableCollection<BusinessPerson>(list);
+                ProjectAssigned = new ObservableCollection<BusinessPerson>();
+
+                foreach (BusinessPerson item in list)
+                {
+                    if (!GoalAssigned.Contains(item)) ProjectAssigned.Add(item);
+                }             
             });
         
         }

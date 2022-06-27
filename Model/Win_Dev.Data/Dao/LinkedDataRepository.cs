@@ -58,6 +58,7 @@ namespace Win_Dev.Data
 
             if ((projectDao != null) && (goalDao != null) && (!projectDao.GoalsIn.Contains<Goal>(goalDao)))
             {
+                goalDao.ProjectsWith.Add(projectDao);
                 projectDao.GoalsIn.Add(goalDao);
             }
         }
@@ -72,6 +73,7 @@ namespace Win_Dev.Data
 
             if ((projectDao != null) && (goalDao != null) && (projectDao.GoalsIn.Contains<Goal>(goalDao)))
             {
+                goalDao.ProjectsWith.Remove(projectDao);
                 projectDao.GoalsIn.Remove(goalDao);
             }
         }
@@ -123,6 +125,11 @@ namespace Win_Dev.Data
             return goals;
         }
 
+        public IEnumerable<Person> FindAllPersonelWithLinks()
+        {
+            return _context.Personel.Include(p => p.GoalsWith.Select(w => w.ProjectsWith));
+        }
+
         public IEnumerable<Person> FindPersonelForProject(Guid ProjectID)
         {
             var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectID)).FirstOrDefault<Project>();
@@ -159,6 +166,23 @@ namespace Win_Dev.Data
             }
 
             return personel;
+        }
+
+        public Goal FindGoalwithProject(Guid GoalID)
+        {
+            Goal goal = _context.Goals.Where(g => g.GoalID == GoalID).Include("ProjectsWith").FirstOrDefault();
+
+            return goal;
+        }
+
+        public EntityState CheckState(dynamic entity)
+        {
+            return _context.Entry(entity).State;
+        }
+
+        public void MakeModifiedStatus(dynamic entity)
+        {        
+            _context.Entry(entity).State = EntityState.Modified;
         }
 
         public void SaveChanges()

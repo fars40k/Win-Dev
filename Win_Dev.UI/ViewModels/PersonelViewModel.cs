@@ -155,7 +155,7 @@ namespace Win_Dev.UI.ViewModels
         {
             RaisePropertyChanged("Employees");
 
-            Model.UpdatePersonelList(Employees,
+            Model.UpdatePersonel(Employees,
                (error) =>
                {
                    if (error != null)

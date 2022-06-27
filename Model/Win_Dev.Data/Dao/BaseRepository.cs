@@ -46,6 +46,7 @@ namespace Win_Dev.Data
 
         public void Delete(TEntity entityToDelete)
         {
+            _context.Entry(entityToDelete).State = EntityState.Deleted;
             _dbSet.Remove(entityToDelete);
             _context.SaveChanges();
         }

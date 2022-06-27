@@ -93,13 +93,20 @@ namespace Win_Dev.Business
 
         public void UpdateProject(BusinessProject projectFromUI,Action<Exception> callback)
         {
+            Project found = DataAccessObject.Projects.FindByID(projectFromUI.ProjectID);
 
             Exception error = null;
 
+            found.Name = projectFromUI.Name;
+            found.Description = projectFromUI.Description;
+            found.CreationDate = projectFromUI.CreationDate;
+            found.ExpireDate = projectFromUI.ExpireDate;
+            found.Percentage = projectFromUI.Percentage;
+            found.StatusKey = projectFromUI.StatusKey;
+
             try
-            {
-                DataAccessObject.UpdateContextInRepositories();
-                DataAccessObject.Projects.Update(projectFromUI.Project);                
+            {               
+                DataAccessObject.Projects.SaveChanges();                
             }
             catch (Exception ex)
             {
@@ -217,24 +224,34 @@ namespace Win_Dev.Business
             callback.Invoke(businessPersonel, error);
         }
 
-        public void UpdatePersonelList(IEnumerable<BusinessPerson> UIList, Action<Exception> callback)
+        public void UpdatePersonel(IEnumerable<BusinessPerson> UIList, Action<Exception> callback)
         {
             Exception error = null;
 
-            try
+            foreach (BusinessPerson item in UIList)
             {
-                foreach (BusinessPerson item in UIList)
-                {
-                        DataAccessObject.UpdateContextInRepositories();
-                    DataAccessObject.Personel.Update(item.Person);                 
-                }
+                Person found = DataAccessObject.Personel.FindByID(item.PersonID);
 
-                error = null;
+                found.FirstName = item.FirstName;
+                found.SurName = item.SurName;
+                found.LastName = item.LastName;
+                found.Division = item.Division;
+                found.Occupation = item.Occupation;
+
+                try
+                {
+                    DataAccessObject.Personel.SaveChanges();
+                     
+                }
+                catch (Exception ex)
+                {
+                    error = ex;
+                }
             }
-            catch (Exception ex)
-            {
-                error = ex;
-            }
+
+            error = null;
+            
+           
 
             callback.Invoke(error);
         }
@@ -245,8 +262,8 @@ namespace Win_Dev.Business
 
             try
             {
-                var forDeletePerson = DataAccessObject.Personel.FindByID(forDelete.PersonID);
-                DataAccessObject.Personel.Delete(forDeletePerson);              
+                Person found = DataAccessObject.Personel.FindByID(forDelete.PersonID);
+                DataAccessObject.Personel.Delete(found);              
             }
             catch (Exception ex)
             {
@@ -408,16 +425,23 @@ namespace Win_Dev.Business
         
         public void UpdateGoals(IEnumerable<BusinessGoal> UIList, Action<Exception> callback)
         {
-            Exception error = null;
+            Exception error = null;          
 
+            foreach (BusinessGoal item in UIList)
+            {
+                Goal found = DataAccessObject.Goals.FindByID(item.GoalID);
+
+                found.Name = item.Name;
+                found.Description = item.Description;
+                found.CreationDate = item.CreationDate;
+                found.ExpireDate = item.ExpireDate;
+                found.Percentage = item.Percentage;
+                found.Priority = item.Priority;
+                found.StatusKey = item.StatusKey;
+            }
             try
             {
-                foreach (BusinessGoal item in UIList)
-                {
-                    DataAccessObject.Goals.Update(item.Goal);
-                }
-  
-                error = null;
+                DataAccessObject.Goals.SaveChanges();
             }
             catch (Exception ex)
             {
