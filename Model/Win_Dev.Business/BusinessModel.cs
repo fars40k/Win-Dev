@@ -231,17 +231,16 @@ namespace Win_Dev.Business
             foreach (BusinessPerson item in UIList)
             {
                 Person found = DataAccessObject.Personel.FindByID(item.PersonID);
-
+                var s1 = DataAccessObject.LinkedData.CheckState(found);
                 found.FirstName = item.FirstName;
                 found.SurName = item.SurName;
                 found.LastName = item.LastName;
                 found.Division = item.Division;
                 found.Occupation = item.Occupation;
-
+                DataAccessObject.LinkedData.MakeModifiedStatus(found);
                 try
                 {
                     DataAccessObject.Personel.SaveChanges();
-                     
                 }
                 catch (Exception ex)
                 {

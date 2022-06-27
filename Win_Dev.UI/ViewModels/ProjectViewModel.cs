@@ -254,7 +254,6 @@ namespace Win_Dev.UI.ViewModels
 
                 }
 
-
             });
 
             UnassignFromProjectCommand = new RelayCommand(() =>
