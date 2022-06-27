@@ -431,7 +431,20 @@ namespace Win_Dev.UI.ViewModels
 
         public void UpdatePersonel(Guid GoalID)
         {
-            List<BusinessPerson> goalPersonel = new List<BusinessPerson>();
+            List<BusinessPerson> projectPersonel = new List<BusinessPerson>();
+
+            Model.GetPersonelForProject(Project.ProjectID, (list, error) =>
+            {
+
+                if ((error != null) || (list == null))
+                {
+                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                        (string)Application.Current.Resources["Error_database_request"] + "InGoal:GetPersonelForProject",
+                        "Error"));
+                }
+
+                projectPersonel = list;
+            });
 
             Model.GetPersonelForGoal(GoalID, (list, error) =>
             {
@@ -444,26 +457,19 @@ namespace Win_Dev.UI.ViewModels
                 }
 
                 GoalAssigned = new ObservableCollection<BusinessPerson>(list);
-            });
 
-            Model.GetPersonelForProject(Project.ProjectID, (list, error) =>
-            {
+                List<BusinessPerson> residual = new List<BusinessPerson>();
 
-                if ((error != null) || (list == null))
+                foreach (BusinessPerson item in projectPersonel)
                 {
-                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                        (string)Application.Current.Resources["Error_database_request"] + "InGoal:GetPersonelForProject",
-                        "Error"));
+                    var compared = list.Find(i => i.PersonID == item.PersonID);
+                    if (compared == null) residual.Add(item);
                 }
 
-                ProjectAssigned = new ObservableCollection<BusinessPerson>();
+                ProjectAssigned = new ObservableCollection<BusinessPerson>(residual);
 
-                foreach (BusinessPerson item in list)
-                {
-                    if (!GoalAssigned.Contains(item)) ProjectAssigned.Add(item);
-                }             
             });
-        
+
         }
     }
 }

@@ -235,8 +235,7 @@ namespace Win_Dev.UI.ViewModels
 
             AssignToProjectCommand = new RelayCommand(() =>
             {
-                if ((Employees.Count() > 0) && (SelectedPool >= 0) && 
-                (SelectedPool <= Employees.Count()) && (Employees[SelectedPool] != null))
+                if (SelectedAssigned >= 0)
                 {
 
                     Model.AssignPersonToProject(Employees[SelectedPool].PersonID, Project.ProjectID, (error) =>
@@ -252,14 +251,15 @@ namespace Win_Dev.UI.ViewModels
                     ProjectEmployees.Add(Employees[SelectedPool]);
                     Employees.Remove(Employees[SelectedPool]);
 
-                }
+                    RaisePropertyChanged("ProjectEmployees");
+                    RaisePropertyChanged("Employees");
 
+                }
             });
 
             UnassignFromProjectCommand = new RelayCommand(() =>
             {
-                if ((ProjectEmployees.Count() > 0) && (SelectedAssigned >= 0) &&
-                (SelectedAssigned <= Employees.Count()) && (ProjectEmployees[SelectedAssigned] != null))
+                if (SelectedAssigned >= 0)
                 {
 
                     Model.UnassignPersonFromProject(ProjectEmployees[SelectedAssigned].PersonID, Project.ProjectID, (error) =>
@@ -275,6 +275,8 @@ namespace Win_Dev.UI.ViewModels
                     Employees.Add(ProjectEmployees[SelectedAssigned]);
                     ProjectEmployees.Remove(ProjectEmployees[SelectedAssigned]);
 
+                    RaisePropertyChanged("ProjectEmployees");
+                    RaisePropertyChanged("Employees");
                 }
             });
 
@@ -306,7 +308,7 @@ namespace Win_Dev.UI.ViewModels
 
         public void UpdatePersonel()
         {
-            List<BusinessPerson> result = new List<BusinessPerson>();
+            List<BusinessPerson> allPersonel = new List<BusinessPerson>();
 
             Model.GetPersonelList(
                (item, error) =>
@@ -318,10 +320,8 @@ namespace Win_Dev.UI.ViewModels
                            "Error"));
                    }
 
-                   result = item;
+                   allPersonel = item;
                });
-
-            List<BusinessPerson> allPersonel = result;
 
             Model.GetPersonelForProject(Project.ProjectID, ((list, error) =>
             {
