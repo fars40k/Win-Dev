@@ -262,11 +262,12 @@ namespace Win_Dev.Business
 
             try
             {
+                List<Person> fouundes = DataAccessObject.LinkedData.FindAllPersonelWithLinks().ToList();
                 DataAccessObject.LinkedData.ClearLinksForPerson(forDelete.PersonID);
+                DataAccessObject.LinkedData.SaveChanges();
+                List<Person>  fouunde = DataAccessObject.LinkedData.FindAllPersonelWithLinks().ToList();
                 Person found = DataAccessObject.Personel.FindByID(forDelete.PersonID);
-                DataAccessObject.LinkedData.SaveChanges();
                 DataAccessObject.Personel.Delete(found);
-                DataAccessObject.LinkedData.SaveChanges();
             }
             catch (Exception ex)
             {
