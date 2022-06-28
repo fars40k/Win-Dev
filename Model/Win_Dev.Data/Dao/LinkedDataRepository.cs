@@ -9,13 +9,13 @@ using Win_Dev.Data.Interfaces;
 namespace Win_Dev.Data
 {
 
-    public class LinkedDataRepository
+    public partial class LinkedDataWork
     {
         private WinTaskContext _context;
 
         private bool _disposed = false;
 
-        public LinkedDataRepository(WinTaskContext context)
+        public LinkedDataWork(WinTaskContext context)
         {
             this._context = context;
         }
@@ -191,7 +191,7 @@ namespace Win_Dev.Data
             _disposed = true;
         }
 
-        ~LinkedDataRepository()
+        ~LinkedDataWork()
         {
             Dispose(false);
         }
