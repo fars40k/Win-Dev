@@ -475,7 +475,7 @@ namespace Win_Dev.Business
             callback.Invoke(error);
         }
 
-        // Provide goals personel deletion when a project assignation removed
+        // Provide goals personel deletion when a person's project assignation removed
         public void UnassignPersonFromProject(Guid personGUID, Guid projectGUID, Action<Exception> callback)
         {
             Exception error = null;

@@ -305,11 +305,6 @@ namespace Win_Dev.UI.ViewModels
                 UpdateGoals();
             }
 
-            else if (notificationMessage.Notification == "Update")
-            {
-               
-            }
-
         }
 
         private void SetRelayCommandHandlers()

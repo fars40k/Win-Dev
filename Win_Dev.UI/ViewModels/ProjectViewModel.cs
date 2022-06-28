@@ -299,10 +299,6 @@ namespace Win_Dev.UI.ViewModels
                 UpdatePersonel();
 
             }
-            else if (notificationMessage.Notification == "Update")
-            {
-                //UpdatePersonel();
-            }
 
         }
 
