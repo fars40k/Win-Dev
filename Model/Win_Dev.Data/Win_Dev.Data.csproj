@@ -57,7 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dao\LinkedDataRepository.cs" />
+    <Compile Include="Dao\LinkedDataWorker.cs" />
     <Compile Include="DataAccessObject.cs" />
     <Compile Include="DatabaseWorker.cs" />
     <Compile Include="Dto\Goal.cs" />

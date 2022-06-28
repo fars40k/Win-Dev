@@ -343,6 +343,8 @@ namespace Win_Dev.UI.ViewModels
 
             }));
 
+            RaisePropertyChanged("ProjectEmployees");
+            RaisePropertyChanged("Employees");
 
         }
     }

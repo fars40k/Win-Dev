@@ -15,7 +15,7 @@ namespace Win_Dev.Data
         public IRepository<Person> Personel;
         public IRepository<Project> Projects;
         public IRepository<Goal> Goals;
-        public LinkedDataWork LinkedData;
+        public LinkedDataWorker LinkedData;
 
         public DataAccessObject()
         {
@@ -29,7 +29,7 @@ namespace Win_Dev.Data
             Personel = new BaseRepository<Person>(wtContext);
             Projects = new BaseRepository<Project>(wtContext);
             Goals = new BaseRepository<Goal>(wtContext);
-            LinkedData = new LinkedDataWork(wtContext);
+            LinkedData = new LinkedDataWorker(wtContext);
 
         }
 
