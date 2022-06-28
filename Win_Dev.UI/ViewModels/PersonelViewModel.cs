@@ -61,7 +61,7 @@ namespace Win_Dev.UI.ViewModels
 
         public void BeingNotifed(NotificationMessage message)
         {
-            // If the user has made changes in the persons list it sending changes to database.
+
             if (message.Notification == "Save")
             {
                 SavePersonelChanges();
@@ -69,14 +69,6 @@ namespace Win_Dev.UI.ViewModels
                 Employees = new ObservableCollection<BusinessPerson>(GetPersonelList());
                 _employeesOldHashCode = Employees.GetHashCode();
             }
-            // If this tab has no user changes it updates 
-
-            else if (message.Notification == "Update")
-            {                        
-                
-
-            }
-
         }
 
         public void SetRelayCommandHandlers()
@@ -155,7 +147,7 @@ namespace Win_Dev.UI.ViewModels
         {
             RaisePropertyChanged("Employees");
 
-            Model.UpdatePersonelList(Employees,
+            Model.UpdatePersonel(Employees,
                (error) =>
                {
                    if (error != null)

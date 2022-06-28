@@ -9,13 +9,13 @@ using Win_Dev.Data.Interfaces;
 namespace Win_Dev.Data
 {
 
-    public class LinkedDataRepository
+    public partial class LinkedDataWorker
     {
         private WinTaskContext _context;
 
-        private bool disposed = false;
+        private bool _disposed = false;
 
-        public LinkedDataRepository(WinTaskContext context)
+        public LinkedDataWorker(WinTaskContext context)
         {
             this._context = context;
         }
@@ -58,6 +58,7 @@ namespace Win_Dev.Data
 
             if ((projectDao != null) && (goalDao != null) && (!projectDao.GoalsIn.Contains<Goal>(goalDao)))
             {
+                goalDao.ProjectsWith.Add(projectDao);
                 projectDao.GoalsIn.Add(goalDao);
             }
         }
@@ -72,6 +73,7 @@ namespace Win_Dev.Data
 
             if ((projectDao != null) && (goalDao != null) && (projectDao.GoalsIn.Contains<Goal>(goalDao)))
             {
+                goalDao.ProjectsWith.Remove(projectDao);
                 projectDao.GoalsIn.Remove(goalDao);
             }
         }
@@ -106,37 +108,32 @@ namespace Win_Dev.Data
 
         public IEnumerable<Goal> FindGoalsForProject(Guid ProjectID)
         {
-            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectID)).FirstOrDefault<Project>();
-
-            Project projectDao = project;
+            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectID)).Include("GoalsIn").FirstOrDefault<Project>();
 
             List<Goal> goals = new List<Goal>();
 
-            var goalsDao = _context.Goals.Include(g => g.ProjectsWith).ToList();
-
-            foreach (Goal item in goalsDao)
+            foreach (Goal item in project.GoalsIn)
             {
-                if (item.ProjectsWith.Contains(projectDao))
-                    goals.Add(item);
+                goals.Add(item);
             }
 
             return goals;
         }
 
+        public IEnumerable<Person> FindAllPersonelWithLinks()
+        {
+            return _context.Personel.Include(p => p.GoalsWith.Select(w => w.ProjectsWith));
+        }
+
         public IEnumerable<Person> FindPersonelForProject(Guid ProjectID)
         {
-            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectID)).FirstOrDefault<Project>();
-
-            Project projectDao = project;
+            var project = _context.Projects.Where(p => p.ProjectID.Equals(ProjectID)).Include("PersonelWith").FirstOrDefault();
 
             List<Person> personel = new List<Person>();
 
-            var personelDao = _context.Personel.Include(g => g.ProjectsWith).ToList();
-
-            foreach (Person item in personelDao)
+            foreach (Person item in project.PersonelWith)
             {
-                if (item.ProjectsWith.Contains(projectDao))
-                    personel.Add(item);
+                personel.Add(item);
             }
 
             return personel;
@@ -144,21 +141,33 @@ namespace Win_Dev.Data
 
         public IEnumerable<Person> FindPersonelForGoal(Guid GoalID)
         {
-            var goal = _context.Goals.Where(p => p.GoalID.Equals(GoalID)).FirstOrDefault<Goal>();
-
-            Goal goalDao = goal;
+            var goal = _context.Goals.Where(p => p.GoalID.Equals(GoalID)).Include("PersonelWith").FirstOrDefault<Goal>();
 
             List<Person> personel = new List<Person>();
 
-            var personelDao = _context.Personel.Include(g => g.GoalsWith).ToList();
-
-            foreach (Person item in personelDao)
+            foreach (Person item in goal.PersonelWith)
             {
-                if (item.GoalsWith.Contains(goalDao))
-                    personel.Add(item);
+                personel.Add(item);
             }
 
             return personel;
+        }
+
+        public Goal FindGoalwithProject(Guid GoalID)
+        {
+            Goal goal = _context.Goals.Where(g => g.GoalID == GoalID).Include("ProjectsWith").FirstOrDefault();
+
+            return goal;
+        }
+
+        public EntityState CheckState(dynamic entity)
+        {
+            return _context.Entry(entity).State;
+        }
+
+        public void MakeModifiedStatus(dynamic entity)
+        {        
+            _context.Entry(entity).State = EntityState.Modified;
         }
 
         public void SaveChanges()
@@ -174,17 +183,32 @@ namespace Win_Dev.Data
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposed) return;
+            if (_disposed) return;
             if (disposing)
             {
 
             }
-            disposed = true;
+            _disposed = true;
         }
 
-        ~LinkedDataRepository()
+        ~LinkedDataWorker()
         {
             Dispose(false);
+        }
+
+        public void ClearLinksForPerson(Guid personID)
+        {
+            var person = _context.Personel.Where(r => r.PersonID.Equals(personID)).FirstOrDefault<Person>();
+
+            foreach(Project item in _context.Projects)
+            {
+                item.PersonelWith.Remove(person);
+            }
+            foreach (Goal item in _context.Goals)
+            {
+                item.PersonelWith.Remove(person);
+            }
+
         }
 
     }

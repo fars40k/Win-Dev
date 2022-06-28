@@ -48,6 +48,13 @@
             set => Goal.Percentage = value;
         }
 
+        public int Priority
+        {
+            get => Goal.Priority;
+            set => Goal.Priority = value;
+
+        }
+
         public int StatusKey
         {
             get => Goal.StatusKey;

@@ -169,18 +169,18 @@ namespace Win_Dev.UI.ViewModels
 
         #endregion
 
-        private UserControl goalsView;
+        private UserControl _goalsView;
         public UserControl GoalsView
         {
-            get { return goalsView; }
+            get { return _goalsView; }
             set
             {
-                goalsView = value;
+                _goalsView = value;
                 RaisePropertyChanged("GoalsView");
             }
         }
 
-        public int _selectedAssigned;
+        private int _selectedAssigned;
         public int SelectedAssigned
         {
             get { return _selectedAssigned; }
@@ -191,7 +191,7 @@ namespace Win_Dev.UI.ViewModels
             }
         }
 
-        public int _selectedPool;
+        private int _selectedPool;
         public int SelectedPool
         {
             get { return _selectedPool; }
@@ -235,8 +235,7 @@ namespace Win_Dev.UI.ViewModels
 
             AssignToProjectCommand = new RelayCommand(() =>
             {
-                if ((Employees.Count() > 0) && (SelectedPool >= 0) && 
-                (SelectedPool <= Employees.Count()) && (Employees[SelectedPool] != null))
+                if (SelectedPool >= 0)
                 {
 
                     Model.AssignPersonToProject(Employees[SelectedPool].PersonID, Project.ProjectID, (error) =>
@@ -252,18 +251,18 @@ namespace Win_Dev.UI.ViewModels
                     ProjectEmployees.Add(Employees[SelectedPool]);
                     Employees.Remove(Employees[SelectedPool]);
 
+                    RaisePropertyChanged("ProjectEmployees");
+                    RaisePropertyChanged("Employees");
+
                 }
-
-
             });
 
             UnassignFromProjectCommand = new RelayCommand(() =>
             {
-                if ((ProjectEmployees.Count() > 0) && (SelectedAssigned >= 0) &&
-                (SelectedAssigned <= Employees.Count()) && (ProjectEmployees[SelectedAssigned] != null))
+                if (SelectedAssigned >= 0)
                 {
 
-                    Model.UnassignPersonToProject(ProjectEmployees[SelectedAssigned].PersonID, Project.ProjectID, (error) =>
+                    Model.UnassignPersonFromProject(ProjectEmployees[SelectedAssigned].PersonID, Project.ProjectID, (error) =>
                     {
                         if (error != null)
                         {
@@ -276,6 +275,8 @@ namespace Win_Dev.UI.ViewModels
                     Employees.Add(ProjectEmployees[SelectedAssigned]);
                     ProjectEmployees.Remove(ProjectEmployees[SelectedAssigned]);
 
+                    RaisePropertyChanged("ProjectEmployees");
+                    RaisePropertyChanged("Employees");
                 }
             });
 
@@ -294,17 +295,16 @@ namespace Win_Dev.UI.ViewModels
                           "Error"));
                     }
                 });
-            }
-            else if (notificationMessage.Notification == "Update")
-            {
-                //UpdatePersonel();
+
+                UpdatePersonel();
+
             }
 
         }
 
         public void UpdatePersonel()
         {
-            List<BusinessPerson> result = new List<BusinessPerson>();
+            List<BusinessPerson> allPersonel = new List<BusinessPerson>();
 
             Model.GetPersonelList(
                (item, error) =>
@@ -316,10 +316,8 @@ namespace Win_Dev.UI.ViewModels
                            "Error"));
                    }
 
-                   result = item;
+                   allPersonel = item;
                });
-
-            List<BusinessPerson> allPersonel = result;
 
             Model.GetPersonelForProject(Project.ProjectID, ((list, error) =>
             {
@@ -345,6 +343,8 @@ namespace Win_Dev.UI.ViewModels
 
             }));
 
+            RaisePropertyChanged("ProjectEmployees");
+            RaisePropertyChanged("Employees");
 
         }
     }

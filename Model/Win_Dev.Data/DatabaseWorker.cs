@@ -17,7 +17,7 @@ namespace Win_Dev.Data
     {
         public DataAccessObject DataAccessObject { get; set; }
 
-        public System.Timers.Timer updateTimer;
+        public System.Timers.Timer UpdateTimer;
 
         public event Action<bool> StatusChangedEvent;
         public event Action<bool> TryUpdateEvent;
@@ -58,9 +58,9 @@ namespace Win_Dev.Data
                 try
                 {
                     
-                    updateTimer = new System.Timers.Timer(5000);
-                    updateTimer.AutoReset = true;
-                    updateTimer.Elapsed += delegate
+                    UpdateTimer = new System.Timers.Timer(5000);
+                    UpdateTimer.AutoReset = true;
+                    UpdateTimer.Elapsed += delegate
                     {
                         throw new ArgumentException();
                     };
@@ -76,7 +76,7 @@ namespace Win_Dev.Data
                         IsConnectionEstablished = true;                       
                     };
 
-                    updateTimer.Stop();
+                    UpdateTimer.Stop();
 
                     CreateContiniousUpdatingTask();
                 }
@@ -100,10 +100,10 @@ namespace Win_Dev.Data
         {
             // Every 10 sec task calls data from db 
 
-            updateTimer = new System.Timers.Timer(10000);
-            updateTimer.AutoReset = true;
-            updateTimer.Elapsed += UpdateTimerElapsedAsync;
-            updateTimer.Start();
+            UpdateTimer = new System.Timers.Timer(10000);
+            UpdateTimer.AutoReset = true;
+            UpdateTimer.Elapsed += UpdateTimerElapsedAsync;
+            UpdateTimer.Start();
         }
 
         /// <summary>
@@ -136,8 +136,8 @@ namespace Win_Dev.Data
                 {
 
                     IsConnectionEstablished = false;
-                    updateTimer.Stop();
-                    updateTimer.Start();
+                    UpdateTimer.Stop();
+                    UpdateTimer.Start();
 
                 }
             });
@@ -145,7 +145,7 @@ namespace Win_Dev.Data
 
         private void ApplicationCloseRequested()
         {
-            updateTimer.Dispose();
+            UpdateTimer.Dispose();
         }
 
         public void SaveChanges()

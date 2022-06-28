@@ -20,7 +20,7 @@ namespace Win_Dev.UI.ViewModels
 
         public BusinessProject Project;
 
-        public ObservableCollection<BusinessGoal> _goals; 
+        private ObservableCollection<BusinessGoal> _goals; 
         public ObservableCollection<BusinessGoal> Goals
         {
             get => _goals;
@@ -238,7 +238,7 @@ namespace Win_Dev.UI.ViewModels
             }
         }
 
-        public int _selectedPersonGoal;
+        private int _selectedPersonGoal;
         public int SelectedPersonGoal
         {
             get { return _selectedPersonGoal; }
@@ -249,7 +249,7 @@ namespace Win_Dev.UI.ViewModels
             }
         }
 
-        public int _selectedPersonProject;
+        private int _selectedPersonProject;
         public int SelectedPersonProject
         {
             get { return _selectedPersonProject; }
@@ -296,17 +296,13 @@ namespace Win_Dev.UI.ViewModels
                 {
                     if (error != null)
                     {
-
                         MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
                                error + "UpdateGoals",
                                "Error"));
                     }
                 });
-            }
 
-            else if (notificationMessage.Notification == "Update")
-            {
-               
+                UpdateGoals();
             }
 
         }
@@ -430,7 +426,20 @@ namespace Win_Dev.UI.ViewModels
 
         public void UpdatePersonel(Guid GoalID)
         {
-            List<BusinessPerson> goalPersonel = new List<BusinessPerson>();
+            List<BusinessPerson> projectPersonel = new List<BusinessPerson>();
+
+            Model.GetPersonelForProject(Project.ProjectID, (list, error) =>
+            {
+
+                if ((error != null) || (list == null))
+                {
+                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                        (string)Application.Current.Resources["Error_database_request"] + "InGoal:GetPersonelForProject",
+                        "Error"));
+                }
+
+                projectPersonel = list;
+            });
 
             Model.GetPersonelForGoal(GoalID, (list, error) =>
             {
@@ -443,21 +452,19 @@ namespace Win_Dev.UI.ViewModels
                 }
 
                 GoalAssigned = new ObservableCollection<BusinessPerson>(list);
-            });
 
-            Model.GetPersonelForProject(Project.ProjectID, (list, error) =>
-            {
+                List<BusinessPerson> residual = new List<BusinessPerson>();
 
-                if ((error != null) || (list == null))
+                foreach (BusinessPerson item in projectPersonel)
                 {
-                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                        (string)Application.Current.Resources["Error_database_request"] + "InGoal:GetPersonelForProject",
-                        "Error"));
+                    var compared = list.Find(i => i.PersonID == item.PersonID);
+                    if (compared == null) residual.Add(item);
                 }
 
-                ProjectAssigned = new ObservableCollection<BusinessPerson>(list);
+                ProjectAssigned = new ObservableCollection<BusinessPerson>(residual);
+
             });
-        
+
         }
     }
 }

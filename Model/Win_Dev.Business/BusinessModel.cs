@@ -12,9 +12,7 @@ namespace Win_Dev.Business
     /// </summary>
     public partial class BusinessModel
     {
-        public static DataAccessObject DataAccessObject { get; private set; }
-
-        private List<BusinessPerson> businessPersonel = new List<BusinessPerson>();
+        public static DataAccessObject DataAccessObject { get; private set; } 
 
         public BusinessModel()
         {
@@ -95,13 +93,20 @@ namespace Win_Dev.Business
 
         public void UpdateProject(BusinessProject projectFromUI,Action<Exception> callback)
         {
+            Project found = DataAccessObject.Projects.FindByID(projectFromUI.ProjectID);
 
             Exception error = null;
 
+            found.Name = projectFromUI.Name;
+            found.Description = projectFromUI.Description;
+            found.CreationDate = projectFromUI.CreationDate;
+            found.ExpireDate = projectFromUI.ExpireDate;
+            found.Percentage = projectFromUI.Percentage;
+            found.StatusKey = projectFromUI.StatusKey;
+
             try
-            {
-                DataAccessObject.UpdateContextInRepositories();
-                DataAccessObject.Projects.Update(projectFromUI.Project);                
+            {               
+                DataAccessObject.Projects.SaveChanges();                
             }
             catch (Exception ex)
             {
@@ -192,13 +197,13 @@ namespace Win_Dev.Business
         {
             Exception error = null;
 
+            List<BusinessPerson> businessPersonel = new List<BusinessPerson>();
+
             try
             {
-                
-                List<Person> fromDataList = DataAccessObject.Personel.FindAll().ToList<Person>();
 
-                businessPersonel.Clear();
-
+                List<Person> fromDataList = DataAccessObject.Personel.FindAll().ToList<Person>();       
+        
                 foreach (Person item in fromDataList)
                 {
                     item.FirstName = item.FirstName.TrimEnd(' ');
@@ -219,51 +224,50 @@ namespace Win_Dev.Business
             callback.Invoke(businessPersonel, error);
         }
 
-        /// <summary>
-        /// Compares the received collection with the dataccess entity model and makes the necessary updates
-        /// </summary>
-        public void UpdatePersonelList(IEnumerable<BusinessPerson> UIList, Action<Exception> callback)
+        public void UpdatePersonel(IEnumerable<BusinessPerson> UIList, Action<Exception> callback)
         {
             Exception error = null;
 
-            try
+            foreach (BusinessPerson item in UIList)
             {
-                foreach (BusinessPerson item in UIList)
+                Person found = DataAccessObject.Personel.FindByID(item.PersonID);
+                var s1 = DataAccessObject.LinkedData.CheckState(found);
+                found.FirstName = item.FirstName;
+                found.SurName = item.SurName;
+                found.LastName = item.LastName;
+                found.Division = item.Division;
+                found.Occupation = item.Occupation;
+                DataAccessObject.LinkedData.MakeModifiedStatus(found);
+                try
                 {
-                    Person fromData = DataAccessObject.Personel.FindByID(item.PersonID);
-
-                    fromData.FirstName = fromData.FirstName.TrimEnd(' ');
-                    fromData.SurName = fromData.SurName.TrimEnd(' ');
-                    fromData.LastName = fromData.LastName.TrimEnd(' ');
-                    fromData.Division = fromData.Division.TrimEnd(' ');
-                    fromData.Occupation = fromData.Occupation.TrimEnd(' ');
-
-                    if (!fromData.Equals(item.Person))
-                    {
-                        DataAccessObject.UpdateContextInRepositories();
-                        DataAccessObject.Personel.Delete(item.PersonID);
-                        DataAccessObject.Personel.Insert(item.Person);
-                    }
+                    DataAccessObject.Personel.SaveChanges();
                 }
+                catch (Exception ex)
+                {
+                    error = ex;
+                }
+            }
 
-                error = null;
-            }
-            catch (Exception ex)
-            {
-                error = ex;
-            }
+            error = null;
+            
+           
 
             callback.Invoke(error);
         }
 
         public void DeletePerson(BusinessPerson forDelete,Action<Exception> callback)
         {
+            
             Exception error = null;
 
             try
             {
-                var forDeletePerson = DataAccessObject.Personel.FindByID(forDelete.PersonID);
-                DataAccessObject.Personel.Delete(forDeletePerson);              
+                List<Person> fouundes = DataAccessObject.LinkedData.FindAllPersonelWithLinks().ToList();
+                DataAccessObject.LinkedData.ClearLinksForPerson(forDelete.PersonID);
+                DataAccessObject.LinkedData.SaveChanges();
+                List<Person>  fouunde = DataAccessObject.LinkedData.FindAllPersonelWithLinks().ToList();
+                Person found = DataAccessObject.Personel.FindByID(forDelete.PersonID);
+                DataAccessObject.Personel.Delete(found);
             }
             catch (Exception ex)
             {
@@ -345,54 +349,6 @@ namespace Win_Dev.Business
             callback.Invoke(businessGoal, error);
         }
 
-        public void DeleteGoal(BusinessGoal forDelete, Action<Exception> callback)
-        {
-            Exception error = null;
-
-            try
-            {
-                Project goalInProject = forDelete.Project.FirstOrDefault<Project>();
-
-                DataAccessObject.Goals.Delete(forDelete.Goal);
-                DataAccessObject.LinkedData.RemoveGoalFromProject(forDelete.GoalID,goalInProject.ProjectID);
-            }
-            catch (Exception ex)
-            {
-                error = ex;
-            }
-
-            callback.Invoke(error);
-        }
-
-        public void GetGoalsListForProject(Guid ProjectGUID,Action<List<BusinessGoal>, Exception> callback)
-        {
-
-            List<BusinessGoal> businessGoals = new List<BusinessGoal>();
-
-            Exception error = null;
-
-            try
-            {
-
-                IEnumerable<Goal> fromDataList = DataAccessObject.LinkedData.FindGoalsForProject(ProjectGUID);
-
-                foreach (Goal item in fromDataList)
-                {
-                    item.Name = item.Name.TrimEnd(' ');
-                    item.Description = item.Description.TrimEnd(' ');
-
-                    businessGoals.Add(new BusinessGoal(item));
-                }
-                error = null;
-            }
-            catch (Exception ex)
-            {
-                error = ex;
-            }
-
-            callback.Invoke(businessGoals, error);
-        }
-
         public void GetPersonelForGoal(Guid goalGUID, Action<List<BusinessPerson>, Exception> callback)
         {
             List<BusinessPerson> businessPersonel = new List<BusinessPerson>();
@@ -425,16 +381,23 @@ namespace Win_Dev.Business
         
         public void UpdateGoals(IEnumerable<BusinessGoal> UIList, Action<Exception> callback)
         {
-            Exception error = null;
+            Exception error = null;          
 
+            foreach (BusinessGoal item in UIList)
+            {
+                Goal found = DataAccessObject.Goals.FindByID(item.GoalID);
+
+                found.Name = item.Name;
+                found.Description = item.Description;
+                found.CreationDate = item.CreationDate;
+                found.ExpireDate = item.ExpireDate;
+                found.Percentage = item.Percentage;
+                found.Priority = item.Priority;
+                found.StatusKey = item.StatusKey;
+            }
             try
             {
-                foreach (BusinessGoal item in UIList)
-                {
-                    DataAccessObject.Goals.Update(item.Goal);
-                }
-  
-                error = null;
+                DataAccessObject.Goals.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -442,6 +405,54 @@ namespace Win_Dev.Business
             }
 
             callback.Invoke(error);
+        }
+
+        public void DeleteGoal(BusinessGoal forDelete, Action<Exception> callback)
+        {
+            Exception error = null;
+
+            try
+            {
+                Project goalInProject = forDelete.Project.FirstOrDefault<Project>();
+
+                DataAccessObject.Goals.Delete(forDelete.Goal);
+                DataAccessObject.LinkedData.RemoveGoalFromProject(forDelete.GoalID, goalInProject.ProjectID);
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+
+            callback.Invoke(error);
+        }
+
+        public void GetGoalsListForProject(Guid ProjectGUID, Action<List<BusinessGoal>, Exception> callback)
+        {
+
+            List<BusinessGoal> businessGoals = new List<BusinessGoal>();
+
+            Exception error = null;
+
+            try
+            {
+
+                IEnumerable<Goal> fromDataList = DataAccessObject.LinkedData.FindGoalsForProject(ProjectGUID);
+
+                foreach (Goal item in fromDataList)
+                {
+                    item.Name = item.Name.TrimEnd(' ');
+                    item.Description = item.Description.TrimEnd(' ');
+
+                    businessGoals.Add(new BusinessGoal(item));
+                }
+                error = null;
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+
+            callback.Invoke(businessGoals, error);
         }
 
         #endregion
@@ -464,13 +475,23 @@ namespace Win_Dev.Business
             callback.Invoke(error);
         }
 
-        public void UnassignPersonToProject(Guid personGUID, Guid projectGUID, Action<Exception> callback)
+        // Provide goals personel deletion when a person's project assignation removed
+        public void UnassignPersonFromProject(Guid personGUID, Guid projectGUID, Action<Exception> callback)
         {
             Exception error = null;
 
             try
             {
                 DataAccessObject.LinkedData.RemovePersonFromProject(personGUID, projectGUID);
+                List<Goal> goals = DataAccessObject.Goals.FindAll().ToList();
+
+                foreach (Goal item in goals)
+                {
+                    UnassignPersonFromGoal(personGUID, item.GoalID, (err) =>
+                    {
+                    });
+                }
+
                 DataAccessObject.LinkedData.SaveChanges();
                 error = null;
             }
@@ -506,7 +527,7 @@ namespace Win_Dev.Business
 
             try
             {
-                DataAccessObject.LinkedData.RemovePersonFromProject(personGUID, goalGUID);
+                DataAccessObject.LinkedData.RemovePersonFromGoal(personGUID, goalGUID);
                 DataAccessObject.LinkedData.SaveChanges();
                 error = null;
             }
@@ -517,6 +538,8 @@ namespace Win_Dev.Business
 
             callback.Invoke(error);
         }
+
+
     }
 
 }
