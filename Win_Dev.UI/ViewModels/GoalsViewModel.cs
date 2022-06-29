@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using Win_Dev.Business;
 using Win_Dev.Data;
 
@@ -311,13 +312,16 @@ namespace Win_Dev.UI.ViewModels
         {
             CreateGoalCommand = new RelayCommand(() =>
             {
-                CreateGoal();
-              
+                App.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                new Action(() => CreateGoal()));              
             });
 
             DeleteGoalCommand = new RelayCommand(() => 
             {
-                DeleteGoal();
+                App.Current.Dispatcher.BeginInvoke(
+                   DispatcherPriority.Background,
+               new Action(() => DeleteGoal()));
             });
 
             AssignToGoalCommand = new RelayCommand(() =>
@@ -346,6 +350,7 @@ namespace Win_Dev.UI.ViewModels
 
         public void CreateGoal()
         {
+
             Model.CreateGoal(Project.ProjectID, (item, error) =>
             {
                 if (error != null)
@@ -366,6 +371,7 @@ namespace Win_Dev.UI.ViewModels
 
         public void DeleteGoal()
         {
+
             Model.DeleteGoal(SelectedGoal, (error) =>
             {
                 if (error != null)
@@ -385,7 +391,7 @@ namespace Win_Dev.UI.ViewModels
             if ((ProjectAssigned.Count() > 0) && (SelectedPersonProject >= 0) &&
                (SelectedPersonProject <= ProjectAssigned.Count()) && (ProjectAssigned[SelectedPersonProject] != null))
             {
-
+             
                 Model.AssignPersonToGoal(ProjectAssigned[SelectedPersonProject].PersonID, SelectedGoal.GoalID, (error) =>
                 {
                     if (error != null)
@@ -396,6 +402,7 @@ namespace Win_Dev.UI.ViewModels
                     }
                 });
 
+                
                 GoalAssigned.Add(ProjectAssigned[SelectedPersonProject]);
                 ProjectAssigned.Remove(ProjectAssigned[SelectedPersonProject]);
 
@@ -409,7 +416,6 @@ namespace Win_Dev.UI.ViewModels
             if ((GoalAssigned.Count() > 0) && (SelectedPersonGoal >= 0) &&
                (SelectedPersonGoal <= GoalAssigned.Count()) && (GoalAssigned[SelectedPersonGoal] != null))
             {
-
                 Model.UnassignPersonFromGoal(GoalAssigned[SelectedPersonGoal].PersonID, SelectedGoal.GoalID, (error) =>
                 {
                     if (error != null)
@@ -420,6 +426,7 @@ namespace Win_Dev.UI.ViewModels
                     }
                 });
 
+                
                 ProjectAssigned.Add(GoalAssigned[SelectedPersonGoal]);
                 GoalAssigned.Remove(GoalAssigned[SelectedPersonGoal]);
 
@@ -428,6 +435,9 @@ namespace Win_Dev.UI.ViewModels
 
         public void UpdateGoals()
         {
+            App.Current.Dispatcher.BeginInvoke(
+                DispatcherPriority.Background,
+            new Action(() =>
             Model.GetGoalsListForProject(Project.ProjectID, (list, error) =>
             {
                 if (error != null)
@@ -439,7 +449,7 @@ namespace Win_Dev.UI.ViewModels
                 }
 
                 Goals = new ObservableCollection<BusinessGoal>(list);                
-            });
+            })));
      
         }
 

@@ -143,7 +143,6 @@ namespace Win_Dev.UI.ViewModels
 
         }
 
-
         private void DatabaseEventsSubscription()
         {
 

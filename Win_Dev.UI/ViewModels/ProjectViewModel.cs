@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using Win_Dev.Assets.UserControls;
 using Win_Dev.Business;
 using Win_Dev.Data;
@@ -268,7 +269,7 @@ namespace Win_Dev.UI.ViewModels
         {
             if (SelectedPool >= 0)
             {
-
+                
                 Model.AssignPersonToProject(Employees[SelectedPool].PersonID, Project.ProjectID, (error) =>
                 {
                     if (error != null)
@@ -292,7 +293,7 @@ namespace Win_Dev.UI.ViewModels
         {
             if (SelectedAssigned >= 0)
             {
-
+                
                 Model.UnassignPersonFromProject(ProjectEmployees[SelectedAssigned].PersonID, Project.ProjectID, (error) =>
                 {
                     if (error != null)
@@ -314,45 +315,46 @@ namespace Win_Dev.UI.ViewModels
 
         public void UpdatePersonel()
         {
-            List<BusinessPerson> allPersonel = new List<BusinessPerson>();
+            List<BusinessPerson> projectPersonel = new List<BusinessPerson>();
 
-            Model.GetPersonelList(
-               (item, error) =>
-               {
-                   if ((error != null) || (item == null))
-                   {
-                       MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                           (string)Application.Current.Resources["Error_database_request"] + "UpdatePersonel",
-                           "Error"));
-                   }
+            List<BusinessPerson> residual = new List<BusinessPerson>();
 
-                   allPersonel = item;
-               });
+                Model.GetPersonelList(
+                 (item, error) =>
+                 {
+                     if ((error != null) || (item == null))
+                     {
+                         MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                                 (string)Application.Current.Resources["Error_database_request"] + "UpdatePersonel",
+                                 "Error"));
+                     }
 
-            Model.GetPersonelForProject(Project.ProjectID, ((list, error) =>
-            {
+                     projectPersonel = item;
+                 });
 
-                if ((error != null) || (list == null))
+
+                Model.GetPersonelForProject(Project.ProjectID, ((list, error) =>
                 {
-                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                        (string)Application.Current.Resources["Error_database_request"] + "GetPersonelForProject",
-                        "Error"));
-                }
 
-                ProjectEmployees = new ObservableCollection<BusinessPerson>(list);
+                    if ((error != null) || (list == null))
+                    {
+                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                            (string)Application.Current.Resources["Error_database_request"] + "GetPersonelForProject",
+                            "Error"));
+                    }                    
 
-                List<BusinessPerson> residual = new List<BusinessPerson>();
+                    foreach (BusinessPerson item in projectPersonel)
+                    {
+                        var compared = list.Find(i => i.PersonID == item.PersonID);
+                        if (compared == null) residual.Add(item);
+                    }
 
-                foreach (BusinessPerson item in allPersonel)
-                {
-                    var compared = list.Find(i => i.PersonID == item.PersonID);
-                    if (compared == null) residual.Add(item);
-                }
+                    projectPersonel = list;
 
-                Employees = new ObservableCollection<BusinessPerson>(residual);
-
-            }));
-
+                }));
+           
+            ProjectEmployees = new ObservableCollection<BusinessPerson>(projectPersonel);
+            Employees = new ObservableCollection<BusinessPerson>(residual);
             RaisePropertyChanged("ProjectEmployees");
             RaisePropertyChanged("Employees");
 

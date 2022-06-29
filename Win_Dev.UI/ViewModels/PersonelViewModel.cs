@@ -96,6 +96,7 @@ namespace Win_Dev.UI.ViewModels
 
         public void CreatePerson()
         {
+
             Model.CreatePerson((item, error) =>
             {
                 if (error != null)

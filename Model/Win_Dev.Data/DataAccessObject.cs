@@ -20,18 +20,7 @@ namespace Win_Dev.Data
         public DataAccessObject()
         {
             
-        }
-
-        public void UpdateContextInRepositories()
-        {
-            WinTaskContext wtContext = new WinTaskContext();
-
-            Personel = new BaseRepository<Person>(wtContext);
-            Projects = new BaseRepository<Project>(wtContext);
-            Goals = new BaseRepository<Goal>(wtContext);
-            LinkedData = new LinkedDataWorker(wtContext);
-
-        }
+        }     
 
         public void UpdateEntityModel()
         {
@@ -49,6 +38,17 @@ namespace Win_Dev.Data
             Personel.SaveChanges();
 
             UpdateContextInRepositories();
+        }
+
+        public void UpdateContextInRepositories()
+        {
+            WinTaskContext wtContext = new WinTaskContext();
+
+            Personel = new BaseRepository<Person>(wtContext);
+            Projects = new BaseRepository<Project>(wtContext);
+            Goals = new BaseRepository<Goal>(wtContext);
+            LinkedData = new LinkedDataWorker(wtContext);
+
         }
 
     }

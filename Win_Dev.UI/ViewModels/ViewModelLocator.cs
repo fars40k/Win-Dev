@@ -18,14 +18,14 @@ namespace Win_Dev.UI.ViewModels
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             if (ViewModelBase.IsInDesignModeStatic)
-            {
-                // FIX why Using interfaces not allowing instantiate classes
+            {  
 
                 SimpleIoc.Default.Register<DataAccessObject>();
                 SimpleIoc.Default.Register<DatabaseWorker>();
             }
             else
             {
+
                 SimpleIoc.Default.Register<DataAccessObject>();
                 SimpleIoc.Default.Register<DatabaseWorker>();
             }
