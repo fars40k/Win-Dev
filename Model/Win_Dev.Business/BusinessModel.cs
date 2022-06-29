@@ -385,22 +385,28 @@ namespace Win_Dev.Business
         
         public void UpdateGoals(IEnumerable<BusinessGoal> UIList, Action<Exception> callback)
         {
-            Exception error = null;          
-
-            foreach (BusinessGoal item in UIList)
-            {
-                Goal found = DataAccessObject.Goals.FindByID(item.GoalID);
-
-                found.Name = item.Name;
-                found.Description = item.Description;
-                found.CreationDate = item.CreationDate;
-                found.ExpireDate = item.ExpireDate;
-                found.Percentage = item.Percentage;
-                found.Priority = item.Priority;
-                found.StatusKey = item.StatusKey;
-            }
+        
+                Exception error = null;
             try
             {
+                foreach (BusinessGoal item in UIList)
+                {
+                    Goal found = DataAccessObject.Goals.FindByID(item.GoalID);
+
+                    if (found != null)
+                    {
+
+                        found.Name = item.Name;
+                        found.Description = item.Description;
+                        found.CreationDate = item.CreationDate;
+                        found.ExpireDate = item.ExpireDate;
+                        found.Percentage = item.Percentage;
+                        found.Priority = item.Priority;
+                        found.StatusKey = item.StatusKey;
+
+                    }
+                }
+
                 DataAccessObject.Goals.SaveChanges();
             }
             catch (Exception ex)

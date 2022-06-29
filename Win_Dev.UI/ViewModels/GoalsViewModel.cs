@@ -350,8 +350,9 @@ namespace Win_Dev.UI.ViewModels
 
         public void CreateGoal()
         {
-
-            Model.CreateGoal(Project.ProjectID, (item, error) =>
+            App.Current.Dispatcher.BeginInvoke(
+               DispatcherPriority.Background,
+           new Action(() => Model.CreateGoal(Project.ProjectID, (item, error) =>
             {
                 if (error != null)
                 {
@@ -364,15 +365,16 @@ namespace Win_Dev.UI.ViewModels
                 Goals.Add(item);
                 SelectedGoal = item;
 
-            });
+            })));
 
             MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update"));
         }
 
         public void DeleteGoal()
         {
-
-            Model.DeleteGoal(SelectedGoal, (error) =>
+            App.Current.Dispatcher.BeginInvoke(
+               DispatcherPriority.Background,
+           new Action(() => Model.DeleteGoal(SelectedGoal, (error) =>
             {
                 if (error != null)
                 {
@@ -383,7 +385,7 @@ namespace Win_Dev.UI.ViewModels
 
                 Goals.Remove(SelectedGoal);
 
-            });
+            })));
         }
 
         public void AssignToGoal()
