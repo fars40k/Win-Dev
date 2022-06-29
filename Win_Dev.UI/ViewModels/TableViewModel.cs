@@ -16,6 +16,7 @@ using Win_Dev.UI.Views;
 using Win_Dev.Data;
 using System.Windows.Media.Effects;
 using Win_Dev.Business;
+using System.Windows.Threading;
 
 namespace Win_Dev.UI.ViewModels
 {
@@ -93,7 +94,10 @@ namespace Win_Dev.UI.ViewModels
             BusinessProject project;
             TabItem tabToAdd = new TabItem();
 
-            Model.CreateProject((item, error) =>
+
+            App.Current.Dispatcher.BeginInvoke(
+                DispatcherPriority.Background,
+            new Action(() => Model.CreateProject((item, error) =>
             {
                 project = item;
 
@@ -106,7 +110,7 @@ namespace Win_Dev.UI.ViewModels
 
                 SelectedTab = tabToAdd;
 
-            });
+            })));
         }
 
         private void DeleteProject()
@@ -114,9 +118,12 @@ namespace Win_Dev.UI.ViewModels
 
             if (SelectedTab.Tag.ToString() != "personel")
             {
-                BusinessProject project = SelectedTab.Tag as BusinessProject; 
+                BusinessProject project = SelectedTab.Tag as BusinessProject;
 
-                Model.DeleteProject(project.ProjectID, (error) =>
+
+                App.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                new Action(() => Model.DeleteProject(project.ProjectID, (error) =>
                 {
                     if (error != null)
                     {
@@ -125,7 +132,7 @@ namespace Win_Dev.UI.ViewModels
                           (string)Application.Current.Resources["Error_database_request"] + "DeleteProject",
                           "Error"));
                     }
-                });
+                })));
 
                 Tabs.Remove(SelectedTab);
             }
@@ -139,7 +146,9 @@ namespace Win_Dev.UI.ViewModels
                 {
                     SelectedTab.Header = SelectedTab.Tag.ToString();
 
-                    Model.UpdateProject((BusinessProject)SelectedTab.Tag, (error) =>
+                    App.Current.Dispatcher.BeginInvoke(
+                        DispatcherPriority.Background,
+                    new Action(() => Model.UpdateProject((BusinessProject)SelectedTab.Tag, (error) =>
                      {
                          if (error != null)
                          {
@@ -147,7 +156,7 @@ namespace Win_Dev.UI.ViewModels
                                (string)Application.Current.Resources["Error_database_request"] + "UpdateProject",
                                "Error"));
                          }
-                     });
+                     })));
                 }
             }
 
@@ -155,7 +164,10 @@ namespace Win_Dev.UI.ViewModels
          
         public void LoadProjectsTabs()
         {
-            Model.GetProjectsList((list, error) =>
+
+            App.Current.Dispatcher.BeginInvoke(
+                DispatcherPriority.Background,
+            new Action(() => Model.GetProjectsList((list, error) =>
             {
 
                 if ((error != null) || (list == null))
@@ -184,9 +196,7 @@ namespace Win_Dev.UI.ViewModels
                     Tabs.Add(tabToAdd);
 
                 }
-            });
-            
-            
+            })));                     
             
         }
 

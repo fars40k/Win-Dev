@@ -235,51 +235,13 @@ namespace Win_Dev.UI.ViewModels
 
             AssignToProjectCommand = new RelayCommand(() =>
             {
-                if (SelectedPool >= 0)
-                {
-
-                    Model.AssignPersonToProject(Employees[SelectedPool].PersonID, Project.ProjectID, (error) =>
-                    {
-                        if (error != null)
-                        {
-                            MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                                (string)Application.Current.Resources["Error_database_request"] + "AssignToProject",
-                                "Error"));
-                        }
-                    });
-
-                    ProjectEmployees.Add(Employees[SelectedPool]);
-                    Employees.Remove(Employees[SelectedPool]);
-
-                    RaisePropertyChanged("ProjectEmployees");
-                    RaisePropertyChanged("Employees");
-
-                }
+                AssignToProject();
             });
 
             UnassignFromProjectCommand = new RelayCommand(() =>
             {
-                if (SelectedAssigned >= 0)
-                {
-
-                    Model.UnassignPersonFromProject(ProjectEmployees[SelectedAssigned].PersonID, Project.ProjectID, (error) =>
-                    {
-                        if (error != null)
-                        {
-                            MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                                (string)Application.Current.Resources["Error_database_request"] + "UnssignFromProject",
-                                "Error"));
-                        }
-                    });
-
-                    Employees.Add(ProjectEmployees[SelectedAssigned]);
-                    ProjectEmployees.Remove(ProjectEmployees[SelectedAssigned]);
-
-                    RaisePropertyChanged("ProjectEmployees");
-                    RaisePropertyChanged("Employees");
-                }
+                UnassignFromProject();
             });
-
         }
 
         public void BeingNotifed(NotificationMessage notificationMessage)
@@ -298,6 +260,54 @@ namespace Win_Dev.UI.ViewModels
 
                 UpdatePersonel();
 
+            }
+
+        }
+
+        public void AssignToProject()
+        {
+            if (SelectedPool >= 0)
+            {
+
+                Model.AssignPersonToProject(Employees[SelectedPool].PersonID, Project.ProjectID, (error) =>
+                {
+                    if (error != null)
+                    {
+                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                            (string)Application.Current.Resources["Error_database_request"] + "AssignToProject",
+                            "Error"));
+                    }
+                });
+
+                ProjectEmployees.Add(Employees[SelectedPool]);
+                Employees.Remove(Employees[SelectedPool]);
+
+                RaisePropertyChanged("ProjectEmployees");
+                RaisePropertyChanged("Employees");
+
+            }
+        }
+
+        public void UnassignFromProject()
+        {
+            if (SelectedAssigned >= 0)
+            {
+
+                Model.UnassignPersonFromProject(ProjectEmployees[SelectedAssigned].PersonID, Project.ProjectID, (error) =>
+                {
+                    if (error != null)
+                    {
+                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                            (string)Application.Current.Resources["Error_database_request"] + "UnssignFromProject",
+                            "Error"));
+                    }
+                });
+
+                Employees.Add(ProjectEmployees[SelectedAssigned]);
+                ProjectEmployees.Remove(ProjectEmployees[SelectedAssigned]);
+
+                RaisePropertyChanged("ProjectEmployees");
+                RaisePropertyChanged("Employees");
             }
 
         }

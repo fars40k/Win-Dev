@@ -97,13 +97,17 @@ namespace Win_Dev.Business
 
             Exception error = null;
 
-            found.Name = projectFromUI.Name;
-            found.Description = projectFromUI.Description;
-            found.CreationDate = projectFromUI.CreationDate;
-            found.ExpireDate = projectFromUI.ExpireDate;
-            found.Percentage = projectFromUI.Percentage;
-            found.StatusKey = projectFromUI.StatusKey;
+            if (found != null)
+            {
 
+                found.Name = projectFromUI.Name;
+                found.Description = projectFromUI.Description;
+                found.CreationDate = projectFromUI.CreationDate;
+                found.ExpireDate = projectFromUI.ExpireDate;
+                found.Percentage = projectFromUI.Percentage;
+                found.StatusKey = projectFromUI.StatusKey;
+
+            }
             try
             {               
                 DataAccessObject.Projects.SaveChanges();                

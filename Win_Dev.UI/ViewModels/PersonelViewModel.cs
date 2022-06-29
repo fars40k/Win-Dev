@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using Win_Dev.Business;
 using Win_Dev.Data;
 
@@ -50,7 +51,7 @@ namespace Win_Dev.UI.ViewModels
         {
             _employees = new ObservableCollection<BusinessPerson>();
 
-            Employees = new ObservableCollection<BusinessPerson>(GetPersonelList());
+            GetPersonelList();
 
             _employeesOldHashCode = Employees.GetHashCode();
 
@@ -66,7 +67,7 @@ namespace Win_Dev.UI.ViewModels
             {
                 SavePersonelChanges();
 
-                Employees = new ObservableCollection<BusinessPerson>(GetPersonelList());
+                GetPersonelList();
                 _employeesOldHashCode = Employees.GetHashCode();
             }
         }
@@ -75,79 +76,92 @@ namespace Win_Dev.UI.ViewModels
         {
             CreatePersonCommand = new RelayCommand(() =>
             {
-                Model.CreatePerson((item, error) =>
-                {
-                    if (error != null)
-                    {
-
-                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                               error + " CreatePerson",
-                               "Error"));
-                    }
-
-                    Employees.Add(item);
-                    SelectedEmployee = item;
-
-                });
-
+                App.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                new Action(() => this.CreatePerson()));
             });
 
             DeletePersonCommand = new RelayCommand(() =>
             {
-                Model.DeletePerson(SelectedEmployee,
-                    (error) =>
-                    {
-
-                        if (error != null)
-                        {
-                            MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                               error + " DeletePerson",
-                               "Error"));
-                        }
-
-                    });
-
-                if (SelectedEmployee != null) Employees.Remove(SelectedEmployee);
-                SelectedEmployee = null;
-
+                App.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                new Action(() => this.DeletePerson()));
             });
 
             SelectionChangedCommand = new RelayCommand<BusinessPerson>((person) =>
             {
-
                 SelectedEmployee = person;
+            });
+        }
+
+        public void CreatePerson()
+        {
+            Model.CreatePerson((item, error) =>
+            {
+                if (error != null)
+                {
+
+                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                           error + " CreatePerson",
+                           "Error"));
+                }
+
+                Employees.Add(item);
+                SelectedEmployee = item;
 
             });
         }
 
+        public void DeletePerson()
+        {
+            Model.DeletePerson(SelectedEmployee,
+                   (error) =>
+                   {
 
-        public List<BusinessPerson> GetPersonelList()
+                       if (error != null)
+                       {
+                           MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                              error + " DeletePerson",
+                              "Error"));
+                       }
+
+                   });
+
+            if (SelectedEmployee != null) Employees.Remove(SelectedEmployee);
+            SelectedEmployee = null;
+        }
+
+        public void GetPersonelList()
         {
 
             List<BusinessPerson> result = new List<BusinessPerson>();
 
-            Model.GetPersonelList(
-            (item, error) =>
-            {
-                if ((error != null) || (item == null))
+            App.Current.Dispatcher.BeginInvoke(
+                DispatcherPriority.Background,
+                new Action(() =>
                 {
-                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                        (string)Application.Current.Resources["Error_database_request"] + "UpdatePersonel",
-                        "Error"));
-                }
+                    Model.GetPersonelList(
+                        (list, error) =>
+                        {
+                            if ((error != null) || (list == null))
+                            {
+                                MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                                    (string)Application.Current.Resources["Error_database_request"] + "UpdatePersonel",
+                                    "Error"));
+                            }
 
-                result = item;
-            });
-
-            return result;
-            
+                            Employees = new ObservableCollection<BusinessPerson>(list);
+                        });
+                })); 
         }
 
         public void SavePersonelChanges()
         {
             RaisePropertyChanged("Employees");
 
-            Model.UpdatePersonel(Employees,
+            App.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                new Action(() => Model.UpdatePersonel(Employees,
                (error) =>
                {
                    if (error != null)
@@ -158,7 +172,7 @@ namespace Win_Dev.UI.ViewModels
                    }
 
 
-               });              
+               })));              
         }
     }
 }

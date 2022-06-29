@@ -311,86 +311,23 @@ namespace Win_Dev.UI.ViewModels
         {
             CreateGoalCommand = new RelayCommand(() =>
             {
-
-                Model.CreateGoal(Project.ProjectID, (item, error) =>
-                {
-                    if (error != null)
-                    {
-
-                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                               error + " CreatePerson",
-                               "Error"));
-                    }
-
-                    Goals.Add(item);
-                    SelectedGoal = item;
-
-                });
-
-                MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update"));
-
+                CreateGoal();
+              
             });
 
             DeleteGoalCommand = new RelayCommand(() => 
             {
-                Model.DeleteGoal(SelectedGoal, (error) =>
-                 {
-                     if (error != null)
-                     {
-                         MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                             (string)Application.Current.Resources["Error_database_request"] + "DeleteGoal",
-                             "Error"));
-                     }
-
-                     Goals.Remove(SelectedGoal);
-                     
-                 });
+                DeleteGoal();
             });
 
             AssignToGoalCommand = new RelayCommand(() =>
             {
-                if ((ProjectAssigned.Count() > 0) && (SelectedPersonProject >= 0) &&
-                (SelectedPersonProject <= ProjectAssigned.Count()) && (ProjectAssigned[SelectedPersonProject] != null))
-                {
-
-                    Model.AssignPersonToGoal(ProjectAssigned[SelectedPersonProject].PersonID, SelectedGoal.GoalID, (error) =>
-                    {
-                        if (error != null)
-                        {
-                            MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                                (string)Application.Current.Resources["Error_database_request"] + "AssignToProject",
-                                "Error"));
-                        }
-                    });
-
-                    GoalAssigned.Add(ProjectAssigned[SelectedPersonProject]);
-                    ProjectAssigned.Remove(ProjectAssigned[SelectedPersonProject]);
-
-                }
-
-
+                AssignToGoal();
             });
 
             UnassignFromGoalCommand = new RelayCommand(() =>
             {
-                if ((GoalAssigned.Count() > 0) && (SelectedPersonGoal >= 0) &&
-                (SelectedPersonGoal <= GoalAssigned.Count()) && (GoalAssigned[SelectedPersonGoal] != null))
-                {
-
-                    Model.UnassignPersonFromGoal(GoalAssigned[SelectedPersonGoal].PersonID, SelectedGoal.GoalID, (error) =>
-                    {
-                        if (error != null)
-                        {
-                            MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                                (string)Application.Current.Resources["Error_database_request"] + "UnssignFromProject",
-                                "Error"));
-                        }
-                    });
-
-                    ProjectAssigned.Add(GoalAssigned[SelectedPersonGoal]);
-                    GoalAssigned.Remove(GoalAssigned[SelectedPersonGoal]);
-
-                }
+                UnassignToGoal();
             });
 
             SelectionChangedCommand = new RelayCommand<BusinessGoal>((goal) =>
@@ -405,6 +342,88 @@ namespace Win_Dev.UI.ViewModels
                 ConstructedCommentary = "";
             });
 
+        }
+
+        public void CreateGoal()
+        {
+            Model.CreateGoal(Project.ProjectID, (item, error) =>
+            {
+                if (error != null)
+                {
+
+                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                           error + " CreatePerson",
+                           "Error"));
+                }
+
+                Goals.Add(item);
+                SelectedGoal = item;
+
+            });
+
+            MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update"));
+        }
+
+        public void DeleteGoal()
+        {
+            Model.DeleteGoal(SelectedGoal, (error) =>
+            {
+                if (error != null)
+                {
+                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                        (string)Application.Current.Resources["Error_database_request"] + "DeleteGoal",
+                        "Error"));
+                }
+
+                Goals.Remove(SelectedGoal);
+
+            });
+        }
+
+        public void AssignToGoal()
+        {
+            if ((ProjectAssigned.Count() > 0) && (SelectedPersonProject >= 0) &&
+               (SelectedPersonProject <= ProjectAssigned.Count()) && (ProjectAssigned[SelectedPersonProject] != null))
+            {
+
+                Model.AssignPersonToGoal(ProjectAssigned[SelectedPersonProject].PersonID, SelectedGoal.GoalID, (error) =>
+                {
+                    if (error != null)
+                    {
+                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                            (string)Application.Current.Resources["Error_database_request"] + "AssignToProject",
+                            "Error"));
+                    }
+                });
+
+                GoalAssigned.Add(ProjectAssigned[SelectedPersonProject]);
+                ProjectAssigned.Remove(ProjectAssigned[SelectedPersonProject]);
+
+            }
+
+
+        }
+
+        public void UnassignToGoal()
+        {
+            if ((GoalAssigned.Count() > 0) && (SelectedPersonGoal >= 0) &&
+               (SelectedPersonGoal <= GoalAssigned.Count()) && (GoalAssigned[SelectedPersonGoal] != null))
+            {
+
+                Model.UnassignPersonFromGoal(GoalAssigned[SelectedPersonGoal].PersonID, SelectedGoal.GoalID, (error) =>
+                {
+                    if (error != null)
+                    {
+                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                            (string)Application.Current.Resources["Error_database_request"] + "UnssignFromProject",
+                            "Error"));
+                    }
+                });
+
+                ProjectAssigned.Add(GoalAssigned[SelectedPersonGoal]);
+                GoalAssigned.Remove(GoalAssigned[SelectedPersonGoal]);
+
+            }
         }
 
         public void UpdateGoals()
