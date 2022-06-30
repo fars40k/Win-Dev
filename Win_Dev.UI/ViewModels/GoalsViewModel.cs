@@ -49,7 +49,6 @@ namespace Win_Dev.UI.ViewModels
             }
 
         }
-         #region Goal_properties
 
         public string GoalID
         {
@@ -213,8 +212,6 @@ namespace Win_Dev.UI.ViewModels
                 RaisePropertyChanged("Conditions");
             }
         }
-
-        #endregion
 
         private ObservableCollection<BusinessPerson> _projectAssigned;       
         public ObservableCollection<BusinessPerson> ProjectAssigned
