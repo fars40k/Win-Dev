@@ -262,7 +262,7 @@ namespace Win_Dev.UI.ViewModels
 
         public void AssignToProject()
         {
-            if (SelectedPool >= 0)
+            if ((SelectedPool >= 0) && (Employees.Count > 0))
             {
                 
                 Model.AssignPersonToProject(Employees[SelectedPool].PersonID, Project.ProjectID, (error) =>
@@ -286,7 +286,7 @@ namespace Win_Dev.UI.ViewModels
 
         public void UnassignFromProject()
         {
-            if (SelectedAssigned >= 0)
+            if ((SelectedAssigned >= 0) && (ProjectEmployees.Count > 0))
             {
                 
                 Model.UnassignPersonFromProject(ProjectEmployees[SelectedAssigned].PersonID, Project.ProjectID, (error) =>
@@ -331,7 +331,7 @@ namespace Win_Dev.UI.ViewModels
                 Model.GetPersonelForProject(Project.ProjectID, ((list, error) =>
                 {
 
-                    if ((error != null) || (list == null))
+                    if ((error != null) && (list.Count == 0))
                     {
                         MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
                             (string)Application.Current.Resources["Error_database_request"] + "GetPersonelForProject",

@@ -112,21 +112,25 @@ namespace Win_Dev.UI.ViewModels
 
         public void DeletePerson()
         {
-            Model.DeletePerson(SelectedEmployee,
-                   (error) =>
-                   {
+            if (SelectedEmployee != null)
+            {
 
-                       if (error != null)
+                Model.DeletePerson(SelectedEmployee,
+                       (error) =>
                        {
-                           MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                              error + " DeletePerson",
-                              "Error"));
-                       }
 
-                   });
+                           if (error != null)
+                           {
+                               MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                                  error + " DeletePerson",
+                                  "Error"));
+                           }
 
-            if (SelectedEmployee != null) Employees.Remove(SelectedEmployee);
-            SelectedEmployee = null;
+                       });
+
+                Employees.Remove(SelectedEmployee);
+                SelectedEmployee = null;
+            }
         }
 
         public void GetPersonelList()

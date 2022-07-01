@@ -366,20 +366,24 @@ namespace Win_Dev.UI.ViewModels
 
         public void DeleteGoal()
         {
-            App.Current.Dispatcher.BeginInvoke(
-               DispatcherPriority.Background,
-           new Action(() => Model.DeleteGoal(SelectedGoal, (error) =>
+            if (SelectedGoal != null)
             {
-                if (error != null)
+                App.Current.Dispatcher.BeginInvoke(
+                   DispatcherPriority.Background,
+               new Action(() => Model.DeleteGoal(SelectedGoal, (error) =>
                 {
-                    MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
-                        (string)Application.Current.Resources["Error_database_request"] + "DeleteGoal",
-                        "Error"));
-                }
+                    if (error != null)
+                    {
+                        MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
+                            (string)Application.Current.Resources["Error_database_request"] + "DeleteGoal",
+                            "Error"));
+                    }
 
-                Goals.Remove(SelectedGoal);
+                    Goals.Remove(SelectedGoal);
+                    SelectedGoal = null;
+                })));
 
-            })));
+            }
         }
 
         public void AssignToGoal()
@@ -436,7 +440,7 @@ namespace Win_Dev.UI.ViewModels
             new Action(() =>
             Model.GetGoalsListForProject(Project.ProjectID, (list, error) =>
             {
-                if (error != null)
+                if ((error != null) && (list.Count == 0))
                 {
 
                     MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
@@ -456,7 +460,7 @@ namespace Win_Dev.UI.ViewModels
             Model.GetPersonelForProject(Project.ProjectID, (list, error) =>
             {
 
-                if ((error != null) || (list == null))
+                if ((error != null) && (list.Count == 0))
                 {
                     MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
                         (string)Application.Current.Resources["Error_database_request"] + "InGoal:GetPersonelForProject",
@@ -468,7 +472,7 @@ namespace Win_Dev.UI.ViewModels
 
             Model.GetPersonelForGoal(GoalID, (list, error) =>
             {
-                if (error != null)
+                if ((error != null)&&(list.Count == 0))
                 {
 
                     MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
