@@ -114,10 +114,7 @@ namespace Win_Dev.UI.ViewModels
             {
                 BusinessProject project = SelectedTab.Tag as BusinessProject;
 
-
-                App.Current.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                new Action(() => Model.DeleteProject(project.ProjectID, (error) =>
+                Model.DeleteProject(project.ProjectID, (error) =>
                 {
                     if (error != null)
                     {
@@ -126,7 +123,7 @@ namespace Win_Dev.UI.ViewModels
                           (string)Application.Current.Resources["Error_database_request"] + "DeleteProject",
                           "Error"));
                     }
-                })));
+                });
 
                 Tabs.Remove(SelectedTab);
             }

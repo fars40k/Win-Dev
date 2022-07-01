@@ -440,7 +440,7 @@ namespace Win_Dev.UI.ViewModels
             new Action(() =>
             Model.GetGoalsListForProject(Project.ProjectID, (list, error) =>
             {
-                if ((error != null) && (list.Count == 0))
+                if ((error != null) && (list.Count != 0))
                 {
 
                     MessengerInstance.Send<NotificationMessage<string>>(new NotificationMessage<string>(
