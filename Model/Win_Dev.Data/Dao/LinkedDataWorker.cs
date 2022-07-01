@@ -5,7 +5,9 @@ using System.Linq;
 
 namespace Win_Dev.Data
 {
-
+    /// <summary>
+    /// Contains navigation properties data work logic
+    /// </summary>
     public partial class LinkedDataWorker
     {
         private WinTaskContext _context;

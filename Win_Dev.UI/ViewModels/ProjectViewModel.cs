@@ -308,6 +308,10 @@ namespace Win_Dev.UI.ViewModels
 
         }
 
+
+        /// <summary>
+        /// Loads personel for this project
+        /// </summary>
         public void UpdatePersonel()
         {
             List<BusinessPerson> projectPersonel = new List<BusinessPerson>();

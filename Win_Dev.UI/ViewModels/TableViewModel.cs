@@ -152,7 +152,10 @@ namespace Win_Dev.UI.ViewModels
             }
 
         }
-         
+
+        /// <summary>
+        /// Updates project tabs by clearing and loading new ones from the database
+        /// </summary>
         public void LoadProjectsTabs()
         {
 

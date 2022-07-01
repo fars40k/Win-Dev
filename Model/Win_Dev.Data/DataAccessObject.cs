@@ -3,7 +3,7 @@
 namespace Win_Dev.Data
 {
     /// <summary>
-    /// Contains Repositories with basic database operations
+    /// Contains Repositories with basic database operations and worker for complex
     /// </summary>
     public class DataAccessObject : IDataAccessService
     {

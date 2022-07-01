@@ -433,6 +433,7 @@ namespace Win_Dev.UI.ViewModels
             }
         }
 
+
         public void UpdateGoals()
         {
             App.Current.Dispatcher.BeginInvoke(
@@ -453,6 +454,10 @@ namespace Win_Dev.UI.ViewModels
      
         }
 
+
+        /// <summary>
+        /// Loads personel for goal in parametre
+        /// </summary>
         public void UpdatePersonel(Guid GoalID)
         {
             List<BusinessPerson> projectPersonel = new List<BusinessPerson>();
