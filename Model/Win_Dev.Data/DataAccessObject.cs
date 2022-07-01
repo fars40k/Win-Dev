@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Win_Dev.Data.Interfaces;
+﻿using Win_Dev.Data.Interfaces;
 
 namespace Win_Dev.Data
 {
@@ -27,8 +22,8 @@ namespace Win_Dev.Data
             using (WinTaskContext wtContext = new WinTaskContext())
             {
                 Personel.FindAll();
-                var projects = wtContext.Personel.Include("ProjectsWith");
-                var goals = wtContext.Personel.Include("GoalsWith");
+                var personelToProjects = wtContext.Personel.Include("ProjectsWith");
+                var personelToGoals = wtContext.Personel.Include("GoalsWith");
                 var goalsToProjects = wtContext.Goals.Include("ProjectsWith");
             }
         }

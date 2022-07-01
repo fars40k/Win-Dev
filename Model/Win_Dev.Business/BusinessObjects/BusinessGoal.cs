@@ -1,10 +1,10 @@
-﻿namespace Win_Dev.Business
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Win_Dev.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Win_Dev.Data;
 
+namespace Win_Dev.Business
+{
     /// <summary>
     ///  Wrap for data access class
     /// </summary>

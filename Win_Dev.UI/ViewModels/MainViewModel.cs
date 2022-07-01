@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.Ioc;
 using Win_Dev.Business;
-using Microsoft.Practices.ServiceLocation;
 using System.Windows;
 using System.Linq;
 using Win_Dev.Data;
@@ -12,7 +11,6 @@ using Win_Dev.UI.Views;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
-using System.Windows.Media.Effects;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace Win_Dev.UI.ViewModels

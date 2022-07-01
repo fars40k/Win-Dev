@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Win_Dev;
-using GalaSoft.MvvmLight;
 using Win_Dev.Data;
 using System.Linq;
 

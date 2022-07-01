@@ -1,13 +1,13 @@
+using System;
+using System.Collections.Generic;
+using Win_Dev.Data;
+
 namespace Win_Dev.Business
 {
-    using System;
-    using System.Collections.Generic;
-    using Win_Dev.Data;
-
     /// <summary>
     ///  Wrap for data access class
     /// </summary>
-    public partial class BusinessPerson 
+    public partial class BusinessPerson
     {
         public Person Person;
 
@@ -59,13 +59,13 @@ namespace Win_Dev.Business
             {
                 Person.GoalsWith.Clear();
                 foreach (Goal item in value)
-                Person.GoalsWith.Add(item);
+                    Person.GoalsWith.Add(item);
             }
         }
 
         public BusinessPerson() : base()
         {
-            
+
         }
 
         public BusinessPerson(Person newPerson) : base()

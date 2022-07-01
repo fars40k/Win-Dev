@@ -6,12 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Win_Dev.Business;
-using Win_Dev.Data;
 
 namespace Win_Dev.UI.ViewModels
 {

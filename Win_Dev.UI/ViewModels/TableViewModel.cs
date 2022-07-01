@@ -3,18 +3,12 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Drawing;
 using System.Windows;
 using Win_Dev.UI.Views;
-using Win_Dev.Data;
-using System.Windows.Media.Effects;
 using Win_Dev.Business;
 using System.Windows.Threading;
 

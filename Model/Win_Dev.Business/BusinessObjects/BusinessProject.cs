@@ -1,10 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Win_Dev.Data;
+
 namespace Win_Dev.Business
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Win_Dev.Data;
-
     /// <summary>
     ///  Wrap for data access class
     /// </summary>
@@ -61,7 +61,7 @@ namespace Win_Dev.Business
             {
                 Project.PersonelWith.Clear();
                 foreach (Person item in value)
-                Project.PersonelWith.Add(item);
+                    Project.PersonelWith.Add(item);
             }
         }
 
@@ -72,13 +72,13 @@ namespace Win_Dev.Business
             {
                 Project.GoalsIn.Clear();
                 foreach (Goal item in value)
-                Project.GoalsIn.Add(item);
+                    Project.GoalsIn.Add(item);
             }
         }
 
         public BusinessProject() : base()
-        {     
-            
+        {
+
         }
 
         public BusinessProject(Project newProject) : base()

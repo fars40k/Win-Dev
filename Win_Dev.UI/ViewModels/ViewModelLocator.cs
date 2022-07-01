@@ -3,7 +3,6 @@ using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using Win_Dev.Business;
 using Win_Dev.Data;
-using Win_Dev.Data.Interfaces;
 
 namespace Win_Dev.UI.ViewModels
 {

@@ -1,10 +1,8 @@
+using System;
+using System.Data.Entity;
+
 namespace Win_Dev.Data
 {
-    using System;
-    using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
-
     public partial class WinTaskContext : DbContext
     {
         public WinTaskContext()
@@ -17,17 +15,17 @@ namespace Win_Dev.Data
         public virtual DbSet<Project> Projects { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        { 
-            
+        {
+
             modelBuilder.Entity<Person>()
                 .HasMany(s => s.ProjectsWith)
-                .WithMany(c => c.PersonelWith)               
+                .WithMany(c => c.PersonelWith)
                 .Map(cs =>
                 {
                     cs.ToTable("PersonelToProjects");
                     cs.MapLeftKey("PersonID");
                     cs.MapRightKey("ProjectID");
-            
+
                 });
 
             modelBuilder.Entity<Person>()
@@ -38,7 +36,7 @@ namespace Win_Dev.Data
                   cs.ToTable("PersonelToGoals");
                   cs.MapLeftKey("PersonID");
                   cs.MapRightKey("GoalID");
-                
+
               });
 
             modelBuilder.Entity<Goal>()
@@ -52,7 +50,7 @@ namespace Win_Dev.Data
 
              });
 
-    
+
             modelBuilder.Entity<Goal>()
                 .Property(e => e.Name)
                 .IsFixedLength();
@@ -92,5 +90,5 @@ namespace Win_Dev.Data
 
 
     }
-        
+
 }
