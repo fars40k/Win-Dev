@@ -21,8 +21,11 @@ namespace Win_Dev.UI.ViewModels
         private DatabaseWorker _databaseWorker;
         private DataAccessObject _dataAccessObject;
 
-        public ObservableCollection<string> CulturesCB { get; set; }
+        private RegistryWorker _registryWorker;
+        private ApplicationCultures _applicationCultures;
 
+        public ObservableCollection<string> CulturesCB { get; set; }
+         
         #region BindedProperties
 
         private UserControl _tabControlArea;
@@ -44,7 +47,7 @@ namespace Win_Dev.UI.ViewModels
             {
                 if (_selectedCulture != value)
                 {
-                    RegistryWorker.UpdateLanguageRegistryEntry(value);
+                    _registryWorker.UpdateLanguageRegistryEntry(value);
 
                     System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
                     Application.Current.Shutdown();
@@ -125,11 +128,13 @@ namespace Win_Dev.UI.ViewModels
 
         private void UIInit()
         {
+            _registryWorker = SimpleIoc.Default.GetInstance<RegistryWorker>();
 
             CulturesCB = new ObservableCollection<string>();
-            ApplicationCultures.Cultures.ToList().ForEach(CulturesCB.Add);
+            _applicationCultures = SimpleIoc.Default.GetInstance<ApplicationCultures>();
+            _applicationCultures.Cultures.ToList().ForEach(CulturesCB.Add);
 
-            _selectedCulture = RegistryWorker.ReadLanguageRegistryEntry();
+            _selectedCulture = _registryWorker.ReadLanguageRegistryEntry();
             SelectedCulture = _selectedCulture;
 
             _dataAccessObject = SimpleIoc.Default.GetInstance<DataAccessObject>();

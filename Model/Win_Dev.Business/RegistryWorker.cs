@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace Win_Dev.Business
 {
-    public static class RegistryWorker
+    public class RegistryWorker
     {
-        public static string DefaultValue { get; private set; } = "en-GB";
-        public static List<string> AvalableCultures = new List<string>();
+        public string DefaultValue { get; private set; } = "en-GB";
+        public List<string> AvalableCultures = new List<string>();
 
-        public static string ReadLanguageRegistryEntry()
+        public string ReadLanguageRegistryEntry()
         {
             RegistryKey currentUserKey = Registry.CurrentUser;
 
@@ -30,14 +30,14 @@ namespace Win_Dev.Business
                 throw new Exception();
 
             }
-            catch
+            catch 
             {
                 UpdateLanguageRegistryEntry(DefaultValue);
                 return DefaultValue;
             }
         }
 
-        public static void UpdateLanguageRegistryEntry(string newValue)
+        public void UpdateLanguageRegistryEntry(string newValue)
         {
             RegistryKey currentUserKey = Registry.CurrentUser;
 
