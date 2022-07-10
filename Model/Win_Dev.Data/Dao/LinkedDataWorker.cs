@@ -111,12 +111,19 @@ namespace Win_Dev.Data
 
             List<Goal> goals = new List<Goal>();
 
-            foreach (Goal item in project.GoalsIn)
+            if (project != null)
             {
-                goals.Add(item);
-            }
+                foreach (Goal item in project.GoalsIn)
+                {
+                    goals.Add(item);
+                }
 
-            return goals;
+                return goals;
+
+            } else
+            {
+                return null;
+            }
         }
 
         public IEnumerable<Person> FindAllPersonelWithLinks()
@@ -130,12 +137,19 @@ namespace Win_Dev.Data
 
             List<Person> personel = new List<Person>();
 
-            foreach (Person item in project.PersonelWith)
+            if (project != null)
             {
-                personel.Add(item);
-            }
+                foreach (Person item in project.PersonelWith)
+                {
+                    personel.Add(item);
+                }
 
-            return personel;
+                return personel;
+
+            } else
+            {
+                return null;
+            }
         }
 
         public IEnumerable<Person> FindPersonelForGoal(Guid GoalID)

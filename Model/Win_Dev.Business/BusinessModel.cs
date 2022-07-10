@@ -290,15 +290,19 @@ namespace Win_Dev.Business
 
                 IEnumerable<Person> fromDataList = DataAccessObject.LinkedData.FindPersonelForProject(projectGUID);
 
-                foreach (Person item in fromDataList)
+                if (fromDataList != null)
                 {
-                    item.FirstName = item.FirstName.TrimEnd(' ');
-                    item.SurName = item.SurName.TrimEnd(' ');
-                    item.LastName = item.LastName.TrimEnd(' ');
-                    item.Division = item.Division.TrimEnd(' ');
-                    item.Occupation = item.Occupation.TrimEnd(' ');
-                    businessPersonel.Add(new BusinessPerson(item));
+                    foreach (Person item in fromDataList)
+                    {
+                        item.FirstName = item.FirstName.TrimEnd(' ');
+                        item.SurName = item.SurName.TrimEnd(' ');
+                        item.LastName = item.LastName.TrimEnd(' ');
+                        item.Division = item.Division.TrimEnd(' ');
+                        item.Occupation = item.Occupation.TrimEnd(' ');
+                        businessPersonel.Add(new BusinessPerson(item));
+                    }
                 }
+
                 error = null;
             }
             catch (Exception ex)
