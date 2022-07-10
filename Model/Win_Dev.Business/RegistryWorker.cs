@@ -21,10 +21,11 @@ namespace Win_Dev.Business
 
                 currentUserKey.OpenSubKey("WinTaskManager", true);
                 RegistryKey winTaskKey = currentUserKey.CreateSubKey("WinTaskManager");
-                string fromRegistry = winTaskKey.GetValue("Language").ToString();
-                if (AvalableCultures.Contains(fromRegistry))
+
+                object fromRegistry = winTaskKey.GetValue("Language");
+                if ((fromRegistry != null) && (AvalableCultures.Contains(fromRegistry.ToString())))
                 {
-                    return fromRegistry;
+                    return fromRegistry.ToString();
                 }
 
                 throw new Exception();
