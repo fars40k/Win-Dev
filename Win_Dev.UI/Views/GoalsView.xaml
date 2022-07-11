@@ -88,15 +88,13 @@
                                Title="{StaticResource Goal}"
                                LimitedText="{Binding GoalName, Mode=TwoWay}"
                                MaxLength="50" 
-                               Height="60" 
-                               MaxWidth="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"/>
+                               Height="60"/>
 
             <uc:LimitedTextBox x:Name="LimitedTextBox2"                                          
                                Title="{StaticResource Description}"
                                LimitedText="{Binding Description, Mode=TwoWay}"
                                MaxLength="4000" 
-                               Height="100"
-                               MaxWidth="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"/>
+                               Height="100"/>
 
             <StackPanel VerticalAlignment="Center" 
                                     Orientation="Horizontal" 

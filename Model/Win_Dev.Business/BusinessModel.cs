@@ -19,7 +19,6 @@ namespace Win_Dev.Business
 
         public void BusinessModelInit(DatabaseWorker newDatabaseWorker)
         {
-
             DataAccessObject = (DataAccessObject == null) ? newDatabaseWorker.DataAccessObject 
                                                             : DataAccessObject;
         }
@@ -240,6 +239,7 @@ namespace Win_Dev.Business
                 found.Division = item.Division;
                 found.Occupation = item.Occupation;
                 DataAccessObject.LinkedData.MakeModifiedStatus(found);
+
                 try
                 {
                     DataAccessObject.Personel.SaveChanges();
@@ -267,6 +267,7 @@ namespace Win_Dev.Business
                 List<Person> fouundes = DataAccessObject.LinkedData.FindAllPersonelWithLinks().ToList();
                 DataAccessObject.LinkedData.ClearLinksForPerson(forDelete.PersonID);
                 DataAccessObject.LinkedData.SaveChanges();
+
                 List<Person>  fouunde = DataAccessObject.LinkedData.FindAllPersonelWithLinks().ToList();
                 Person found = DataAccessObject.Personel.FindByID(forDelete.PersonID);
                 DataAccessObject.Personel.Delete(found);
