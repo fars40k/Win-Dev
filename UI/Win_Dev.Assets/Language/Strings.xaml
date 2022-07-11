@@ -6,6 +6,7 @@
     <sys:String x:Key="Database_Wait">Please wait while the database connection is established...</sys:String>
     <sys:String x:Key="Database_Fail">Unnable to connect to database</sys:String>
     <sys:String x:Key="Database_Upd">Updating...</sys:String>
+    <sys:String x:Key="Lang">Language: </sys:String>
     
     <sys:String x:Key="Personel">Personel</sys:String>
     <sys:String x:Key="Project">Project</sys:String>

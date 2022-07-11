@@ -6,6 +6,7 @@
     <sys:String x:Key="Database_Wait">Устанавливается соединение с базой данных...</sys:String>
     <sys:String x:Key="Database_Fail">Невозможно подключиться к базе данных</sys:String>
     <sys:String x:Key="Database_Upd">Обновление...</sys:String>
+    <sys:String x:Key="Lang">Язык:</sys:String>
 
     <sys:String x:Key="Personel">Персонал</sys:String>
     <sys:String x:Key="Project">Проект</sys:String>

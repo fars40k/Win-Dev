@@ -36,20 +36,23 @@
                Margin="2"
                Visibility="{Binding DatabaseUpdating}" RenderTransformOrigin="0.803,0.648"/>
 
-        <TextBox Grid.Row="3"
-                 FontSize="14"
-                 FontWeight="Bold"
-                 Foreground="Purple"
-                 Text="{Binding UserHelpString}"
-                 TextAlignment="Left"
-                 VerticalAlignment="Center"
-                 HorizontalAlignment="Stretch"
-                 BorderThickness="0"
-                 Margin="2,2,2,2"
-                 TextWrapping="Wrap"
-                 IsReadOnly="True"/>
+        <DockPanel Grid.Row="3">
+            
+            <TextBox DockPanel.Dock="Left"
+                     FontSize="14"
+                     FontWeight="Bold"
+                     Foreground="Purple"
+                     Text="{Binding UserHelpString}"
+                     TextAlignment="Left"
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Stretch"
+                     BorderThickness="0"
+                     Margin="2,2,2,2"
+                     TextWrapping="Wrap"
+                     IsReadOnly="True"/>
 
         <ComboBox x:Name="LanguageCMB"
+                  DockPanel.Dock="Right"
                   ItemsSource="{Binding CulturesCB}"
                   SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"
                   Grid.Row="3"
@@ -61,7 +64,22 @@
                   Width="70"                  
                   Height="20"/>
 
-        <ContentControl x:Name="ContentPage" 
+            <TextBox DockPanel.Dock="Right"
+                     FontSize="14"
+                     FontWeight="Bold"
+                     Foreground="Purple"
+                     Text="{StaticResource Lang}"
+                     TextAlignment="Right"
+                     VerticalAlignment="Center"
+                     BorderThickness="0"
+                     Margin="2,2,2,2"
+                     TextWrapping="Wrap"
+                     IsReadOnly="True"/>
+
+
+        </DockPanel>
+                
+                <ContentControl x:Name="ContentPage" 
                         Grid.Row="1" 
                         Grid.RowSpan="2" 
                         Content="{Binding TabControlArea}"/>
