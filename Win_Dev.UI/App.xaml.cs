@@ -39,7 +39,7 @@ namespace Win_Dev.UI
 
             // Setting application localisation
 
-            registryWorker.AvalableCultures = applicationCultures.Cultures;
+            registryWorker.SetAvalableCultures(applicationCultures.Cultures);
             string storedLangSelection = registryWorker.ReadLanguageRegistryEntry();
             applicationCultures.LocalisationDictionary = new ResourceDictionary();
             applicationCultures.LocalisationDictionary.Source =

@@ -8,7 +8,8 @@ namespace Win_Dev.Business
     public class RegistryWorker
     {
         public string DefaultValue { get; private set; } = "en-GB";
-        public List<string> AvalableCultures = new List<string>();
+
+        private List<string> _avalableCultures = new List<string>();
 
         public string ReadLanguageRegistryEntry()
         {
@@ -23,7 +24,7 @@ namespace Win_Dev.Business
                 RegistryKey winTaskKey = currentUserKey.CreateSubKey("WinTaskManager");
 
                 object fromRegistry = winTaskKey.GetValue("Language");
-                if ((fromRegistry != null) && (AvalableCultures.Contains(fromRegistry.ToString())))
+                if ((fromRegistry != null) && (_avalableCultures.Contains(fromRegistry.ToString())))
                 {
                     return fromRegistry.ToString();
                 }
@@ -46,6 +47,9 @@ namespace Win_Dev.Business
             winTaskKey.SetValue("Language", newValue);           
         }
 
-       
+        public void SetAvalableCultures(List<string> newList)
+        {
+            _avalableCultures = newList;
+        }
     }
 }
