@@ -19,7 +19,7 @@
     </UserControl.Resources>
     
     <StackPanel>
-        
+
         <ListView x:Name="GoalList" 
                   Height="150"  
                   DockPanel.Dock="Top" 
@@ -175,7 +175,8 @@
                 <StackPanel>
                     
                     <TextBlock Text="{StaticResource Goal_crew}" 
-                               TextAlignment="Center"/>
+                               TextAlignment="Center"
+                               Foreground="OrangeRed"/>
 
                     <ListBox x:Name="GoalAssigned" 
                              Width="Auto"
@@ -219,7 +220,8 @@
                 <StackPanel>
                     
                     <TextBlock Text="{StaticResource Project_crew}"
-                               TextAlignment="Center"/>
+                               TextAlignment="Center"
+                               Foreground="OrangeRed"/>
 
                     <ListBox x:Name="ProjectAssigned" 
                              Width="Auto" 

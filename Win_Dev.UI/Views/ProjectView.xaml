@@ -132,7 +132,8 @@
                             <StackPanel>
                                 
                                 <TextBlock Text="{StaticResource Project_crew}" 
-                                           TextAlignment="Center"/>
+                                           TextAlignment="Center"
+                                           Foreground="OrangeRed"/>
 
                                 <ListBox x:Name="AssignedPersonel" 
                                          Width="Auto"
@@ -178,7 +179,8 @@
                             <StackPanel>
                                 
                                 <TextBlock Text="{StaticResource Personel}"
-                                           TextAlignment="Center"/>
+                                           TextAlignment="Center"
+                                           Foreground="OrangeRed"/>
 
                                 <ListBox x:Name="PersonelPool" 
                                          Width="Auto" 
