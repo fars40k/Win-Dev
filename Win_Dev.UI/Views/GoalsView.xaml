@@ -30,8 +30,8 @@
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Percentage}" Header="{StaticResource Percentage}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="{StaticResource Goal}"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=CreationDate}" Header="{StaticResource Creation_date}"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=ExpireDate}" Header="{StaticResource Expire_date}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=CreationDateShort}" Header="{StaticResource Creation_date}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=ExpireDateShort}" Header="{StaticResource Expire_date}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=PersonelOnGoal}" Header="{StaticResource Goal_crew}"/>
                 </GridView>
             </ListView.View>

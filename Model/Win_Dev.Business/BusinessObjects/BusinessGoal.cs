@@ -90,6 +90,24 @@ namespace Win_Dev.Business
             }
         }
 
+        public string CreationDateShort
+        {
+            get => Goal.CreationDate.ToShortDateString();
+            set
+            {
+
+            }
+        }
+
+        public string ExpireDateShort
+        {
+            get => Goal.ExpireDate.ToShortDateString();
+            set
+            {
+
+            }
+        }
+
         public BusinessGoal() : base()
         {
 
