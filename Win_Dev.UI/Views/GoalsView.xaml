@@ -165,10 +165,10 @@
 
                 </DatePicker>
 
-                <TextBlock Text="{Binding ConstructedCommentary}"/>
-
             </StackPanel>
 
+            <TextBlock Text="{Binding ConstructedCommentary}"
+                       FontSize="14"/>
 
             <StackPanel Orientation="Horizontal" Margin="4">
                 

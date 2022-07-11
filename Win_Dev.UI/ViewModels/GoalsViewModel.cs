@@ -68,7 +68,7 @@ namespace Win_Dev.UI.ViewModels
             }
             set
             {
-                SelectedGoal.Name = value;
+                if (SelectedGoal != null) SelectedGoal.Name = value;
                 RaisePropertyChanged("GoalName");
             }
         }
@@ -81,7 +81,7 @@ namespace Win_Dev.UI.ViewModels
             }
             set
             {
-                SelectedGoal.Description = value;
+                if (SelectedGoal != null) SelectedGoal.Description = value;
                 RaisePropertyChanged("Description");
             }
         }
@@ -97,7 +97,7 @@ namespace Win_Dev.UI.ViewModels
             }
             set
             {
-                SelectedGoal.CreationDate = value;
+                if (SelectedGoal != null) SelectedGoal.CreationDate = value;
                 RaisePropertyChanged("CreationDate");
                 DateChangedCommand.Execute(this);
             }
@@ -111,7 +111,7 @@ namespace Win_Dev.UI.ViewModels
             }
             set
             {
-                SelectedGoal.ExpireDate = value;
+                if (SelectedGoal != null) SelectedGoal.ExpireDate = value;
                 RaisePropertyChanged("ExpireDate");
                 DateChangedCommand.Execute(this);
             }
@@ -181,7 +181,7 @@ namespace Win_Dev.UI.ViewModels
             }
             set
             {
-                SelectedGoal.Percentage = value;
+                if (SelectedGoal != null) SelectedGoal.Percentage = value;
                 RaisePropertyChanged("Persentage");
             }
         }
@@ -194,7 +194,7 @@ namespace Win_Dev.UI.ViewModels
             }
             set
             {
-                SelectedGoal.StatusKey = value;
+                if (SelectedGoal != null) SelectedGoal.StatusKey = value;
                 RaisePropertyChanged("SelectedCondition");
             }
         }

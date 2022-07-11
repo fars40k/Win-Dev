@@ -19,14 +19,19 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
         
-            <Label Content="{Binding Title}" />
+            <Label Content="{Binding Title}" 
+                   FontSize="16"/>
         
             <Label Grid.Column="1">
                 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{Binding ElementName=TxtLimitedInput, Path=Text.Length}" />
-                    <TextBlock Text="/" />
-                    <TextBlock Text="{Binding MaxLength}" />
+                <TextBlock Text="/" 
+                           FontSize="16"/>
+                    
+                    <TextBlock Text="{Binding MaxLength}" 
+                               FontSize="16"/>
+                    
                 </StackPanel>
                 
             </Label>
@@ -37,7 +42,8 @@
                      Name="TxtLimitedInput" 
                      ScrollViewer.VerticalScrollBarVisibility="Auto" 
                      TextWrapping="Wrap"
-                     Text="{Binding LimitedText}"/>
+                     Text="{Binding LimitedText}"
+                     FontSize="14"/>
         
         </Grid>
     

@@ -119,13 +119,13 @@
                                         <cmd:EventToCommand Command="{Binding DateChangedCommand}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-                                
-                            </DatePicker>
 
-                            <TextBlock Text="{Binding ConstructedCommentary}"/>
+                            </DatePicker>
 
                         </StackPanel>
 
+                        <TextBlock Text="{Binding ConstructedCommentary}"
+                                   FontSize="14"/>
 
                         <StackPanel Orientation="Horizontal" Margin="4">
                             
