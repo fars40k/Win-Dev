@@ -26,7 +26,8 @@
     <sys:String x:Key="Delete_Goal">ㅤDelete goalㅤ</sys:String>
 
     <sys:String x:Key="Edit_project">ㅤEdit projectㅤ</sys:String>
-    <sys:String x:Key="Edit_goals">ㅤEdit goalsㅤ</sys:String>
+    <sys:String x:Key="Project_goals">ㅤProject goalsㅤ</sys:String>
+    <sys:String x:Key="Edit_goal">ㅤEdit projectㅤ</sys:String>
     <sys:String x:Key="Save_changes">ㅤSave changesㅤ</sys:String>
 
     <sys:String x:Key="status_0">ㅤDraftedㅤ</sys:String>

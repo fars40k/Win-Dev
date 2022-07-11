@@ -26,7 +26,8 @@
     <sys:String x:Key="Delete_Goal">ㅤУдалить задачуㅤ</sys:String>
 
     <sys:String x:Key="Edit_project">ㅤИнфорация о проектеㅤ</sys:String>
-    <sys:String x:Key="Edit_goals">ㅤЗадачи проектаㅤ</sys:String>
+    <sys:String x:Key="Project_goals">ㅤЗадачи проектаㅤ</sys:String>
+    <sys:String x:Key="Edit_goal">ㅤИнформация о задачеㅤ</sys:String>
     <sys:String x:Key="Save_changes">ㅤСохранить измененияㅤ</sys:String>
 
     <sys:String x:Key="status_0">ㅤЧерновикㅤ</sys:String>
