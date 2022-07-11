@@ -354,6 +354,7 @@ namespace Win_Dev.UI.ViewModels
            
             ProjectEmployees = new ObservableCollection<BusinessPerson>(projectPersonel);
             Employees = new ObservableCollection<BusinessPerson>(residual);
+
             RaisePropertyChanged("ProjectEmployees");
             RaisePropertyChanged("Employees");
 

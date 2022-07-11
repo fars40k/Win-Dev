@@ -7,7 +7,10 @@
              xmlns:local="clr-namespace:Win_Dev.UI.Views"
              xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"             
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="800" Height="Auto" Width="Auto"
+             d:DesignHeight="800" 
+             d:DesignWidth="800" 
+             Height="Auto" 
+             Width="Auto"
              DataContext="{Binding Personel, Source={StaticResource Locator}}">
 
     <UserControl.Resources>
@@ -24,8 +27,9 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
         </Grid.RowDefinitions>
-          
+
             <StackPanel>
+                
                 <ListBox x:Name="PersonelList" 
                          Height="200"  
                          DockPanel.Dock="Top" 
@@ -36,21 +40,22 @@
                         <i:EventTrigger EventName="SelectionChanged">
                             <cmd:EventToCommand Command="{Binding SelectionChangedCommand}"
                                                 CommandParameter="{Binding SelectedItem, ElementName=PersonelList}" />
-
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 
                 </ListBox>
-                <DockPanel Margin="6" VerticalAlignment="Bottom" Grid.Row="1">
+                <DockPanel Margin="6" 
+                           VerticalAlignment="Bottom" 
+                           Grid.Row="1">
 
                     <Button x:Name="CreatePerson"
-                    Style="{StaticResource ButtonCreatePerson}"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Width="Auto"
-                    Height="22"
-                    BorderThickness="0"
-                    DockPanel.Dock="Left">
+                            Style="{StaticResource ButtonCreatePerson}"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Width="Auto"
+                            Height="22"
+                            BorderThickness="0"
+                            DockPanel.Dock="Left">
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -61,14 +66,14 @@
                     </Button>
 
                     <Button x:Name="DeletePerson"
-                        Style="{StaticResource ButtonDeletePerson}"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Width="Auto"
-                        Height="22"
-                        Margin="5,0,0,0"
-                        BorderThickness="0"
-                        DockPanel.Dock="Left">
+                            Style="{StaticResource ButtonDeletePerson}"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Width="Auto"
+                            Height="22"
+                            Margin="5,0,0,0"
+                            BorderThickness="0"
+                            DockPanel.Dock="Left">
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -79,24 +84,105 @@
                     </Button>
 
                 </DockPanel>
-                <TextBlock x:Name="ID" Height="20" TextWrapping="Wrap" Text="{Binding SelectedEmployee.PersonID}" VerticalAlignment="Top" FontFamily="Rockwell" FontSize="12" IsEnabled="False" Margin="6,6,0,0"/>
+
+                <TextBlock x:Name="ID" 
+                           Height="20" 
+                           TextWrapping="Wrap" 
+                           Text="{Binding SelectedEmployee.PersonID}" 
+                           VerticalAlignment="Top" 
+                           FontFamily="Rockwell" 
+                           FontSize="12" 
+                           IsEnabled="False" 
+                           Margin="6,6,0,0"/>
 
                 <WrapPanel>
-                    <TextBox x:Name="First"  MinWidth="100" Height="25" TextWrapping="Wrap" Text="{Binding SelectedEmployee.FirstName}" FontFamily="Microsoft JhengHei" FontSize="18" Margin="6,2,2,0" BorderThickness="0" FontWeight="Bold"/>
-                    <Rectangle Width="1" Fill="WhiteSmoke"></Rectangle>
-                    <TextBox x:Name="Sur"  MinWidth="100" TextWrapping="Wrap" Text="{Binding SelectedEmployee.SurName}" FontFamily="Microsoft JhengHei" FontSize="18" Margin="6,2,2,0" BorderThickness="0" FontWeight="Bold"/>
-                    <Rectangle Width="1" Fill="WhiteSmoke"></Rectangle>
-                    <TextBox x:Name="Last"  MinWidth="100" TextWrapping="Wrap" Text="{Binding SelectedEmployee.LastName}" FontFamily="Microsoft JhengHei" FontSize="18" Margin="6,2,6,0" BorderThickness="0" FontWeight="Bold"/>
-                </WrapPanel>
-                <Rectangle Width="400" Height="1" Fill="WhiteSmoke" HorizontalAlignment="Left" MaxWidth="500" Margin="8,0,0,0"/>
-                <TextBox x:Name="Department"  Height="25" MinWidth="200" TextWrapping="Wrap" Text="{Binding SelectedEmployee.Division}" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Rockwell" FontSize="16" Margin="6,6,0,0" BorderThickness="0"/>
-                <Rectangle Width="200" Height="1" Fill="WhiteSmoke" HorizontalAlignment="Left" Margin="8,0,0,0"/>
-                <TextBox x:Name="Occupation"  Height="25" MinWidth="200" TextWrapping="Wrap" Text="{Binding SelectedEmployee.Occupation}" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Rockwell" FontSize="16" Margin="6,6,0,0" BorderThickness="0"/>
-                <Rectangle Width="200" Height="1" Fill="WhiteSmoke" HorizontalAlignment="Left" Margin="8,0,0,20"/>
-            </StackPanel>
-       
+                    
+                    <TextBox x:Name="First"  
+                             MinWidth="100" 
+                             Height="25" 
+                             TextWrapping="Wrap" 
+                             Text="{Binding SelectedEmployee.FirstName}" 
+                             FontFamily="Microsoft JhengHei" 
+                             FontSize="18" 
+                             Margin="6,2,2,0" 
+                             BorderThickness="0" 
+                             FontWeight="Bold"/>
 
+                    <Rectangle Width="1" 
+                               Fill="WhiteSmoke"/>
+
+                    <TextBox x:Name="Sur"  
+                             MinWidth="100" 
+                             TextWrapping="Wrap" 
+                             Text="{Binding SelectedEmployee.SurName}" 
+                             FontFamily="Microsoft JhengHei" 
+                             FontSize="18" 
+                             Margin="6,2,2,0" 
+                             BorderThickness="0" 
+                             FontWeight="Bold"/>
+
+                    <Rectangle Width="1" 
+                               Fill="WhiteSmoke"/>
+
+                    <TextBox x:Name="Last"  
+                             MinWidth="100" 
+                             TextWrapping="Wrap" 
+                             Text="{Binding SelectedEmployee.LastName}" 
+                             FontFamily="Microsoft JhengHei" 
+                             FontSize="18" 
+                             Margin="6,2,6,0" 
+                             BorderThickness="0" 
+                             FontWeight="Bold"/>
+
+                </WrapPanel>
+
+                <Rectangle Width="400" 
+                           Height="1" 
+                           Fill="WhiteSmoke" 
+                           HorizontalAlignment="Left" 
+                           MaxWidth="500" 
+                           Margin="8,0,0,0"/>
+
+                <TextBox x:Name="Department"  
+                         Height="25" 
+                         MinWidth="200" 
+                         TextWrapping="Wrap" 
+                         Text="{Binding SelectedEmployee.Division}" 
+                         HorizontalAlignment="Left" 
+                         VerticalAlignment="Top" 
+                         FontFamily="Rockwell" 
+                         FontSize="16" 
+                         Margin="6,6,0,0" 
+                         BorderThickness="0"/>
+
+                <Rectangle Width="200" 
+                           Height="1" 
+                           Fill="WhiteSmoke" 
+                           HorizontalAlignment="Left" 
+                           Margin="8,0,0,0"/>
+
+                <TextBox x:Name="Occupation"  
+                         Height="25" 
+                         MinWidth="200" 
+                         TextWrapping="Wrap" 
+                         Text="{Binding SelectedEmployee.Occupation}" 
+                         HorizontalAlignment="Left" 
+                         VerticalAlignment="Top" 
+                         FontFamily="Rockwell" 
+                         FontSize="16" 
+                         Margin="6,6,0,0" 
+                         BorderThickness="0"/>
+
+                <Rectangle Width="200" 
+                           Height="1" 
+                           Fill="WhiteSmoke" 
+                           HorizontalAlignment="Left" 
+                           Margin="8,0,0,20"/>
+
+            </StackPanel>
+
+        </Grid>
         
-    </Grid>
-         </ScrollViewer>
+    </ScrollViewer>
+    
 </UserControl>

@@ -325,7 +325,7 @@ namespace Win_Dev.UI.ViewModels
 
             UnassignFromGoalCommand = new RelayCommand(() =>
             {
-                UnassignToGoal();
+                UnassignFromoGoal();
             });
 
             SelectionChangedCommand = new RelayCommand<BusinessGoal>((goal) =>
@@ -411,7 +411,7 @@ namespace Win_Dev.UI.ViewModels
 
         }
 
-        public void UnassignToGoal()
+        public void UnassignFromoGoal()
         {
             if ((GoalAssigned.Count() > 0) && (SelectedPersonGoal >= 0) &&
                (SelectedPersonGoal <= GoalAssigned.Count()) && (GoalAssigned[SelectedPersonGoal] != null))

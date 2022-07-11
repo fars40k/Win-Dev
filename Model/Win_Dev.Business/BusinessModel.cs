@@ -451,12 +451,15 @@ namespace Win_Dev.Business
 
                 IEnumerable<Goal> fromDataList = DataAccessObject.LinkedData.FindGoalsForProject(ProjectGUID);
 
-                foreach (Goal item in fromDataList)
+                if (fromDataList != null)
                 {
-                    item.Name = item.Name.TrimEnd(' ');
-                    item.Description = item.Description.TrimEnd(' ');
+                    foreach (Goal item in fromDataList)
+                    {
+                        item.Name = item.Name.TrimEnd(' ');
+                        item.Description = item.Description.TrimEnd(' ');
 
-                    businessGoals.Add(new BusinessGoal(item));
+                        businessGoals.Add(new BusinessGoal(item));
+                    }
                 }
                 error = null;
             }

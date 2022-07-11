@@ -19,13 +19,17 @@
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Disabled">
+        
         <Grid>
+            
             <TabControl>
+                
                 <TabItem Header="{StaticResource Edit_project}" 
                          FontSize="16" 
                          Background="AntiqueWhite">
 
                     <StackPanel>
+                        
                         <TextBlock x:Name="ID" 
                                    Height="20" 
                                    TextWrapping="Wrap" 
@@ -84,7 +88,7 @@
                         </StackPanel>
 
                         <StackPanel VerticalAlignment="Center" 
-                            Orientation="Horizontal">
+                                    Orientation="Horizontal">
 
                             <TextBlock Text="{StaticResource Creation_date}" 
                                        Margin="4"/>
@@ -93,11 +97,13 @@
                                         IsDropDownOpen="False" 
                                         SelectedDateFormat="Short"
                                         SelectedDate="{Binding CreationDate, Mode=TwoWay }">
+                                
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectedDateChanged">
                                         <cmd:EventToCommand Command="{Binding DateChangedCommand}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
+                                
                             </DatePicker>
 
                                 <TextBlock Text="{StaticResource Expire_date}" 
@@ -113,19 +119,21 @@
                                         <cmd:EventToCommand Command="{Binding DateChangedCommand}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
+                                
                             </DatePicker>
 
-                            <TextBlock Text="{Binding ConstructedCommentary}">
-                            </TextBlock>
+                            <TextBlock Text="{Binding ConstructedCommentary}"/>
 
                         </StackPanel>
 
 
                         <StackPanel Orientation="Horizontal" Margin="4">
+                            
                             <StackPanel>
+                                
                                 <TextBlock Text="{StaticResource Project_crew}" 
                                            TextAlignment="Center"/>
-                                
+
                                 <ListBox x:Name="AssignedPersonel" 
                                          Width="Auto"
                                          MinWidth="300"
@@ -134,13 +142,16 @@
                                          SelectedIndex="{Binding Path=SelectedAssigned, Mode=TwoWay}"
                                          ItemsSource="{Binding ProjectEmployees, Mode=TwoWay}">
 
-                                    
                                 </ListBox>
+                                
                             </StackPanel>
 
                             <StackPanel VerticalAlignment="Center">
 
-                                <Button Style="{StaticResource Button}" Content="⇛" Width="50" Margin="3">
+                                <Button Style="{StaticResource Button}" 
+                                        Content="⇛" 
+                                        Width="50" 
+                                        Margin="3">
                                     
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
@@ -149,7 +160,10 @@
                                     </i:Interaction.Triggers> 
                                     
                                 </Button>
-                                <Button Style="{StaticResource Button}" Content="⇚" Width="50">
+                                
+                                <Button Style="{StaticResource Button}" 
+                                        Content="⇚" 
+                                        Width="50">
                                     
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
@@ -162,6 +176,7 @@
                             </StackPanel>
 
                             <StackPanel>
+                                
                                 <TextBlock Text="{StaticResource Personel}"
                                            TextAlignment="Center"/>
 
@@ -174,9 +189,13 @@
                                          ItemsSource="{Binding Employees, Mode=TwoWay}">
 
                                 </ListBox>
+                                
                             </StackPanel>
+                            
                         </StackPanel>
+                                               
                     </StackPanel>
+                    
                 </TabItem>
 
 
@@ -188,8 +207,11 @@
                     <ContentControl Content="{Binding GoalsView}"/>
 
                 </TabItem>
+                
             </TabControl>
             
         </Grid>
+        
     </ScrollViewer>
+    
 </UserControl>

@@ -12,14 +12,15 @@
         Title="{DynamicResource Title}"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
 
-
     <Grid x:Name="LayoutRoot">
 
         <Grid.RowDefinitions>
+            
             <RowDefinition Height="24"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="24"/>
+            
         </Grid.RowDefinitions>
 
         <Rectangle Fill="{Binding ConnectionStatusColour}" 
@@ -36,18 +37,17 @@
                Visibility="{Binding DatabaseUpdating}" RenderTransformOrigin="0.803,0.648"/>
 
         <TextBox Grid.Row="3"
-                   FontSize="14"
-                   FontWeight="Bold"
-                   Foreground="Purple"
-                   Text="{Binding UserHelpString}"
-                   TextAlignment="Left"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Stretch"
-                   BorderThickness="0"
-                   Margin="2,2,2,2"
-                   TextWrapping="Wrap"
-                   IsReadOnly="True"
-                   />
+                 FontSize="14"
+                 FontWeight="Bold"
+                 Foreground="Purple"
+                 Text="{Binding UserHelpString}"
+                 TextAlignment="Left"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Stretch"
+                 BorderThickness="0"
+                 Margin="2,2,2,2"
+                 TextWrapping="Wrap"
+                 IsReadOnly="True"/>
 
         <ComboBox x:Name="LanguageCMB"
                   ItemsSource="{Binding CulturesCB}"
@@ -64,7 +64,7 @@
         <ContentControl x:Name="ContentPage" 
                         Grid.Row="1" 
                         Grid.RowSpan="2" 
-                        Content="{Binding TabControlArea}">
-        </ContentControl>
+                        Content="{Binding TabControlArea}"/>
     </Grid>
+    
 </Window>

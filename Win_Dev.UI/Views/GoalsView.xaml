@@ -19,32 +19,34 @@
     </UserControl.Resources>
     
     <StackPanel>
+        
         <ListView x:Name="GoalList" 
-                         Height="150"  
-                         DockPanel.Dock="Top" 
-                         Margin="4"
-                         ItemsSource="{Binding Goals, Mode=TwoWay}">
+                  Height="150"  
+                  DockPanel.Dock="Top" 
+                  Margin="4"
+                  ItemsSource="{Binding Goals, Mode=TwoWay}">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <cmd:EventToCommand Command="{Binding SelectionChangedCommand}"
                                                 CommandParameter="{Binding SelectedItem, ElementName=GoalList}" />
-
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
         </ListView>
 
         <StackPanel>
+            
             <StackPanel Orientation="Horizontal">
+                
                 <Button x:Name="CreatePerson"
-                    Style="{StaticResource ButtonCreateGoal}"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Width="Auto"
-                    Height="22"
-                    BorderThickness="0"
-                    DockPanel.Dock="Left">
+                        Style="{StaticResource ButtonCreateGoal}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Width="Auto"
+                        Height="22"
+                        BorderThickness="0"
+                        DockPanel.Dock="Left">
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -71,18 +73,19 @@
                     </i:Interaction.Triggers>
                     
                 </Button>
+                
             </StackPanel>
-            
+
             <TextBlock x:Name="ID" 
-                                   Height="20" 
-                                   TextWrapping="Wrap" 
-                                   Text="{Binding GoalID}" 
-                                   VerticalAlignment="Top" 
-                                   FontFamily="Rockwell" 
-                                   FontSize="12"
-                                   Foreground="OrangeRed"
-                                   IsEnabled="False">
-            </TextBlock>
+                       Height="20" 
+                       TextWrapping="Wrap" 
+                       Text="{Binding GoalID}" 
+                       VerticalAlignment="Top" 
+                       FontFamily="Rockwell" 
+                       FontSize="12"
+                       Foreground="OrangeRed"
+                       IsEnabled="False"/>
+
 
             <uc:LimitedTextBox x:Name="LimitedTextBox1"
                                Title="{StaticResource Goal}"
@@ -97,79 +100,82 @@
                                Height="100"/>
 
             <StackPanel VerticalAlignment="Center" 
-                                    Orientation="Horizontal" 
-                                    Margin="5">
+                        Orientation="Horizontal" 
+                        Margin="5">
 
                 <TextBlock Text="{StaticResource Percentage}"/>
 
                 <TextBox Text="{Binding ElementName=slValue, Path=Value, UpdateSourceTrigger=PropertyChanged}"                                     
-                                     TextAlignment="Right"
-                                     Width="40" 
-                                     BorderThickness="0" 
-                                     Margin="20,0,20,0"/>
+                         TextAlignment="Right"
+                         Width="40" 
+                         BorderThickness="0" 
+                         Margin="20,0,20,0"/>
 
                 <Slider Maximum="100" 
-                                    TickPlacement="BottomRight"
-                                    TickFrequency="10" 
-                                    IsSnapToTickEnabled="True" 
-                                    Name="slValue" 
-                                    Width="400" 
-                                    Foreground="OrangeRed" 
-                                    Margin="20,0,20,0"
-                                    Value="{Binding Percentage}">
-                </Slider>
+                        TickPlacement="BottomRight"
+                        TickFrequency="10" 
+                        IsSnapToTickEnabled="True" 
+                        Name="slValue" 
+                        Width="400" 
+                        Foreground="OrangeRed" 
+                        Margin="20,0,20,0"
+                        Value="{Binding Percentage}"/>
 
                 <ComboBox x:Name="StatusComboBox" 
-                                      HorizontalAlignment="Right" 
-                                      MinWidth="120"
-                                      SelectedIndex="{Binding SelectedCondition}"
-                                      ItemsSource="{Binding Conditions}"
-                                      SelectedItem="0"/>
+                          HorizontalAlignment="Right" 
+                          MinWidth="120"
+                          SelectedIndex="{Binding SelectedCondition}"
+                          ItemsSource="{Binding Conditions}"
+                          SelectedItem="0"/>
 
             </StackPanel>
 
             <StackPanel VerticalAlignment="Center" 
-                            Orientation="Horizontal">
+                        Orientation="Horizontal">
 
                 <TextBlock Text="{StaticResource Creation_date}" 
-                                       Margin="4"/>
+                           Margin="4"/>
 
                 <DatePicker Name="CreationDate"
-                                        IsDropDownOpen="False" 
-                                        SelectedDateFormat="Short"
-                                        SelectedDate="{Binding CreationDate, Mode=TwoWay }">
+                            IsDropDownOpen="False" 
+                            SelectedDateFormat="Short"
+                            SelectedDate="{Binding CreationDate, Mode=TwoWay }">
+
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectedDateChanged">
                             <cmd:EventToCommand Command="{Binding DateChangedCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
+
                 </DatePicker>
 
                 <TextBlock Text="{StaticResource Expire_date}" 
-                                           Margin="4"/>
+                           Margin="4"/>
 
                 <DatePicker Name="ExpireDate"
-                                        IsDropDownOpen="False" 
-                                        SelectedDateFormat="Short" 
-                                        SelectedDate="{Binding ExpireDate, Mode=TwoWay }">
+                            IsDropDownOpen="False" 
+                            SelectedDateFormat="Short" 
+                            SelectedDate="{Binding ExpireDate, Mode=TwoWay }">
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectedDateChanged">
                             <cmd:EventToCommand Command="{Binding DateChangedCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
+
                 </DatePicker>
 
-                <TextBlock Text="{Binding ConstructedCommentary}">
-                </TextBlock>
+                <TextBlock Text="{Binding ConstructedCommentary}"/>
 
             </StackPanel>
 
 
             <StackPanel Orientation="Horizontal" Margin="4">
+                
                 <StackPanel>
+                    
                     <TextBlock Text="{StaticResource Goal_crew}" 
-                                           TextAlignment="Center"/>
+                               TextAlignment="Center"/>
 
                     <ListBox x:Name="GoalAssigned" 
                              Width="Auto"
@@ -177,14 +183,16 @@
                              Height="140"
                              Margin="4"
                              SelectedIndex="{Binding Path=SelectedPersonGoal, Mode=TwoWay}"
-                             ItemsSource="{Binding GoalAssigned, Mode=TwoWay}">
+                             ItemsSource="{Binding GoalAssigned, Mode=TwoWay}"/>
 
-                    </ListBox>
                 </StackPanel>
 
                 <StackPanel VerticalAlignment="Center">
 
-                    <Button Style="{StaticResource Button}" Content="⇛" Width="50" Margin="3">
+                    <Button Style="{StaticResource Button}" 
+                            Content="⇛" 
+                            Width="50" 
+                            Margin="3">
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -193,7 +201,10 @@
                         </i:Interaction.Triggers>
 
                     </Button>
-                    <Button Style="{StaticResource Button}" Content="⇚" Width="50">
+                    
+                    <Button Style="{StaticResource Button}" 
+                            Content="⇚" 
+                            Width="50">
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -206,8 +217,9 @@
                 </StackPanel>
 
                 <StackPanel>
+                    
                     <TextBlock Text="{StaticResource Project_crew}"
-                                           TextAlignment="Center"/>
+                               TextAlignment="Center"/>
 
                     <ListBox x:Name="ProjectAssigned" 
                              Width="Auto" 
@@ -215,11 +227,14 @@
                              Height="140"                                       
                              Margin="4"
                              SelectedIndex="{Binding Path=SelectedPersonProject, Mode=TwoWay}"
-                             ItemsSource="{Binding ProjectAssigned, Mode=TwoWay}">
+                             ItemsSource="{Binding ProjectAssigned, Mode=TwoWay}"/>
 
-                    </ListBox>
                 </StackPanel>
+                
             </StackPanel>
+            
         </StackPanel>
+        
     </StackPanel>
+    
 </UserControl>
