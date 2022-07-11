@@ -19,8 +19,9 @@ namespace Win_Dev.Business
 
         public void BusinessModelInit(DatabaseWorker newDatabaseWorker)
         {
-            DataAccessObject = (DataAccessObject == null) ? newDatabaseWorker.DataAccessObject 
-                                                            : DataAccessObject;
+
+            if (DataAccessObject == null) DataAccessObject = newDatabaseWorker.DataAccessObject;
+
         }
 
         #region Project_related
@@ -491,7 +492,9 @@ namespace Win_Dev.Business
             callback.Invoke(error);
         }
 
-        // Provide goals personel deletion when a person's project assignation removed
+        /// <summary>
+        /// Provide goals personel deletion when a person's project assignation removed
+        /// </summary>
         public void UnassignPersonFromProject(Guid personGUID, Guid projectGUID, Action<Exception> callback)
         {
             Exception error = null;

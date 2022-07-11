@@ -11,7 +11,6 @@ namespace Win_Dev.Business
     public partial class BusinessProject
     {
         public Project Project;
-
         public Guid ProjectID
         {
             get => Project.ProjectID;

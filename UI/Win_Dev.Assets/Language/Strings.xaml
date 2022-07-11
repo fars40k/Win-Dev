@@ -37,11 +37,11 @@
 
     <sys:String x:Key="Creation_date">Start date</sys:String>
     <sys:String x:Key="Expire_date">Completion date</sys:String>
-    <sys:String x:Key="Planned">Planned:</sys:String>
+    <sys:String x:Key="Planned">ㅤPlanned:</sys:String>
     <sys:String x:Key="Days">days</sys:String>
     <sys:String x:Key="To_completion">To completion from today:</sys:String>
-    <sys:String x:Key="Late_for">Late for:</sys:String>
-    <sys:String x:Key="Wrong_data">Start date can not be past completion date</sys:String>
+    <sys:String x:Key="Late_for">ㅤLate for:</sys:String>
+    <sys:String x:Key="Wrong_data">ㅤStart date can not be past completion date</sys:String>
 
     <sys:String x:Key="Error_database_request">An error occurred while querying the databaseㅤ</sys:String>
 

@@ -37,11 +37,11 @@
 
     <sys:String x:Key="Creation_date">Дата создания</sys:String>
     <sys:String x:Key="Expire_date">Дата завершения</sys:String>
-    <sys:String x:Key="Planned">Запланировано:</sys:String>
+    <sys:String x:Key="Planned">ㅤЗапланировано:</sys:String>
     <sys:String x:Key="Days">дней</sys:String>
     <sys:String x:Key="To_completion">До завершения от сегодняшнего дня:</sys:String>
-    <sys:String x:Key="Late_for">Опоздание:</sys:String>
-    <sys:String x:Key="Wrong_data">Дата окончания не может быть раньше даты начала</sys:String>
+    <sys:String x:Key="Late_for">ㅤОпоздание:</sys:String>
+    <sys:String x:Key="Wrong_data">ㅤДата окончания не может быть раньше даты начала</sys:String>
 
     <sys:String x:Key="Error_database_request">Ошибка при запросе к объекту базы данныхㅤ</sys:String>
 

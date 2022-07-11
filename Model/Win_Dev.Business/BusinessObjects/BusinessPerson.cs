@@ -10,7 +10,6 @@ namespace Win_Dev.Business
     public partial class BusinessPerson
     {
         public Person Person;
-
         public Guid PersonID
         {
             get => Person.PersonID;
@@ -50,7 +49,12 @@ namespace Win_Dev.Business
         public ICollection<Project> Projects
         {
             get => Person.ProjectsWith;
-            set => Person.ProjectsWith = value;
+            set
+            {
+                Person.ProjectsWith.Clear();
+                foreach (Project item in value)
+                Person.ProjectsWith.Add(item);
+            }
         }
         public ICollection<Goal> Goals
         {

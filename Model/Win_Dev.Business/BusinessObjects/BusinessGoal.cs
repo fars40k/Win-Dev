@@ -11,7 +11,6 @@ namespace Win_Dev.Business
     public class BusinessGoal
     {
         public Goal Goal;
-
         public Guid GoalID
         {
             get => Goal.GoalID;

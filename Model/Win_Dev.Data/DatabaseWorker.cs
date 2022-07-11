@@ -36,7 +36,6 @@ namespace Win_Dev.Data
                             
         }
 
-
         public void DatabaseWorkerInit(DataAccessObject newDataAccessObject)
         {
             DataAccessObject = (DataAccessObject == null) ? newDataAccessObject 
@@ -77,8 +76,10 @@ namespace Win_Dev.Data
                 }
                 catch (ArgumentException)
                 {
+
                     if (StatusChangedEvent != null) StatusChangedEvent.Invoke(IsConnectionEstablished);
                     if (TryUpdateEvent != null) TryUpdateEvent.Invoke(IsConnectionEstablished);
+                
                 }
                 catch (Exception)
                 {
